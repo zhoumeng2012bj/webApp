@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TbCityManager">
+    <select id="getTbCity"  parameterType="java.lang.Integer" resultType="TbCity">
+    select id,fdcode,fdname,fdparentCode from tb_city  where fdstatus=1 and id=#{id}
+    </select>
+	<select id="getRoot" parameterType="pd" resultType="pd">
+	select  id,fdcode,fdname,fdparentCode from tb_city  where fdstatus=1 and fdname='中国' and fdparentCode='000000'
+	</select>
+	
+	<select id="getBeijing" parameterType="pd" resultType="pd">
+	select  id,fdcode,fdname,fdparentCode from tb_city  where fdstatus=1 and fdname='北京市' and fdparentCode=#{fdparentCode}
+	</select>
+	<select id="listAll" parameterType="pd" resultType="pd">
+	select  id,fdcode,fdname,fdparentCode from tb_city  where fdstatus=1 and fdparentCode=#{fdparentCode}
+	</select>
+	<select id="listFdparentCode" parameterType="pd" resultType="pd">
+	select  id,fdcode,fdname,fdparentCode from tb_city  where fdstatus=1 and fdparentCode=#{fdparentCode}
+	</select>
+	<select id="compReg" parameterType="pd" resultType="pd">
+	select id,name,phone,gsid,gsname,pass,xmname,mpimg2,mpimg,status2,card from qd_user  where isdelete=0 and phone=#{phone}
+	</select>
+	<insert id="save" parameterType="pd">
+		insert into qd_user
+			isdelete,	
+			phone,	
+			pass,	
+			status2	
+		) values (
+			0,	
+			#{phone},	
+			#{pass},	
+			0
+		)
+	</insert>
+	<update id="updatePass" parameterType="pd">
+	update qd_user set pass=#{pass} where id=#{id}
+	
+	</update>
+	
+</mapper>
