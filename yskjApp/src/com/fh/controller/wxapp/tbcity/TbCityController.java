@@ -273,7 +273,7 @@ public class TbCityController extends BaseController {
 	}
 	
 	/**
-	 *7. 在线状态判断
+	 * 在线状态判断
 	 */
 	@RequestMapping(value="/statCode")
 	@ResponseBody
@@ -338,12 +338,11 @@ public class TbCityController extends BaseController {
 		Map<String,Object> map = new HashMap<String,Object>();
 		try{
 			if (this.getRequest().getMethod().toUpperCase().equals("POST")) {
-			  List<PageData> compReg = tbCityService.compReg(pd);
-			  if(compReg.size()>0){
-				  PageData pageData = compReg.get(0);
-				  map.put("success", true);
-				  map.put("message", "查询成功");
-				  map.put("data", pageData);
+			  WxUser updateRemPass = tbCityService.updateRemPass(pd);
+			  if(updateRemPass!=null){
+				  map.put("success", updateRemPass.isFlag());
+				  map.put("message", updateRemPass.getMessage());
+				  map.put("data", updateRemPass);
 			  }else{
 				 map.put("success", false);
 				 map.put("message", "无此用户注册信息");
@@ -360,8 +359,342 @@ public class TbCityController extends BaseController {
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
-	
-	
+	/**
+	 * 7.根据cookie获取用户的信息
+	 */
+	@RequestMapping(value="/getCookieInfo")
+	@ResponseBody
+	public Object getCookieInfo(@RequestBody PageData pd)throws Exception{
+		Map<String,Object> map = new HashMap<String,Object>();
+		try{
+			if (this.getRequest().getMethod().toUpperCase().equals("POST")) {
+			   PageData cookieId = tbCityService.getCookieId(pd);
+			  if(cookieId!=null){
+				  PageData d=  (PageData) cookieId.get("data");
+				  boolean flag=  (boolean) cookieId.get("success");
+				  map.put("success",flag );
+				  map.put("message",  cookieId.getString("message"));
+				  map.put("data", d);
+				  List<PageData> mp1=  (List<PageData>) cookieId.get("mp1");
+				  List<PageData> mp2=  (List<PageData>) cookieId.get("mp2");
+				  //正面图片信息
+				  map.put("mp1data", mp1);
+				  //反面图片信息
+				  map.put("mp2datat", mp2);
+			  }else{
+				 map.put("success", false);
+				 map.put("message", "无此用户注册信息");
+			  }
+			}else{
+				 map.put("success", false);
+				 map.put("message", "请求方式错误");
+			}
+			
+		}catch (Exception e){
+			logger.error(e.toString(), e);
+		}finally{
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	/**
+	 * 8.登录时判断系统中有无此用户信息
+	 * @param pd
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/compLog")
+	@ResponseBody
+	public Object compLog(@RequestBody PageData pd)throws Exception{
+		Map<String,Object> map = new HashMap<String,Object>();
+		try{
+			if (this.getRequest().getMethod().toUpperCase().equals("POST")) {
+			List<PageData> compReg = tbCityService.compReg(pd);
+			if(compReg.size()>0){
+				 map.put("success", true);
+				 map.put("message","系统中有此手机号注册信息");
+			}else{
+				map.put("success",false);
+				 map.put("message","系统中无此手机号注册信息");
+			}
+			}else{
+				 map.put("success", false);
+				 map.put("message", "请求方式错误");
+			}
+			
+		}catch (Exception e){
+			logger.error(e.toString(), e);
+		}finally{
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	/**
+	 * 9.账号密码登录信息
+	 */
+	@RequestMapping(value="/logAccount")
+	@ResponseBody
+	public Object logAccount(@RequestBody PageData pd)throws Exception{
+		Map<String,Object> map = new HashMap<String,Object>();
+		try{
+			if (this.getRequest().getMethod().toUpperCase().equals("POST")) {
+			 WxUser logAccount = tbCityService.logAccount(pd);
+			if(logAccount!=null){
+				map.put("success", logAccount.isFlag());
+				map.put("message",logAccount.getMessage());
+			}else{
+				map.put("success",false);
+				 map.put("message","系统中无此手机号注册信息");
+			}
+			}else{
+				 map.put("success", false);
+				 map.put("message", "请求方式错误");
+			}
+			
+		}catch (Exception e){
+			logger.error(e.toString(), e);
+		}finally{
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	/**
+	 * 10.手机号验证码登录
+	 */
+	@RequestMapping(value="/logPhone")
+	@ResponseBody
+	public Object logPhone(@RequestBody PageData pd)throws Exception{
+		Map<String,Object> map = new HashMap<String,Object>();
+		try{
+			if (this.getRequest().getMethod().toUpperCase().equals("POST")) {
+			 WxUser logAccount = tbCityService.logPhone(pd);
+			if(logAccount!=null){
+				map.put("success", logAccount.isFlag());
+				map.put("message",logAccount.getMessage());
+			}else{
+				map.put("success",false);
+				 map.put("message","系统中无此手机号注册信息");
+			}
+			}else{
+				 map.put("success", false);
+				 map.put("message", "请求方式错误");
+			}
+			
+		}catch (Exception e){
+			logger.error(e.toString(), e);
+		}finally{
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	/**
+	 * 11.判断用户有无登陆状态   通过COOKIE
+	 */
+	@RequestMapping(value="/landState")
+	@ResponseBody
+	public Object landState(@RequestBody PageData pd)throws Exception{
+		Map<String,Object> map = new HashMap<String,Object>();
+		try{
+			if (this.getRequest().getMethod().toUpperCase().equals("POST")) {
+			 WxUser logAccount = tbCityService.landState(pd);
+			if(logAccount!=null){
+				map.put("success", logAccount.isFlag());
+				map.put("message",logAccount.getMessage());
+			}else{
+				map.put("success",false);
+				 map.put("message","系统中无此手机号注册信息");
+			}
+			}else{
+				 map.put("success", false);
+				 map.put("message", "请求方式错误");
+			}
+			
+		}catch (Exception e){
+			logger.error(e.toString(), e);
+		}finally{
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	/**
+	 * 12.退出登录
+	 */
+	@RequestMapping(value="/loginOut")
+	@ResponseBody
+	public Object loginOut(@RequestBody PageData pd)throws Exception{
+		Map<String,Object> map = new HashMap<String,Object>();
+		try{
+			if (this.getRequest().getMethod().toUpperCase().equals("POST")) {
+			 WxUser logAccount = tbCityService.loginOut(pd);
+			if(logAccount!=null){
+				map.put("success", logAccount.isFlag());
+				map.put("message",logAccount.getMessage());
+			}else{
+				map.put("success",false);
+				 map.put("message","系统中无此手机号注册信息");
+			}
+			}else{
+				 map.put("success", false);
+				 map.put("message", "请求方式错误");
+			}
+		}catch (Exception e){
+			logger.error(e.toString(), e);
+		}finally{
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	/**
+	 * 13.判断房源是否被此用户收藏
+	 */
+	@RequestMapping(value="/judgeCollection")
+	@ResponseBody
+	public Object judgeCollection(@RequestBody PageData pd)throws Exception{
+		Map<String,Object> map = new HashMap<String,Object>();
+		try{
+			if (this.getRequest().getMethod().toUpperCase().equals("POST")) {
+			 WxUser logAccount = tbCityService.judgeCollection(pd);
+			if(logAccount!=null){
+				map.put("success", logAccount.isFlag());
+				map.put("message",logAccount.getMessage());
+			}else{
+				map.put("success",false);
+				 map.put("message","无此用户登录信息");
+			}
+			}else{
+				 map.put("success", false);
+				 map.put("message", "请求方式错误");
+			}
+		}catch (Exception e){
+			logger.error(e.toString(), e);
+		}finally{
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	/**
+	 * 14.收藏房源
+	 */
+	@RequestMapping(value="/collectHouse")
+	@ResponseBody
+	public Object collectHouse(@RequestBody PageData pd)throws Exception{
+		Map<String,Object> map = new HashMap<String,Object>();
+		try{
+			if (this.getRequest().getMethod().toUpperCase().equals("POST")) {
+			 WxUser logAccount = tbCityService.collectHouse(pd);
+			if(logAccount!=null){
+				map.put("success", logAccount.isFlag());
+				map.put("message",logAccount.getMessage());
+			}else{
+				map.put("success",false);
+				map.put("message","收藏房源失败");
+			}
+			}else{
+				 map.put("success", false);
+				 map.put("message", "请求方式错误");
+			}
+		}catch (Exception e){
+			logger.error(e.toString(), e);
+		}finally{
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	/**
+	 * 15.收藏房源删除
+	 */
+	@RequestMapping(value="/delCollect")
+	@ResponseBody
+	public Object delCollect(@RequestBody PageData pd)throws Exception{
+		Map<String,Object> map = new HashMap<String,Object>();
+		try{
+			if (this.getRequest().getMethod().toUpperCase().equals("POST")) {
+				WxUser logAccount = tbCityService.delCollect(pd);
+				map.put("success", logAccount.isFlag());
+				map.put("message",logAccount.getMessage());
+			
+			}else{
+				 map.put("success", false);
+				 map.put("message", "请求方式错误");
+			}
+		}catch (Exception e){
+			logger.error(e.toString(), e);
+		}finally{
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	/**
+	 * 16.手机号修改   判断手机号是否已被占用    判断此手机号是否是原来的手机号
+	 */
+	@RequestMapping(value="/judgePhone")
+	@ResponseBody
+	public Object judgePhone(@RequestBody PageData pd)throws Exception{
+		Map<String,Object> map = new HashMap<String,Object>();
+		try{
+			if (this.getRequest().getMethod().toUpperCase().equals("POST")) {
+				WxUser logAccount = tbCityService.judgePhone(pd);
+				map.put("success", logAccount.isFlag());
+				map.put("message",logAccount.getMessage());
+			
+			}else{
+				 map.put("success", false);
+				 map.put("message", "请求方式错误");
+			}
+		}catch (Exception e){
+			logger.error(e.toString(), e);
+		}finally{
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	/**
+	 * 17.手机号修改	
+	 */
+	@RequestMapping(value="/updatePhone")
+	@ResponseBody
+	public Object updatePhone(@RequestBody PageData pd)throws Exception{
+		Map<String,Object> map = new HashMap<String,Object>();
+		try{
+			if (this.getRequest().getMethod().toUpperCase().equals("POST")) {
+				WxUser logAccount = tbCityService.updatePh(pd);
+				map.put("success", logAccount.isFlag());
+				map.put("message",logAccount.getMessage());
+			
+			}else{
+				 map.put("success", false);
+				 map.put("message", "请求方式错误");
+			}
+		}catch (Exception e){
+			logger.error(e.toString(), e);
+		}finally{
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	/**
+	 * 19.修改密码
+	 */
+	@RequestMapping(value="/updatePass")
+	@ResponseBody
+	public Object updatePass(@RequestBody PageData pd)throws Exception{
+		Map<String,Object> map = new HashMap<String,Object>();
+		try{
+			if (this.getRequest().getMethod().toUpperCase().equals("POST")) {
+				WxUser logAccount = tbCityService.updateLoginPass(pd);
+				map.put("success", logAccount.isFlag());
+				map.put("message",logAccount.getMessage());
+			}else{
+				 map.put("success", false);
+				 map.put("message", "请求方式错误");
+			}
+		}catch (Exception e){
+			logger.error(e.toString(), e);
+		}finally{
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
 }
 	
  

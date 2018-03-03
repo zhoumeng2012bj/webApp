@@ -20,21 +20,69 @@
 	<select id="compReg" parameterType="pd" resultType="pd">
 	select id,name,phone,gsid,gsname,pass,xmname,mpimg2,mpimg,status2,card from qd_user  where isdelete=0 and phone=#{phone}
 	</select>
+	<select id="getId" parameterType="pd" resultType="pd">
+	select id,name,phone,gsid,gsname,pass,xmname,mpimg2,mpimg,status2,card from qd_user  where isdelete=0 and id=#{id}
+	</select>
 	<insert id="save" parameterType="pd">
+	<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
 		insert into qd_user
 			isdelete,	
 			phone,	
 			pass,	
-			status2	
+			status2,
+			status,
+			ctime	
 		) values (
 			0,	
 			#{phone},	
 			#{pass},	
-			0
+			0,
+			3,
+			#{now()}
 		)
 	</insert>
 	<update id="updatePass" parameterType="pd">
-	update qd_user set pass=#{pass} where id=#{id}
+	update qd_user set pass=#{pass},gtime=#{now()} where id=#{id}
+	
+	</update>
+	<select id="getUserPic" parameterType="pd" resultType="pd">
+	select ID,URL,TYPE from base_pic where ISDELETE=0 and TYPE=#{TYPE} and RECORDID=#{RECORDID}
+	</select>
+	<select id="getPass" parameterType="pd" resultType="pd">
+	select id,name,phone,gsid,gsname,pass,xmname,mpimg2,mpimg,status2,card from qd_user  where 
+	isdelete=0 and phone=#{phone} and pass=#{pass}
+	</select>
+	<select id="getUserFyid" parameterType="pd" resultType="pd">
+	select id,ctime from qd_collecthouse  where 
+	isdelete=0 and uid=#{redis} and hid=#{fyid}
+	</select>
+	<insert id="saveCollect" parameterType="pd">
+	<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+		insert into qd_collecthouse
+			isdelete,	
+			uid,	
+			hid,	
+			ctime	
+		) values (
+			0,	
+			#{redis},	
+			#{fyid},	
+			#{now()}
+		)
+	</insert>
+	<update id="updateCollecHouse" parameterType="String">
+	update qd_collecthouse set isdelete=1,gtime=#{now()} where id in
+  			 <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                  #{item}
+             </foreach>
+	
+	</update>
+	<update id="updatePhone" parameterType="pd">
+	update qd_user set phone=#{phone},gtime=#{now()} where id=#{id}
 	
 	</update>
 	
