@@ -48,7 +48,7 @@
 	
 	</update>
 	<select id="getUserPic" parameterType="pd" resultType="pd">
-	select ID,URL,TYPE from base_pic where ISDELETE=0 and TYPE=#{TYPE} and RECORDID=#{RECORDID}
+	select ID,URL,TYPE,ISDELETE from base_pic where ISDELETE=0 and TYPE=#{TYPE} and RECORDID=#{RECORDID}
 	</select>
 	<select id="getPass" parameterType="pd" resultType="pd">
 	select id,name,phone,gsid,gsname,pass,xmname,mpimg2,mpimg,status2,card from qd_user  where 

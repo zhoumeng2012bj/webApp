@@ -405,7 +405,7 @@ public class TbCityService implements TbCityManager{
 			DelRedis.getRedis(a1);
 			DelRedis.getRedis(a);
 			x.setFlag(true);
-			x.setMessage("此用户已是登陆状态");
+			x.setMessage("退出成功");
 		}else{
 			x.setFlag(false);
 			x.setMessage("无此用户登陆信息");

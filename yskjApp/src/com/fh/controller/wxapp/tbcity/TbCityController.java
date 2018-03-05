@@ -526,13 +526,10 @@ public class TbCityController extends BaseController {
 		try{
 			if (this.getRequest().getMethod().toUpperCase().equals("POST")) {
 			 WxUser logAccount = tbCityService.loginOut(pd);
-			if(logAccount!=null){
+			
 				map.put("success", logAccount.isFlag());
 				map.put("message",logAccount.getMessage());
-			}else{
-				map.put("success",false);
-				 map.put("message","系统中无此手机号注册信息");
-			}
+		
 			}else{
 				 map.put("success", false);
 				 map.put("message", "请求方式错误");
