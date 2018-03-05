@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="InterfaceDataMapper">
+
+	<!-- 新增售后服务信息-->
+	<insert id="saveCustomer" useGeneratedKeys="true" keyProperty="id" parameterType="pd" >
+		insert into app_transaction(
+			name,	
+			sex,	
+			phone,	
+			repairHouse,	
+			memo,	
+			bussinessType,
+			status,
+			createTime,
+			uid
+		) values (
+			#{name},	
+			#{sex},	
+			#{phone},	
+			#{repairHouse},	
+			#{memo},	
+			#{bussinessType},	
+			#{status},
+			#{createTime},
+			#{uid}
+		)
+	</insert>
+	
+	<!-- 新增业主委托信息-->
+	<insert id="saveOwnerEntrust" parameterType="pd">
+		insert into app_transaction(
+			bussinessType,
+			phone,	
+			status,
+			createTime
+		) values (
+			#{bussinessType},	
+			#{phone},	
+			#{status},
+			#{createTime}
+		)
+	</insert>
+	
+	<!-- 新增商城服务信息-->
+	<insert id="saveMallService" parameterType="pd">
+		insert into app_transaction(
+		    bussinessType,
+			name,	
+			phone,	
+			type,
+			memo,
+			createTime,
+			status
+		) values (
+		    #{bussinessType},	
+			#{name},	
+			#{phone},	
+			#{type},	
+			#{memo},	
+			#{createTime},
+			#{status}
+		)
+	</insert>
+	
+	<!-- 获取会员企业列表 -->
+	<select id="listMemberEnterprise"  parameterType="pd" resultType="pd" >
+		select 
+			id,
+			enterpriseName,
+			enterpriseDesc,
+			logoImg,
+			category
+		from app_member_enterprise
+		where 
+			status =1 and istop=1
+	</select>
+	
+	<!-- 获取企业需求列表 -->
+	<select id="listEnterpriseDemand"  parameterType="pd" resultType="pd" >
+		select 
+			id,
+			demandType,
+			demandDesc,
+			createTime,
+			status,
+			butlerName,
+			butlerPhone
+		from app_enterprise_demand
+		where 
+			status =1
+	</select>
+	
+	<!-- 获取幼师头条信息 -->
+	<select id="listTopNews"  parameterType="pd" resultType="pd" >
+		select 
+			id,
+			title,
+			url,
+			content,
+			orderid,
+			status
+		from app_topnews
+		where 
+			status =1 limit 3
+	</select>
+	
+	<!-- 获取app版本信息 -->
+	<select id="appVersionInfo"  parameterType="pd" resultType="pd" >
+		select 
+			id,
+			versionCode,
+			versionDesc,
+			versionTime,
+			status
+		from app_version
+		where 
+			versionType=#{versionType}
+	</select>
+	
+</mapper>
