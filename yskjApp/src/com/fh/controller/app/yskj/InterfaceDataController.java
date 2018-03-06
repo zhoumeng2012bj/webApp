@@ -138,9 +138,11 @@ public class InterfaceDataController extends BaseController {
 	 */
 	@RequestMapping(value="/memberEnterprise")
 	@ResponseBody
-	public Object getMemberEnterprise(@RequestBody PageData pd){
+	public Object getMemberEnterprise(){
 		logBefore(logger, "获取会员企业列表信息");
 		Map<String,Object> map = new HashMap<String,Object>();
+		PageData pd=new PageData();
+		pd=this.getPageData();
 		boolean flag=true;
         String message="";
          try {
