@@ -73,7 +73,7 @@
 			category
 		from app_member_enterprise
 		where 
-			status =1 and istop=1
+			status =1 and istop=1  limit 5
 	</select>
 	
 	<!-- 获取企业需求列表 -->
@@ -88,7 +88,7 @@
 			butlerPhone
 		from app_enterprise_demand
 		where 
-			status =1
+			demandCategory=#{demandCategory} and status =1
 	</select>
 	
 	<!-- 获取幼师头条信息 -->
@@ -102,7 +102,23 @@
 			status
 		from app_topnews
 		where 
-			status =1 limit 3
+			status=1 order BY orderid desc limit 3;
+	</select>
+	
+	<!-- 获取幼师头条详情信息 -->
+	<select id="topNewsInfo"  parameterType="pd" resultType="pd" >
+		select 
+			id,
+			title,
+			url,
+			content,
+			orderid,
+			status,
+			createTime
+		from app_topnews
+		where 
+		   id=#{id} and status =1  
+		   order BY orderid desc limit 3;
 	</select>
 	
 	<!-- 获取app版本信息 -->

@@ -26,6 +26,14 @@ public class InterfaceDataService  implements InterfaceDataManager{
 	public List<PageData> getTopNews(PageData pd) throws Exception {
 		return (List<PageData>) dao.findForList("InterfaceDataMapper.listTopNews", pd);
 	}
+	
+	/**
+	 * 获取幼师头条详情信息
+	 */
+	@Override
+	public PageData getTopNewsInfo(PageData pd) throws Exception {
+		return (PageData) dao.findForObject("InterfaceDataMapper.topNewsInfo", pd);
+	}
 
 	
 	/**

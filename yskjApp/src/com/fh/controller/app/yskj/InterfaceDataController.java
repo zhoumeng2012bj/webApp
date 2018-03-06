@@ -138,9 +138,11 @@ public class InterfaceDataController extends BaseController {
 	 */
 	@RequestMapping(value="/memberEnterprise")
 	@ResponseBody
-	public Object getMemberEnterprise(@RequestBody PageData pd){
+	public Object getMemberEnterprise(){
 		logBefore(logger, "获取会员企业列表信息");
 		Map<String,Object> map = new HashMap<String,Object>();
+		PageData pd=new PageData();
+		pd=this.getPageData();
 		boolean flag=true;
         String message="";
          try {
@@ -230,6 +232,39 @@ public class InterfaceDataController extends BaseController {
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
+	
+	/**获取幼师头条详情信息
+	 * @return 
+	 */
+	@RequestMapping(value="/topNewsDetails")
+	@ResponseBody
+	public Object getTopNewsInfo(@RequestBody PageData pd){
+		logBefore(logger, "获取幼师头条详情信息");
+		Map<String,Object> map = new HashMap<String,Object>();
+		boolean flag=true;
+        String message="";
+         try {
+        	 PageData pdData=null;
+            if (this.getRequest().getMethod().toUpperCase().equals("POST")) {//POST
+            	pdData=interfaceDataService.getTopNewsInfo(pd);
+    			map.put("data", pdData);
+            	message="信息处理成功!";
+            }else{
+                flag=false;
+                message="提交请求方式错误!";
+            }
+         }catch (Exception e) {
+                flag=false;
+                message="信息处理异常！";
+    			logAfter(logger);
+        }finally{
+        	map.put("message", message);
+			map.put("success", flag);
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	
 	
 	/**获取app版本信息
 	 * @return 

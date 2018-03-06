@@ -19,6 +19,13 @@ public interface InterfaceDataManager {
 	 */
 	public List<PageData> getTopNews(PageData pd) throws Exception;
 	
+	/**
+	 *  获取幼师头条详情信息
+	 * @param pd
+	 * @return
+	 */
+	public PageData getTopNewsInfo(PageData pd) throws Exception;
+	
 	
 	/**
 	 *  1：业主委托、2：商城服务、3：售后服务 
