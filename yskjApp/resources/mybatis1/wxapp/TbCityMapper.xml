@@ -18,7 +18,7 @@
 	select  id,fdcode,fdname,fdparentCode from tb_city  where fdstatus=1 and fdparentCode=#{fdparentCode}
 	</select>
 	<select id="compReg" parameterType="pd" resultType="pd">
-	select id,name,phone,gsid,gsname,pass,xmname,mpimg2,mpimg,status2,card from qd_user  where isdelete=0 and phone=#{phone}
+	select id,name,phone,gsid,gsname,pass,xmname,mpimg2,mpimg,status2,card from qd_user  where isdelete=0 and phone=#{phone}  order by id
 	</select>
 	<select id="getId" parameterType="pd" resultType="pd">
 	select id,name,phone,gsid,gsname,pass,xmname,mpimg2,mpimg,status2,card from qd_user  where isdelete=0 and id=#{id}
@@ -28,6 +28,7 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
 		insert into qd_user
+		(
 			isdelete,	
 			phone,	
 			pass,	
@@ -40,11 +41,11 @@
 			#{pass},	
 			0,
 			3,
-			#{now()}
+			NOW()
 		)
 	</insert>
 	<update id="updatePass" parameterType="pd">
-	update qd_user set pass=#{pass},gtime=#{now()} where id=#{id}
+	update qd_user set pass=#{pass},gtime=NOW() where id=#{id}
 	
 	</update>
 	<select id="getUserPic" parameterType="pd" resultType="pd">
@@ -62,7 +63,7 @@
 	<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-		insert into qd_collecthouse
+		insert into qd_collecthouse(
 			isdelete,	
 			uid,	
 			hid,	
@@ -71,18 +72,18 @@
 			0,	
 			#{redis},	
 			#{fyid},	
-			#{now()}
+			NOW()
 		)
 	</insert>
 	<update id="updateCollecHouse" parameterType="String">
-	update qd_collecthouse set isdelete=1,gtime=#{now()} where id in
+	update qd_collecthouse set isdelete=1,gtime=NOW() where id in
   			 <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
                   #{item}
              </foreach>
 	
 	</update>
 	<update id="updatePhone" parameterType="pd">
-	update qd_user set phone=#{phone},gtime=#{now()} where id=#{id}
+	update qd_user set phone=#{phone},gtime=NOW() where id=#{id}
 	
 	</update>
 	

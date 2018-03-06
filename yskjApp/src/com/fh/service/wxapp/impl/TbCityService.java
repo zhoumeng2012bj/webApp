@@ -1,5 +1,6 @@
 package com.fh.service.wxapp.impl;
 
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -65,6 +66,7 @@ public class TbCityService implements TbCityManager{
 	}
 	@SuppressWarnings("unchecked")
 	public void updateCollecHouse(String[] ids)throws Exception{
+		
 		dao.update("TbCityManager.updateCollecHouse", ids);
 	}
 	//发送手机号
@@ -105,8 +107,14 @@ public class TbCityService implements TbCityManager{
 			 //校验手机号
 			Integer redis = GetRedis.getRedis(string);
 			if(redis!=0){
+				String string3 = redis.toString();
+				if(!string2.equals(string3)){
+					x.setFlag(false);
+					x.setMessage("校验失败");
+				}else{
 				x.setFlag(true);
 				x.setMessage("校验成功");
+				}
 			}else{
 				x.setFlag(false);
 				x.setMessage("校验失败");
@@ -157,11 +165,13 @@ public class TbCityService implements TbCityManager{
 	//添加用户信息  
 	@SuppressWarnings("unchecked")
 	public int save(PageData pd) throws Exception {
+		pd.put("createTime", new Date());
 		return (int) dao.save("TbCityManager.save", pd);
 		
 	}
 	@SuppressWarnings("unchecked")
 	public int saveCollect(PageData pd) throws Exception {
+		pd.put("createTime", new Date());
 		return (int) dao.save("TbCityManager.saveCollect", pd);
 		
 	}
@@ -195,10 +205,12 @@ public class TbCityService implements TbCityManager{
 	}
 	@SuppressWarnings("unchecked")
 	public void updatePass(PageData pd)throws Exception{
+		pd.put("createTime", new Date());
 		dao.update("TbCityManager.updatePass", pd);
 	}
 	@SuppressWarnings("unchecked")
 	public void updatePhone(PageData pd)throws Exception{
+		pd.put("createTime", new Date());
 		dao.update("TbCityManager.updatePhone", pd);
 	}
 	//忘记密码修改密码信息
