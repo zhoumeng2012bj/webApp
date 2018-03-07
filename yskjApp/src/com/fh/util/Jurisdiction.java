@@ -1,10 +1,18 @@
 package com.fh.util;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.fh.entity.system.Menu;
 
@@ -258,4 +266,44 @@ public class Jurisdiction {
 		//Subject currentUser = SecurityUtils.getSubject();  
 		return SecurityUtils.getSubject().getSession();
 	}
+	
+	 /** 
+	 * 用户和Session绑定关系 
+	 */  
+	public static final Map<String, HttpSession> USER_SESSION=new HashMap<String, HttpSession>();  
+	/** 
+	 * seeionId和用户的绑定关系 
+	 */  
+	public static final Map<String, String> SESSIONID_USER=new HashMap<String, String>();  
+	
+	/**
+	 * session 管理
+	 */
+    public static void  sessionManager(){
+		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+		//String sessionId=request.getSession().getId();
+
+		//ServletRequest request = ((WebSubject)SecurityUtils.getSubject()).getServletRequest();   
+		HttpSession httpSession = ((HttpServletRequest)request).getSession();   
+
+		WebApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(httpSession.getServletContext()); 
+        
+	
+		
+		 //当前登录的用户  
+	    String userName=request.getSession().getAttribute("USERNAME").toString();
+	    //当前sessionId  
+	    String sessionId=request.getSession().getId();  
+	    //删除当前sessionId绑定的用户，用户--HttpSession  
+	    USER_SESSION.remove(SESSIONID_USER.remove(sessionId));  
+	    //删除当前登录用户绑定的HttpSession  
+	    HttpSession session=USER_SESSION.remove("USERNAME");  
+	    if(session!=null){  
+	        SESSIONID_USER.remove(session.getId());  
+	        session.removeAttribute(Const.SESSION_USERNAME);  
+	        session.setAttribute("msg", "您的账号已经在另一处登录了,你已被迫下线!");  
+	    } 
+	    
+	}
+	
 }

@@ -30,10 +30,10 @@ public class SmsUtil {
 	
 	public static void main(String [] args) {
 		
-		sendSms2("13511111111","您的验证码是：1111。请不要把验证码泄露给其他人。");
+		//sendSms2("15011425527","您的验证码是：1111。请不要把验证码泄露给其他人。");
 		//sendSmsAll(List<PageData> list)
 		
-		//sendSms1();
+		sendSms1("15011425527","您的验证码是：1111");
 	}
 
 	 //短信商 一  http://www.dxton.com/ =====================================================================================
@@ -59,7 +59,12 @@ public class SmsUtil {
 			System.out.println("短信提交失败");
 		}
 		 //System.out.println(PostData);
- 	     String ret = SMS(PostData, "http://sms.106jiekou.com/utf8/sms.aspx");
+		
+		 String url="http://sms.webchinese.cn/web_api/";
+		 //原有
+		// String url="http://sms.106jiekou.com/utf8/sms.aspx";
+		
+ 	     String ret = SMS(PostData, url);
  	     System.out.println(ret);
  	   /*  
  	   100			发送成功

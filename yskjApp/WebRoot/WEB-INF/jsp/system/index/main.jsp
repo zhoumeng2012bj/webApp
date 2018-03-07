@@ -76,7 +76,7 @@
 							<div class="ace-settings-box clearfix"  style="padding-right:0px;padding-left:0px;"id="ace-settings-box">
 								<div class="pull-left width-50" style="height: 29px;">
 									<div >
-										<label class="lbl" for="ace-settings-add-container">
+										<label class="lbl" for="ace-settings-add-container" >
 											<a title="关闭所有标签" class="btn btn-mini btn-warning" href="main/index">关闭所有标签</a>
 										</label>
 									</div>

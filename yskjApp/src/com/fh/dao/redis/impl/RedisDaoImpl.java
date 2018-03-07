@@ -225,7 +225,8 @@ public class RedisDaoImpl extends AbstractBaseRedisDao<String, PageData> impleme
 		String pass = pros.getProperty("redis.pass");		//密码
 		if("yes".equals(isopen)){
 			Jedis jedis = new Jedis(host,Integer.parseInt(port));
-			jedis.auth(pass);
+			//jedis.auth(pass);
+			jedis.connect();  
 			return jedis;
 		}else{
 			return null;
@@ -237,7 +238,7 @@ public class RedisDaoImpl extends AbstractBaseRedisDao<String, PageData> impleme
 	 * @throws IOException
 	 */
 	public Properties getPprVue(){
-		InputStream inputStream = DbFH.class.getClassLoader().getResourceAsStream("redis.properties");
+		InputStream inputStream = DbFH.class.getClassLoader().getResourceAsStream("/redis.properties");
 		Properties p = new Properties();
 		try {
 			p.load(inputStream);

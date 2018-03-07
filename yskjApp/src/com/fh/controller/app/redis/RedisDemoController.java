@@ -40,7 +40,7 @@ public class RedisDemoController extends BaseController{
 		Map<String,Object> map = new HashMap<String,Object>();
 		String result = "";
 		
-		redisDaoImpl.delete("fh0");											//删除
+	/*	redisDaoImpl.delete("fh0");											//删除
 		redisDaoImpl.delete("fh");											//删除
 		redisDaoImpl.delete("fh1");											//删除
 		redisDaoImpl.delete("fh2");											//删除
@@ -48,7 +48,7 @@ public class RedisDemoController extends BaseController{
 		System.out.println(redisDaoImpl.addString("fh0","opopopo"));		//存储字符串
 		System.out.println("获取字符串:"+redisDaoImpl.get("fh0"));			//获取字符串
 		
-		result += "获取字符串:"+redisDaoImpl.get("fh0")+",";
+		result += "获取字符串:"+redisDaoImpl.get("fh0")+",";*/
 		
 		Map<String, String> jmap = new HashMap<String, String>();
     	jmap.put("name", "fhadmin");
@@ -81,5 +81,6 @@ public class RedisDemoController extends BaseController{
 		
 		return AppUtil.returnObject(new PageData(), map);
 	}
+	
 
 }

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.base.BaseController;
+import com.fh.dao.redis.RedisDao;
 import com.fh.service.fhoa.datajur.DatajurManager;
 import com.fh.service.system.appuser.AppuserManager;
 import com.fh.service.system.buttonrights.ButtonrightsManager;
@@ -69,6 +70,8 @@ public class LoginController extends BaseController {
 	private FHlogManager FHLOG;
 	@Resource(name="loginimgService")
 	private LogInImgManager loginimgService;
+	@Resource(name = "redisDaoImpl")
+	private RedisDao redisDaoImpl;
 	
 	/**访问登录页
 	 * @return
@@ -95,6 +98,7 @@ public class LoginController extends BaseController {
 		Map<String,String> map = new HashMap<String,String>();
 		PageData pd = new PageData();
 		pd = this.getPageData();
+		
 		String errInfo = "";
 		String KEYDATA[] = pd.getString("KEYDATA").replaceAll("qq719887135fh", "").replaceAll("QQ976351811fh", "").split(",fh,");
 		if(null != KEYDATA && KEYDATA.length == 3){
