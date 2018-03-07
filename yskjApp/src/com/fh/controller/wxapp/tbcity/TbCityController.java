@@ -550,14 +550,11 @@ public class TbCityController extends BaseController {
 		Map<String,Object> map = new HashMap<String,Object>();
 		try{
 			if (this.getRequest().getMethod().toUpperCase().equals("POST")) {
-			 WxUser logAccount = tbCityService.judgeCollection(pd);
-			if(logAccount!=null){
+			    WxUser logAccount = tbCityService.judgeCollection(pd);
+			
 				map.put("success", logAccount.isFlag());
 				map.put("message",logAccount.getMessage());
-			}else{
-				map.put("success",false);
-				 map.put("message","无此用户登录信息");
-			}
+				map.put("collectId", logAccount.getFyzt()==null?"":logAccount.getFyzt());
 			}else{
 				 map.put("success", false);
 				 map.put("message", "请求方式错误");
@@ -681,6 +678,33 @@ public class TbCityController extends BaseController {
 				WxUser logAccount = tbCityService.updateLoginPass(pd);
 				map.put("success", logAccount.isFlag());
 				map.put("message",logAccount.getMessage());
+			}else{
+				 map.put("success", false);
+				 map.put("message", "请求方式错误");
+			}
+		}catch (Exception e){
+			logger.error(e.toString(), e);
+		}finally{
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	/**
+	 * 取消收藏房源
+	 * @param pd
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/cancelCollect")
+	@ResponseBody
+	public Object cancelCollect(@RequestBody PageData pd)throws Exception{
+		Map<String,Object> map = new HashMap<String,Object>();
+		try{
+			if (this.getRequest().getMethod().toUpperCase().equals("POST")) {
+				WxUser logAccount = tbCityService.cancleCollect(pd);
+				map.put("success", logAccount.isFlag());
+				map.put("message",logAccount.getMessage());
+			
 			}else{
 				 map.put("success", false);
 				 map.put("message", "请求方式错误");
