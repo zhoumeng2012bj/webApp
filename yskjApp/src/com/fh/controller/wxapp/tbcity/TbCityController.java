@@ -28,6 +28,7 @@ import com.fh.service.system.user.UserManager;
 import com.fh.service.wxapp.TbCityManager;
 import com.fh.util.AppUtil;
 import com.fh.util.Const;
+import com.fh.util.EncrypAES;
 import com.fh.util.Jurisdiction;
 import com.fh.util.PageData;
 import com.fh.util.Tools;
@@ -176,9 +177,13 @@ public class TbCityController extends BaseController {
 		Map<String,Object> map = new HashMap<String,Object>();
 		try{
 			if (this.getRequest().getMethod().toUpperCase().equals("POST")) {
+				String string = pd.getString("phone");
+				byte[] decryptor = EncrypAES.Decryptor(string.getBytes());
+				String phone=new String(decryptor);
+				System.out.println(phone);
 			List<PageData> compReg = tbCityService.compReg(pd);
 			if(compReg.size()>0){
-				map.put("success", false);
+				 map.put("success", false);
 				 map.put("message","此手机号已被注册");
 			}else{
 				map.put("success",true);
