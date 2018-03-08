@@ -79,5 +79,21 @@ public class InterfaceDataService  implements InterfaceDataManager{
 		return (PageData)dao.findForObject("InterfaceDataMapper.appVersionInfo", pd);
 	}
 	
+	/**
+	 * 获取企业需求列表
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PageData> getLatestData(int type) throws Exception {
+		return (List<PageData>) dao.findForList("InterfaceDataMapper.getLatestData", type);
+	}
+	/**
+	 * 获取企业需求列表
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PageData> getEnterpriseScaleData() throws Exception {
+		return (List<PageData>) dao.findForList("InterfaceDataMapper.getEnterpriseScaleData",0 );
+	}
 
 }

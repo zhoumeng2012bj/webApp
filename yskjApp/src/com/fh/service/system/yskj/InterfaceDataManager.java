@@ -51,5 +51,18 @@ public interface InterfaceDataManager {
 	 * @param pd
 	 */
 	public PageData getAppVersion(PageData pd) throws Exception;
+	
+	/**
+	 * 获取最新数据列表
+	 * @param pd
+	 */
+	public List<PageData> getLatestData(int type) throws Exception;
+	
+
+	/**
+	 * 获取企业面积规模列表
+	 * 
+	 */
+	public List<PageData> getEnterpriseScaleData() throws Exception;
 
 }
