@@ -445,8 +445,10 @@ public class TbCityService implements TbCityManager{
 			pd.put("redis", redis);
 			List<PageData> userFyid = getUserFyid(pd);
 			if(userFyid.size()>0){
+				Integer collectId=Integer.valueOf(userFyid.get(0).getString("id"));
 				x.setFlag(false);
 				x.setMessage("此房源已被此用户收藏");
+				x.setFyzt(collectId);
 			}else{
 			x.setFlag(true);
 			x.setMessage("房源未被收藏");
@@ -496,6 +498,23 @@ public class TbCityService implements TbCityManager{
 			updateCollecHouse(split);
 			x.setFlag(true);
 			x.setMessage("房源收藏删除成功");
+			
+		}else{
+			x.setFlag(false);
+			x.setMessage("参数错误");
+		}
+		
+		return x;
+	}
+	@SuppressWarnings("unchecked")
+	public WxUser cancleCollect(PageData pd) throws Exception{
+		WxUser x=new WxUser();
+		String string = pd.getString("collectId");
+		if(!"".equals(string)){
+			String[] split = string.split(",");
+			updateCollecHouse(split);
+			x.setFlag(true);
+			x.setMessage("房源收藏取消成功");
 			
 		}else{
 			x.setFlag(false);
