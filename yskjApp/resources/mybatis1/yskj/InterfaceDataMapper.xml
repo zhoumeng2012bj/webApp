@@ -133,5 +133,22 @@
 		where 
 			versionType=#{versionType}
 	</select>
-	
+	 
+	<!-- 根据type获取最新数据列表 -->
+	<select id="getLatestData"  parameterType="Integer" resultType="pd" >
+		select 
+		orderNum,
+		memo as name,
+		`value`,
+		width
+		from app_latest_data 
+		where 
+		type=#{type} 
+		and `status`=1 
+		ORDER BY orderNum 
+	</select>
+	<!-- 跟根据合同总面积计算公司规模统计 -->
+	<select id="getEnterpriseScaleData"  parameterType="Integer" resultType="pd" >
+	select name,value,width from v_hetongqiyeguimo
+	</select>
 </mapper>
