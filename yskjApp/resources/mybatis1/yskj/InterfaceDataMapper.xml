@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="InterfaceDataMapper">
 
 	<!-- 新增售后服务信息-->
@@ -140,7 +141,7 @@
 		orderNum,
 		memo as name,
 		`value`,
-		width
+		widthNum
 		from app_latest_data 
 		where 
 		type=#{type} 
@@ -149,6 +150,6 @@
 	</select>
 	<!-- 跟根据合同总面积计算公司规模统计 -->
 	<select id="getEnterpriseScaleData"  parameterType="Integer" resultType="pd" >
-	select name,value,width from v_hetongqiyeguimo
+	select name,value,widthNum from v_hetongqiyeguimo
 	</select>
 </mapper>

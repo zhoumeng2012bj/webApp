@@ -403,6 +403,42 @@ public class InterfaceDataController extends BaseController {
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
+	
+	/**获取经纪人接口
+	 * @return 
+	 */
+	@RequestMapping(value="/getBrokerData")
+	@ResponseBody
+	public Object getBrokerData(){
+		logBefore(logger, "获取最新数据面积列表信息");
+		Map<String,Object> map = new HashMap<String,Object>();
+		boolean flag=true;
+        String message="";
+         try {
+        	 List<PageData> list=null;
+            if (this.getRequest().getMethod().toUpperCase().equals("POST")) {//POST
+    			list=interfaceDataService.getLatestData(7);
+    			map.put("data1", list);     
+    			list=interfaceDataService.getLatestData(9);
+    			map.put("data2", list);
+    			list=interfaceDataService.getLatestData(8);
+    			map.put("content", list.get(0).get("name"));
+            	message="信息处理成功!";
+            }else{
+                flag=false;
+                message="提交请求方式错误!";
+            }
+         }catch (Exception e) {
+                flag=false;
+                message="信息处理异常！";
+    			logAfter(logger);
+        }finally{
+        	map.put("message", message);
+			map.put("success", flag);
+			logAfter(logger);
+		}
+		return  map;
+	}
 }
 	
  
