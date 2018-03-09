@@ -90,6 +90,8 @@ public interface TbCityManager {
     public WxUser updatePh(PageData pd) throws Exception;
     //登录之后修改密码
     public WxUser updateLoginPass(PageData pd) throws Exception;
+    //取消收藏房源
+	public WxUser cancleCollect(PageData pd) throws Exception;
 	
 	
 }
