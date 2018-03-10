@@ -42,7 +42,7 @@ import com.fh.util.Tools;
   * 02	返回空值
   * 03	请求协议参数不完整    
   * 04  用户名或密码错误
-  * 05  FKEY验证失败
+  * 05  FKEY验证失败    ddddnnnnnnn
  */
 @Controller
 @RequestMapping(value="/appYskj/V1")
@@ -177,10 +177,6 @@ public class TbCityController extends BaseController {
 		Map<String,Object> map = new HashMap<String,Object>();
 		try{
 			if (this.getRequest().getMethod().toUpperCase().equals("POST")) {
-				String string = pd.getString("phone");
-				byte[] decryptor = EncrypAES.Decryptor(string.getBytes());
-				String phone=new String(decryptor);
-				System.out.println(phone);
 			List<PageData> compReg = tbCityService.compReg(pd);
 			if(compReg.size()>0){
 				 map.put("success", false);
@@ -672,7 +668,7 @@ public class TbCityController extends BaseController {
 		return AppUtil.returnObject(new PageData(), map);
 	}
 	/**
-	 * 19.修改密码
+	 * 19.修改密码修改密码修改密码修改密码
 	 */
 	@RequestMapping(value="/updatePass")
 	@ResponseBody
