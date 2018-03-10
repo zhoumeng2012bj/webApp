@@ -672,7 +672,7 @@ public class TbCityController extends BaseController {
 		return AppUtil.returnObject(new PageData(), map);
 	}
 	/**
-	 * 19.修改密码
+	 * 19.修改密码修改密码修改密码修改密码
 	 */
 	@RequestMapping(value="/updatePass")
 	@ResponseBody
