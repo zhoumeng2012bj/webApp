@@ -85,6 +85,8 @@ public class InterfaceDataService  implements InterfaceDataManager{
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<PageData> getLatestData(int type) throws Exception {
+		Object o =dao.findForList("InterfaceDataMapper.getLatestData", type);
+		
 		return (List<PageData>) dao.findForList("InterfaceDataMapper.getLatestData", type);
 	}
 	/**
