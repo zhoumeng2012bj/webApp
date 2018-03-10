@@ -379,14 +379,17 @@ public class InterfaceDataController extends BaseController {
             if (this.getRequest().getMethod().toUpperCase().equals("POST")) {//POST
             	list=interfaceDataService.getEnterpriseScaleData();
             	String[] arr1 =new String[5];
-            	String[] arr2=new String[5];
+            	String[] arr2 =new String[5];
+            	String[] arr3 =new String[5];
             	for(int i=0;i<list.size();i++)
             	{  
             		arr1[i]= list.get(i).getString("name");
-            		arr2[i]= list.get(i).get("value").toString(); ;
+            		arr2[i]= list.get(i).get("value").toString(); 
+            		arr3[i]= list.get(i).get("widthNum").toString(); ;
             	} 
     			map.put("xdata", arr1);
     			map.put("ydata", arr2);
+    			map.put("wdata", arr3);
             	message="信息处理成功!";
             }else{
                 flag=false;
@@ -439,6 +442,86 @@ public class InterfaceDataController extends BaseController {
 		}
 		return  map;
 	}
+	
+	/**获取管家接口
+	 * @return 
+	 */
+	@RequestMapping(value="/getButlerData")
+	@ResponseBody
+	public Object getButlerData(){
+		logBefore(logger, "获取最新数据面积列表信息");
+		Map<String,Object> map = new HashMap<String,Object>();
+		boolean flag=true;
+        String message=""; 
+         try {
+        	 List<PageData> list=null;
+            if (this.getRequest().getMethod().toUpperCase().equals("POST")) {//POST
+    			list=interfaceDataService.getLatestData(11);
+    			map.put("data1", list);   
+    			list=interfaceDataService.getLatestData(10);
+    			map.put("content", list.get(0).get("name"));
+            	message="信息处理成功!";
+            }else{
+                flag=false;
+                message="提交请求方式错误!";
+            }
+         }catch (Exception e) {
+                flag=false;
+                message="信息处理异常！";
+    			logAfter(logger);
+        }finally{
+        	map.put("message", message);
+			map.put("success", flag);
+			logAfter(logger);
+		}
+		return  map;
+	}
+	
+	
+	/**获取企业规模接口
+	 * @return 
+	 */
+	@RequestMapping(value="/getButlerYearData")
+	@ResponseBody
+	public Object getButlerYearData(){
+		logBefore(logger, "获取最新数据企业规模统计信息");
+		Map<String,Object> map = new HashMap<String,Object>();
+		boolean flag=true;
+        String message="";
+         try {
+        	 List<PageData> list=null;
+            if (this.getRequest().getMethod().toUpperCase().equals("POST")) {//POST
+            	list=interfaceDataService.getLatestData(12);
+            	String[] arr1 =new String[4];
+            	String[] arr2 =new String[4];
+            	String[] arr3 =new String[4];
+            	for(int i=0;i<list.size();i++)
+            	{  
+            		arr1[i]= list.get(i).getString("name");
+            		arr2[i]= list.get(i).get("value").toString(); 
+            		arr3[i]= list.get(i).get("widthNum").toString(); ;
+            	} 
+    			map.put("xdata", arr1);
+    			map.put("ydata", arr2);
+    			map.put("wdata", arr3);
+            	message="信息处理成功!";
+            }else{
+                flag=false;
+                message="提交请求方式错误!";
+            }
+         }catch (Exception e) {
+                flag=false;
+                message="信息处理异常！";
+    			logAfter(logger);
+        }finally{
+        	map.put("message", message);
+			map.put("success", flag);
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	
+	
 }
 	
  
