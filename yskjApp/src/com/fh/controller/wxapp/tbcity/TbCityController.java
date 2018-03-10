@@ -42,7 +42,7 @@ import com.fh.util.Tools;
   * 02	返回空值
   * 03	请求协议参数不完整    
   * 04  用户名或密码错误
-  * 05  FKEY验证失败    dddd
+  * 05  FKEY验证失败    ddddnnnnnnn
  */
 @Controller
 @RequestMapping(value="/appYskj/V1")
