@@ -309,7 +309,7 @@ public class TbCityService implements TbCityManager{
 			String string = pass.get(0).getString("isdelete");
 			if(!"0".equals(string)){
 				//判断唯一登陆状态信息
-				String uid = pass.get(0).getString("id");
+				String uid = pass.get(0).get("id").toString();
 				boolean comCode = GetRedis.comCode(uid);
 				if(comCode==true){
 					//删除原有的登陆的在线状态    保证唯一登陆状态信息
@@ -353,7 +353,7 @@ public class TbCityService implements TbCityManager{
 		//根据手机号登录
 		List<PageData> compReg = compReg(pd);
 		if(compReg.size()>0){
-			String uid = compReg.get(0).getString("id");
+			String uid = compReg.get(0).get("id").toString();
 			boolean comCode = GetRedis.comCode(uid);
 			if(comCode==true){
 				//删除原有的登陆的在线状态    保证唯一登陆状态信息

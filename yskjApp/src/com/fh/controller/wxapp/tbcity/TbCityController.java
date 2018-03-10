@@ -177,10 +177,6 @@ public class TbCityController extends BaseController {
 		Map<String,Object> map = new HashMap<String,Object>();
 		try{
 			if (this.getRequest().getMethod().toUpperCase().equals("POST")) {
-				String string = pd.getString("phone");
-				byte[] decryptor = EncrypAES.Decryptor(string.getBytes());
-				String phone=new String(decryptor);
-				System.out.println(phone);
 			List<PageData> compReg = tbCityService.compReg(pd);
 			if(compReg.size()>0){
 				 map.put("success", false);

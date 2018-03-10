@@ -1,7 +1,2 @@
-/ftl_backups/
-/log4j.properties
-/log4j.xml
-/mybatis2/
-/redis.properties
-/spring/
 /com/
+/dbconfig.properties
