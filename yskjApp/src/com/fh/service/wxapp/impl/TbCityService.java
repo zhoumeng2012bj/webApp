@@ -96,6 +96,33 @@ public class TbCityService implements TbCityManager{
 		
 		
 	}
+	
+	//发送手机号
+		@SuppressWarnings("unchecked")
+		public WxUser getServiceCode(PageData pd) throws Exception {
+			WxUser x=new WxUser();
+			Integer radomInt = new Random().nextInt(999999);
+			String string = pd.getString("cookie").toString();
+			String string2 = pd.getString("phone").toString();
+			if(!"".equals(string)&&!"".equals(string2)){
+				 x = SendMessage.sendMessage5(radomInt.toString(), string2);
+				 //存储验证码到redis
+				 if(x.isFlag()){
+				        Jedis  jedis = null;
+				        jedis = new Jedis("47.92.145.21", 6379);
+				        jedis.auth("yskj88888");
+				        jedis.set("appservice"+string,radomInt.toString());
+				        //有效时间5分钟
+				        jedis.expire("appservice"+string, 300);
+				        }
+			}else{
+				x.setFlag(false);
+				x.setMessage("参数错误");
+			}
+			
+			return x;
+			
+		}
 	//手机号校验
 	@SuppressWarnings("unchecked")
 	public WxUser compCode(PageData pd)  throws Exception{
@@ -635,4 +662,35 @@ public class TbCityService implements TbCityManager{
 		}
 		return x;
 	}
+	
+	//手机号校验
+		@SuppressWarnings("unchecked")
+		public WxUser compServiceCode(PageData pd)  throws Exception{
+			WxUser x=new WxUser();
+			String string = pd.getString("cookie").toString();
+			String string2 = pd.getString("code").toString();
+			if(!"".equals(string)&&!"".equals(string2)){
+				string="appservice"+string;
+				 //校验手机号
+				Integer redis = GetRedis.getRedis(string);
+				if(redis!=0){
+					String string3 = redis.toString();
+					if(!string2.equals(string3)){
+						x.setFlag(false);
+						x.setMessage("校验失败");
+					}else{
+					x.setFlag(true);
+					x.setMessage("校验成功");
+					}
+				}else{
+					x.setFlag(false);
+					x.setMessage("校验失败");
+				}
+				
+			}else{
+				x.setFlag(false);
+				x.setMessage("参数错误");
+			}
+			return x;
+		}
 }

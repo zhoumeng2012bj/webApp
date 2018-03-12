@@ -200,7 +200,7 @@ public class TbCityController extends BaseController {
 	}
 	
 	/**
-	 * 2. 发送短信验证码
+	 * 2. 发送短信验证码  身份验证
 	 */
 	
 	@RequestMapping(value="/getCode")
@@ -710,6 +710,56 @@ public class TbCityController extends BaseController {
 				 map.put("success", false);
 				 map.put("message", "请求方式错误");
 			}
+		}catch (Exception e){
+			logger.error(e.toString(), e);
+		}finally{
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	
+	/**
+	 * 23. 发送短信验证码  业主委托 服务商城
+	 */
+	
+	@RequestMapping(value="/getServiceCode")
+	@ResponseBody
+	public Object getServiceCode(@RequestBody PageData pd)throws Exception{
+		Map<String,Object> map = new HashMap<String,Object>();
+		try{
+			if (this.getRequest().getMethod().toUpperCase().equals("POST")) {
+			 WxUser code = tbCityService.getServiceCode(pd);
+			 map.put("success", code.isFlag());
+			 map.put("message", code.getMessage());
+			}else{
+				 map.put("success", false);
+				 map.put("message", "请求方式错误");
+			}
+			
+		}catch (Exception e){
+			logger.error(e.toString(), e);
+		}finally{
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	/**
+	 * 3.手机号码校验
+	 */
+	@RequestMapping(value="/compServiceCode")
+	@ResponseBody
+	public Object compServiceCode(@RequestBody PageData pd)throws Exception{
+		Map<String,Object> map = new HashMap<String,Object>();
+		try{
+			if (this.getRequest().getMethod().toUpperCase().equals("POST")) {
+			 WxUser code = tbCityService.compServiceCode(pd);
+			 map.put("success", code.isFlag());
+			 map.put("message", code.getMessage());
+			}else{
+				 map.put("success", false);
+				 map.put("message", "请求方式错误");
+			}
+			
 		}catch (Exception e){
 			logger.error(e.toString(), e);
 		}finally{
