@@ -744,7 +744,7 @@ public class TbCityController extends BaseController {
 		return AppUtil.returnObject(new PageData(), map);
 	}
 	/**
-	 * 3.手机号码校验
+	 * 3.手机号码校验手机号码校验手机号码校验
 	 */
 	@RequestMapping(value="/compServiceCode")
 	@ResponseBody
