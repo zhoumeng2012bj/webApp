@@ -719,7 +719,7 @@ public class TbCityController extends BaseController {
 	}
 	
 	/**
-	 * 23. 发送短信验证码  业主委托 服务商城
+	 * 23. 发送短信验证码  业主委托 服务商城   发送短信验证码  业主委托 服务商城
 	 */
 	
 	@RequestMapping(value="/getServiceCode")
