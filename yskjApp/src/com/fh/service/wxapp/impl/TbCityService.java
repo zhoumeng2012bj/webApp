@@ -137,14 +137,14 @@ public class TbCityService implements TbCityManager{
 				String string3 = redis.toString();
 				if(!string2.equals(string3)){
 					x.setFlag(false);
-					x.setMessage("校验失败");
+					x.setMessage("验证码错误");
 				}else{
 				x.setFlag(true);
 				x.setMessage("校验成功");
 				}
 			}else{
 				x.setFlag(false);
-				x.setMessage("校验失败");
+				x.setMessage("验证码失效");
 			}
 			
 		}else{
@@ -677,14 +677,14 @@ public class TbCityService implements TbCityManager{
 					String string3 = redis.toString();
 					if(!string2.equals(string3)){
 						x.setFlag(false);
-						x.setMessage("校验失败");
+						x.setMessage("验证码错误");
 					}else{
 					x.setFlag(true);
 					x.setMessage("校验成功");
 					}
 				}else{
 					x.setFlag(false);
-					x.setMessage("校验失败");
+					x.setMessage("验证码失效");
 				}
 				
 			}else{
