@@ -436,9 +436,9 @@ public class TbCityService implements TbCityManager{
 		WxUser x=new WxUser();
 		String string = pd.getString("cookie");
 		String a="appuser"+string;
-		Integer redis = GetRedis.getRedis(a);
+		String redis = GetRedis.getRedis1(a);
 		if(!"".equals(string)){
-		if(redis!=0){
+		if(redis!="0"){
 			//redis删除用户的登陆状态
 			String a1="appid"+redis;
 			DelRedis.getRedis(a1);
