@@ -86,7 +86,9 @@
 			createTime,
 			status,
 			butlerName,
-			butlerPhone
+			butlerPhone,
+			imgUrl,
+			budget
 		from app_enterprise_demand
 		where 
 			demandCategory=#{demandCategory} and status =1
