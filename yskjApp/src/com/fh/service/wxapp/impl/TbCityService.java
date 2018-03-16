@@ -162,7 +162,7 @@ public class TbCityService implements TbCityManager{
 		String string = pd;
 		if(!"".equals(string)){
 			 //查询有无此用户登录
-			 boolean comCode = GetRedis.comCode(pd);
+			 boolean comCode = GetRedis.comCode("appid"+pd);
 			 x.setFlag(comCode);
 			 x.setMessage("判断成功");
 		}else{
@@ -251,7 +251,7 @@ public class TbCityService implements TbCityManager{
 			//修改密码同时登陆用户
 			updatePass(pd);
 			//判断系统中有无此用户的登陆状态
-			boolean comCode = GetRedis.comCode(uid);
+			boolean comCode = GetRedis.comCode("appid"+uid);
 			if(comCode==true){
 				//删除原有的登陆的在线状态    保证唯一登陆状态信息
 				String a1="appid"+uid;
@@ -337,7 +337,7 @@ public class TbCityService implements TbCityManager{
 			if(!"0".equals(string)){
 				//判断唯一登陆状态信息
 				String uid = pass.get(0).get("id").toString();
-				boolean comCode = GetRedis.comCode(uid);
+				boolean comCode = GetRedis.comCode("appid"+uid);
 				if(comCode==true){
 					//删除原有的登陆的在线状态    保证唯一登陆状态信息
 					String a1="appid"+uid;
@@ -381,7 +381,7 @@ public class TbCityService implements TbCityManager{
 		List<PageData> compReg = compReg(pd);
 		if(compReg.size()>0){
 			String uid = compReg.get(0).get("id").toString();
-			boolean comCode = GetRedis.comCode(uid);
+			boolean comCode = GetRedis.comCode("appid"+uid);
 			if(comCode==true){
 				//删除原有的登陆的在线状态    保证唯一登陆状态信息
 				String a1="appid"+uid;
@@ -561,6 +561,7 @@ public class TbCityService implements TbCityManager{
 		Integer redis = GetRedis.getRedis(a);
 		if(redis!=0){
 			//判断手机号是否与原手机号重复
+			pd.put("id", redis);
 			List<PageData> id = getId(pd);
 			if(id.size()>0){
 				String string2 = id.get(0).getString("phone");
