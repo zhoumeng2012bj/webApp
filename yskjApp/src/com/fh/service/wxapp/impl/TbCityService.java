@@ -472,7 +472,9 @@ public class TbCityService implements TbCityManager{
 			pd.put("redis", redis);
 			List<PageData> userFyid = getUserFyid(pd);
 			if(userFyid.size()>0){
-				Integer collectId=Integer.valueOf(userFyid.get(0).getString("id"));
+				Object object = userFyid.get(0).get("id");
+				String string2 = object.toString();
+				Integer collectId=Integer.valueOf(string2);
 				x.setFlag(false);
 				x.setMessage("此房源已被此用户收藏");
 				x.setFyzt(collectId);
