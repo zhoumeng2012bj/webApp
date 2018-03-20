@@ -91,10 +91,10 @@
 		from app_enterprise_demand
 		where 
 			status =1
-		<if test="demandCategory==1">
+		<if test="demandCategory==2">
 			and demandCategory=#{demandCategory}  order by createTime desc limit 5;
 		</if>
-		<if test="demandCategory==2">
+		<if test="demandCategory==1">
             and demandCategory=#{demandCategory} order by createTime desc limit 3;
 		</if>
 	</select>
