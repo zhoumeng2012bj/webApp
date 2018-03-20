@@ -92,6 +92,10 @@ public interface TbCityManager {
     public WxUser updateLoginPass(PageData pd) throws Exception;
     //取消收藏房源
 	public WxUser cancleCollect(PageData pd) throws Exception;
+	//业主委托    商城服务   获取验证码
+	public WxUser getServiceCode(PageData pd) throws Exception;
+	//业主委托    商城服务   手机号验证
+	public WxUser compServiceCode(PageData pd)  throws Exception;
 	
 	
 }

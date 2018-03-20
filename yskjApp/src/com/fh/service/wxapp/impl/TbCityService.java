@@ -96,6 +96,33 @@ public class TbCityService implements TbCityManager{
 		
 		
 	}
+	
+	//发送手机号
+		@SuppressWarnings("unchecked")
+		public WxUser getServiceCode(PageData pd) throws Exception {
+			WxUser x=new WxUser();
+			Integer radomInt = new Random().nextInt(999999);
+			String string = pd.getString("cookie").toString();
+			String string2 = pd.getString("phone").toString();
+			if(!"".equals(string)&&!"".equals(string2)){
+				 x = SendMessage.sendMessage5(radomInt.toString(), string2);
+				 //存储验证码到redis
+				 if(x.isFlag()){
+				        Jedis  jedis = null;
+				        jedis = new Jedis("47.92.145.21", 6379);
+				        jedis.auth("yskj88888");
+				        jedis.set("appservice"+string,radomInt.toString());
+				        //有效时间5分钟
+				        jedis.expire("appservice"+string, 300);
+				        }
+			}else{
+				x.setFlag(false);
+				x.setMessage("参数错误");
+			}
+			
+			return x;
+			
+		}
 	//手机号校验
 	@SuppressWarnings("unchecked")
 	public WxUser compCode(PageData pd)  throws Exception{
@@ -110,14 +137,14 @@ public class TbCityService implements TbCityManager{
 				String string3 = redis.toString();
 				if(!string2.equals(string3)){
 					x.setFlag(false);
-					x.setMessage("校验失败");
+					x.setMessage("验证码错误");
 				}else{
 				x.setFlag(true);
 				x.setMessage("校验成功");
 				}
 			}else{
 				x.setFlag(false);
-				x.setMessage("校验失败");
+				x.setMessage("验证码失效");
 			}
 			
 		}else{
@@ -135,7 +162,7 @@ public class TbCityService implements TbCityManager{
 		String string = pd;
 		if(!"".equals(string)){
 			 //查询有无此用户登录
-			 boolean comCode = GetRedis.comCode(pd);
+			 boolean comCode = GetRedis.comCode("appid"+pd);
 			 x.setFlag(comCode);
 			 x.setMessage("判断成功");
 		}else{
@@ -224,7 +251,7 @@ public class TbCityService implements TbCityManager{
 			//修改密码同时登陆用户
 			updatePass(pd);
 			//判断系统中有无此用户的登陆状态
-			boolean comCode = GetRedis.comCode(uid);
+			boolean comCode = GetRedis.comCode("appid"+uid);
 			if(comCode==true){
 				//删除原有的登陆的在线状态    保证唯一登陆状态信息
 				String a1="appid"+uid;
@@ -310,7 +337,7 @@ public class TbCityService implements TbCityManager{
 			if(!"0".equals(string)){
 				//判断唯一登陆状态信息
 				String uid = pass.get(0).get("id").toString();
-				boolean comCode = GetRedis.comCode(uid);
+				boolean comCode = GetRedis.comCode("appid"+uid);
 				if(comCode==true){
 					//删除原有的登陆的在线状态    保证唯一登陆状态信息
 					String a1="appid"+uid;
@@ -354,7 +381,7 @@ public class TbCityService implements TbCityManager{
 		List<PageData> compReg = compReg(pd);
 		if(compReg.size()>0){
 			String uid = compReg.get(0).get("id").toString();
-			boolean comCode = GetRedis.comCode(uid);
+			boolean comCode = GetRedis.comCode("appid"+uid);
 			if(comCode==true){
 				//删除原有的登陆的在线状态    保证唯一登陆状态信息
 				String a1="appid"+uid;
@@ -409,9 +436,9 @@ public class TbCityService implements TbCityManager{
 		WxUser x=new WxUser();
 		String string = pd.getString("cookie");
 		String a="appuser"+string;
-		Integer redis = GetRedis.getRedis(a);
+		String redis = GetRedis.getRedis1(a);
 		if(!"".equals(string)){
-		if(redis!=0){
+		if(redis!="0"){
 			//redis删除用户的登陆状态
 			String a1="appid"+redis;
 			DelRedis.getRedis(a1);
@@ -445,7 +472,9 @@ public class TbCityService implements TbCityManager{
 			pd.put("redis", redis);
 			List<PageData> userFyid = getUserFyid(pd);
 			if(userFyid.size()>0){
-				Integer collectId=Integer.valueOf(userFyid.get(0).getString("id"));
+				Object object = userFyid.get(0).get("id");
+				String string2 = object.toString();
+				Integer collectId=Integer.valueOf(string2);
 				x.setFlag(false);
 				x.setMessage("此房源已被此用户收藏");
 				x.setFyzt(collectId);
@@ -534,6 +563,7 @@ public class TbCityService implements TbCityManager{
 		Integer redis = GetRedis.getRedis(a);
 		if(redis!=0){
 			//判断手机号是否与原手机号重复
+			pd.put("id", redis);
 			List<PageData> id = getId(pd);
 			if(id.size()>0){
 				String string2 = id.get(0).getString("phone");
@@ -635,4 +665,35 @@ public class TbCityService implements TbCityManager{
 		}
 		return x;
 	}
+	
+	//手机号校验
+		@SuppressWarnings("unchecked")
+		public WxUser compServiceCode(PageData pd)  throws Exception{
+			WxUser x=new WxUser();
+			String string = pd.getString("cookie").toString();
+			String string2 = pd.getString("code").toString();
+			if(!"".equals(string)&&!"".equals(string2)){
+				string="appservice"+string;
+				 //校验手机号
+				Integer redis = GetRedis.getRedis(string);
+				if(redis!=0){
+					String string3 = redis.toString();
+					if(!string2.equals(string3)){
+						x.setFlag(false);
+						x.setMessage("验证码错误");
+					}else{
+					x.setFlag(true);
+					x.setMessage("校验成功");
+					}
+				}else{
+					x.setFlag(false);
+					x.setMessage("验证码失效");
+				}
+				
+			}else{
+				x.setFlag(false);
+				x.setMessage("参数错误");
+			}
+			return x;
+		}
 }
