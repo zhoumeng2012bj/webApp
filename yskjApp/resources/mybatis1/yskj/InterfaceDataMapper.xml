@@ -87,11 +87,16 @@
 			status,
 			butlerName,
 			butlerPhone,
-			imgUrl,
 			budget
 		from app_enterprise_demand
 		where 
-			demandCategory=#{demandCategory} and status =1
+			status =1
+		<if test="demandCategory==1">
+			and demandCategory=#{demandCategory}  order by createTime desc limit 5;
+		</if>
+		<if test="demandCategory==2">
+            and demandCategory=#{demandCategory} order by createTime desc limit 3;
+		</if>
 	</select>
 	
 	<!-- 获取幼师头条信息 -->
