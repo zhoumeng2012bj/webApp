@@ -268,7 +268,7 @@ public class SendMessage {
 	}
 	public static void main(String[] args) {
 	   Integer radomInt = new Random().nextInt(999999);
-	    WxUser sendMessage = sendMessage5(radomInt.toString(),"17611440599");
+	    WxUser sendMessage = sendMessage5(radomInt.toString(),"15093648677");
 	    System.out.println(sendMessage.getMessage());
     }
 
