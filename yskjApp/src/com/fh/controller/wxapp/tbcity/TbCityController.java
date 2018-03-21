@@ -381,7 +381,8 @@ public class TbCityController extends BaseController {
 				  //正面图片信息
 				  map.put("mp1data", mp1);
 				  //反面图片信息
-				  map.put("mp2datat", mp2);
+				  map.put("mp2data", mp2);
+				  map.put("tp", cookieId);
 			  }else{
 				 map.put("success", false);
 				 map.put("message", "无此用户注册信息");
