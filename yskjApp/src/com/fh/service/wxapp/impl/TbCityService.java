@@ -144,7 +144,7 @@ public class TbCityService implements TbCityManager{
 				}
 			}else{
 				x.setFlag(false);
-				x.setMessage("验证码失效");
+				x.setMessage("验证码错误");
 			}
 			
 		}else{
@@ -688,7 +688,7 @@ public class TbCityService implements TbCityManager{
 					}
 				}else{
 					x.setFlag(false);
-					x.setMessage("验证码失效");
+					x.setMessage("验证码错误");
 				}
 				
 			}else{
