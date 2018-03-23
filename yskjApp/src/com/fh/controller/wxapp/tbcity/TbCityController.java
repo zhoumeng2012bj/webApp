@@ -399,6 +399,48 @@ public class TbCityController extends BaseController {
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
+	
+	/**
+	 * 7.根据cookie获取用户的信息图片上传获取用户信息
+	 */
+	@RequestMapping(value="/getCookieInfo1")
+	@ResponseBody
+	public Object getCookieInfo1(@RequestBody PageData pd)throws Exception{
+		Map<String,Object> map = new HashMap<String,Object>();
+		try{
+			if (this.getRequest().getMethod().toUpperCase().equals("POST")) {
+			   PageData cookieId = tbCityService.getCookieId(pd);
+			  if(cookieId!=null){
+				  
+				  PageData d=  (PageData) cookieId.get("data");
+				  d.putAll(cookieId);
+				  boolean flag=  (boolean) cookieId.get("success");
+				  map.put("success",flag );
+				  map.put("message",  cookieId.getString("message"));
+				  map.put("data", d);
+				 /* List<PageData> mp1=  (List<PageData>) cookieId.get("mp1");
+				  List<PageData> mp2=  (List<PageData>) cookieId.get("mp2");
+				  //正面图片信息
+				  map.put("mp1data", mp1);
+				  //反面图片信息
+				  map.put("mp2data", mp2);
+				  map.put("tp", cookieId);*/
+			  }else{
+				 map.put("success", false);
+				 map.put("message", "无此用户注册信息");
+			  }
+			}else{
+				 map.put("success", false);
+				 map.put("message", "请求方式错误");
+			}
+			
+		}catch (Exception e){
+			logger.error(e.toString(), e);
+		}finally{
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
 	/**
 	 * 8.登录时判断系统中有无此用户信息
 	 * @param pd

@@ -144,7 +144,7 @@ public class TbCityService implements TbCityManager{
 				}
 			}else{
 				x.setFlag(false);
-				x.setMessage("验证码失效");
+				x.setMessage("验证码错误");
 			}
 			
 		}else{
@@ -211,8 +211,9 @@ public class TbCityService implements TbCityManager{
 		Integer save = save(pd);
 		//查询 手机号对应的人员信息
 		List<PageData> compReg = compReg(pd);
-		if(save!=0){
-			String string = save.toString();
+		if(compReg.size()>0){
+			Object object = compReg.get(0).get("id");
+			String string = object.toString();
 			//保存用户ID信息
 			String string2 = pd.getString("cookie");
 			Jedis  jedis = null;
@@ -687,7 +688,7 @@ public class TbCityService implements TbCityManager{
 					}
 				}else{
 					x.setFlag(false);
-					x.setMessage("验证码失效");
+					x.setMessage("验证码错误");
 				}
 				
 			}else{
