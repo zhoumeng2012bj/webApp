@@ -133,13 +133,15 @@
 	<select id="appVersionInfo"  parameterType="pd" resultType="pd" >
 		select 
 			id,
+			versionType,
 			versionCode,
+			appFileUrl,
 			versionDesc,
 			versionTime,
 			status
 		from app_version
 		where 
-			versionType=#{versionType}
+			versionType=#{appType} and versionCode=#{appVersion}
 	</select>
 	 
 	<!-- 根据type获取最新数据列表 -->
