@@ -6,7 +6,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.RandomAccessFile;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
@@ -198,6 +201,44 @@ public class FileUtil {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	/**
+	 * 
+	 * 通过服务器地址下载
+	 * @param filePath
+	 * @return
+	 * @throws IOException
+	 */
+	public static byte[] toByteArray5(String urlPath) throws IOException {
+		HttpURLConnection conn = null;  
+		byte[] byteData = new byte[1024];
+		try {
+			URL url = new URL(urlPath); // 生成传入的URL的对象
+		     conn=(HttpURLConnection) url.openConnection();  
+	      	 //连接指定的资源   
+	         conn.connect(); 
+	         //设置超时间为3秒  
+	         conn.setConnectTimeout(5 * 1000); 
+		     //得到输入流  
+		     InputStream inputStream = conn.getInputStream();    
+		     byteData = readInputStream(inputStream);  
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return byteData;
+	}
+	
+	private static byte [] readInputStream(InputStream inputStream)throws IOException { 
+		 byte [] buffer = new byte [1024];   
+         int len = 0;   
+         ByteArrayOutputStream bos = new ByteArrayOutputStream();   
+         while((len = inputStream.read(buffer))!= -1){    
+             bos.write(buffer,0,len);   
+         }    
+         bos.close();   
+         return bos.toByteArray();   
 	}
 
 }
