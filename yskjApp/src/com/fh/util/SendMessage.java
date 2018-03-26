@@ -227,7 +227,7 @@ public class SendMessage {
         //必填:短信签名-可在短信控制台中找到
         request.setSignName("幼狮空间");
         //必填:短信模板-可在短信控制台中找到
-        request.setTemplateCode("SMS_117513026");
+        request.setTemplateCode("SMS_127163884");
         //可选:模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为${code}"时,此处的值为
         request.setTemplateParam(a);
 
