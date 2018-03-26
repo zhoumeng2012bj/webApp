@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,7 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fh.controller.base.BaseController;
 import com.fh.service.system.yskj.InterfaceDataManager;
 import com.fh.util.AppUtil;
+import com.fh.util.FileDownload;
+import com.fh.util.FileUpload;
 import com.fh.util.PageData;
+import com.fh.util.PathUtil;
 import com.fh.util.Tools;
 
 /**
@@ -551,6 +555,34 @@ public class InterfaceDataController extends BaseController {
 			logAfter(logger);
 		}
 		return AppUtil.returnObject(new PageData(), map);
+	}
+	
+	/**app 安装包下载
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/appDown")
+	public void appFileDownload(HttpServletResponse response){
+		 try {
+			    PageData pd = new PageData();
+				pd = this.getPageData();
+			    String appType=pd.getString("appType").toUpperCase();  //IOS,Android 
+				String appVersion=pd.getString("appVersion");
+				String url="";
+				PageData pdData=interfaceDataService.getAppVersion(pd);
+			    if(Tools.notEmpty(appType) && Tools.notEmpty(appVersion)){
+			        url=pdData.getString("appFileUrl");
+			        if(appType.equals("IOS")){
+			        	FileDownload.fileDownload(response,url,"yskj.ipa");
+			        }else if(appType.equals("ANDROID")){
+			        	FileDownload.fileUrlDownload(response,url,"yskj.apk");
+			        }
+			    }else{
+			    	FileDownload.fileDownload(response, url, "yskj");
+			    }
+		 }catch (Exception e) {
+			 e.printStackTrace();
+		 }
 	}
 	
 }
