@@ -12,14 +12,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.base.BaseController;
 import com.fh.service.system.yskj.InterfaceDataManager;
 import com.fh.util.AppUtil;
 import com.fh.util.FileDownload;
-import com.fh.util.FileUpload;
+import com.fh.util.Jurisdiction;
 import com.fh.util.PageData;
-import com.fh.util.PathUtil;
 import com.fh.util.Tools;
 
 /**
@@ -570,15 +570,15 @@ public class InterfaceDataController extends BaseController {
 				String appVersion=pd.getString("appVersion");
 				String url="";
 				PageData pdData=interfaceDataService.getAppVersion(pd);
+				url=pdData.getString("appFileUrl");
 			    if(Tools.notEmpty(appType) && Tools.notEmpty(appVersion)){
-			        url=pdData.getString("appFileUrl");
 			        if(appType.equals("IOS")){
-			        	FileDownload.fileDownload(response,url,"yskj.ipa");
+			        	FileDownload.fileUrlDownload(response,url,"yskj.ipa");
 			        }else if(appType.equals("ANDROID")){
-			        	FileDownload.fileUrlDownload(response,url,"yskj.apk");
+			        	FileDownload.fileUrlDownload(response, url,"yskj.apk");
 			        }
 			    }else{
-			    	FileDownload.fileDownload(response, url, "yskj");
+			    	FileDownload.fileUrlDownload(response,url, "yskj");
 			    }
 		 }catch (Exception e) {
 			 e.printStackTrace();
