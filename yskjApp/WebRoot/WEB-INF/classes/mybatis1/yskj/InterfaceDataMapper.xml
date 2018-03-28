@@ -87,15 +87,16 @@
 			status,
 			butlerName,
 			butlerPhone,
-			budget
+			budget,
+			imgUrl
 		from app_enterprise_demand
 		where 
-			status =1
 		<if test="demandCategory==2">
-			and demandCategory=#{demandCategory}  order by createTime desc limit 5;
+			 demandCategory=#{demandCategory}  order by status asc, createTime desc limit 5;
 		</if>
 		<if test="demandCategory==1">
-            and demandCategory=#{demandCategory} order by createTime desc limit 3;
+		    status =1
+            and demandCategory=#{demandCategory} order by  createTime desc limit 3;
 		</if>
 	</select>
 	
@@ -133,13 +134,15 @@
 	<select id="appVersionInfo"  parameterType="pd" resultType="pd" >
 		select 
 			id,
+			versionType,
 			versionCode,
+			appFileUrl,
 			versionDesc,
 			versionTime,
 			status
 		from app_version
 		where 
-			versionType=#{versionType}
+			versionType=#{appType} and versionCode=#{appVersion}
 	</select>
 	 
 	<!-- 根据type获取最新数据列表 -->

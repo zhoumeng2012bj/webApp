@@ -213,19 +213,31 @@ public class FileUtil {
 	public static byte[] toByteArray5(String urlPath) throws IOException {
 		HttpURLConnection conn = null;  
 		byte[] byteData = new byte[1024];
+		InputStream inputStream =null;
 		try {
-			URL url = new URL(urlPath); // 生成传入的URL的对象
+			 URL url = new URL(urlPath); // 生成传入的URL的对象
 		     conn=(HttpURLConnection) url.openConnection();  
+		     conn.setRequestMethod("GET");
+		     conn.setRequestProperty("Content-type", "application/x-java-serialized-object");  
 	      	 //连接指定的资源   
 	         conn.connect(); 
 	         //设置超时间为3秒  
 	         conn.setConnectTimeout(5 * 1000); 
 		     //得到输入流  
-		     InputStream inputStream = conn.getInputStream();    
+		     inputStream = conn.getInputStream();    
 		     byteData = readInputStream(inputStream);  
-			
+		     //
+		     inputStream.close();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				if (conn != null){
+					conn.disconnect();
+                }
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return byteData;
 	}
