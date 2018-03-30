@@ -11,6 +11,7 @@
 			phone,	
 			repairHouse,	
 			memo,	
+			oddNumbers,
 			bussinessType,
 			status,
 			createTime,
@@ -21,6 +22,7 @@
 			#{phone},	
 			#{repairHouse},	
 			#{memo},	
+			#{oddNumbers},
 			#{bussinessType},	
 			#{status},
 			#{createTime},
@@ -33,11 +35,13 @@
 		insert into app_transaction(
 			bussinessType,
 			phone,	
+			oddNumbers,
 			status,
 			createTime
 		) values (
 			#{bussinessType},	
 			#{phone},	
+			#{oddNumbers},
 			#{status},
 			#{createTime}
 		)
@@ -51,6 +55,7 @@
 			phone,	
 			type,
 			memo,
+			oddNumbers,
 			createTime,
 			status
 		) values (
@@ -58,7 +63,8 @@
 			#{name},	
 			#{phone},	
 			#{type},	
-			#{memo},	
+			#{memo},
+			#{oddNumbers},	
 			#{createTime},
 			#{status}
 		)
