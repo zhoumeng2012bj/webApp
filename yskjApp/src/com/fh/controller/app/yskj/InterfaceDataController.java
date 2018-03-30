@@ -4,21 +4,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.fh.controller.base.BaseController;
 import com.fh.service.system.yskj.InterfaceDataManager;
 import com.fh.util.AppUtil;
-import com.fh.util.FileDownload;
-import com.fh.util.Jurisdiction;
+import com.fh.util.NumberUitl;
 import com.fh.util.PageData;
 import com.fh.util.Tools;
 
@@ -44,6 +39,7 @@ public class InterfaceDataController extends BaseController {
 		logBefore(logger, "保存提交售后服务信息");
 		Map<String,Object> map = new HashMap<String,Object>();
 		boolean flag=true;
+		
         String message="";
          try {
             if (this.getRequest().getMethod().toUpperCase().equals("POST")) {//POST
@@ -51,6 +47,7 @@ public class InterfaceDataController extends BaseController {
             	pd.put("bussinessType", "3");  //1 业主委托 2商城服务 3售后服务
             	pd.put("createTime",Tools.date2Str(new Date()));  //创建时间
     			pd.put("status", "1");	                          //1、待接单，2、已接单，3已完成
+    			pd.put("oddNumbers", NumberUitl.getNumber("SH"));	   
             	interfaceDataService.saveTransaction(pd);
             	String  id=pd.getString("id");
             	System.out.println("返回生成主键："+id);
@@ -86,6 +83,7 @@ public class InterfaceDataController extends BaseController {
             	pd.put("bussinessType", "1");          // 1 业主委托 2商城服务 3售后服务
             	pd.put("createTime",Tools.date2Str(new Date()));  //创建时间
     			pd.put("status", "1");	            //1、待接单，2、已接单，3已完成
+    			pd.put("oddNumbers", NumberUitl.getNumber("WT"));	
             	interfaceDataService.saveTransaction(pd);
             	 message="信息处理成功!";
             }else{
@@ -115,6 +113,16 @@ public class InterfaceDataController extends BaseController {
 		boolean flag=true;
         String message="";
          try {
+        	String type=pd.getString("type");
+        	if(type.equals("1")){
+        		pd.put("oddNumbers", NumberUitl.getNumber("SW"));	
+        	}else if(type.equals("2")){
+        		pd.put("oddNumbers", NumberUitl.getNumber("ZZ"));	
+        	}else if(type.equals("3")){
+        		pd.put("oddNumbers", NumberUitl.getNumber("ZX"));	
+        	}else if(type.equals("3")){
+        		pd.put("oddNumbers", NumberUitl.getNumber("JR"));	
+        	}
             if (this.getRequest().getMethod().toUpperCase().equals("POST")) {//POST
             	pd.put("bussinessType", "2");         //1 业主委托 2商城服务 3售后服务
             	pd.put("createTime",Tools.date2Str(new Date()));  //创建时间
@@ -562,16 +570,20 @@ public class InterfaceDataController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/appDown")
-	public void appFileDownload(HttpServletResponse response){
+	@ResponseBody
+	public Object appFileDownload(){
+		Map<String,Object> map = new HashMap<String,Object>();
+		boolean flag=true;
+        String message="";
 		 try {
 			    PageData pd = new PageData();
 				pd = this.getPageData();
-			    String appType=pd.getString("appType").toUpperCase();  //IOS,Android 
-				String appVersion=pd.getString("appVersion");
+			    //String appType=pd.getString("appType").toUpperCase();  //IOS,Android 
+				//String appVersion=pd.getString("appVersion");
 				String url="";
 				PageData pdData=interfaceDataService.getAppVersion(pd);
 				url=pdData.getString("appFileUrl");
-			    if(Tools.notEmpty(appType) && Tools.notEmpty(appVersion)){
+			    /*if(Tools.notEmpty(appType) && Tools.notEmpty(appVersion)){
 			        if(appType.equals("IOS")){
 			        	FileDownload.fileUrlDownload(response,url,"yskj.ipa");
 			        }else if(appType.equals("ANDROID")){
@@ -579,10 +591,20 @@ public class InterfaceDataController extends BaseController {
 			        }
 			    }else{
 			    	FileDownload.fileUrlDownload(response,url, "yskj");
-			    }
+			    }*/
+			    map.put("appUrl", url);   
+            	message="信息处理成功!";
 		 }catch (Exception e) {
 			 e.printStackTrace();
+			 flag=false;
+             message="信息处理异常！";
+ 			 logAfter(logger);
+		 }finally{
+	        	map.put("message", message);
+				map.put("success", flag);
+				logAfter(logger);
 		 }
+		return AppUtil.returnObject(new PageData(), map);
 	}
 	
 }
