@@ -12,7 +12,7 @@
 	    var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //g
 	    var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 	    var appUrl="";
-        $.ajax({  
+       /*  $.ajax({  
               type:'post',  
               url:'http://192.168.0.126:8080/yskjApp/webApp/dataInfo/appDown.do?appType=android&appVersion=V1.1',
               dataType:'json',  
@@ -28,7 +28,6 @@
 				       window.location.href=appUrl;
 				       //window.location.href="http://192.168.0.126:8080/yskjApp/webApp/dataInfo/appDown.do?appType=IOS&appVersion=V1.1";
 				    }else {
-				        alert(appUrl);
 				        //window.location.href="http://47.92.145.21:81/yskj.apk";
 				    } 
               },
@@ -36,10 +35,20 @@
 				  //异常处理；
 				  alert("下载失败！");
 			   } 
-          }); 
+          });  */
+          
+           if (isAndroid) {
+		       //安卓操作系统
+		       window.location.href="http://47.92.145.21:81/yskj.apk";
+		   }else if (isIOS) {
+		　　　　   //ios操作系统
+		       window.location.href="http://47.92.145.21:81/yskj.ipa";
+		      
+		   }else {
+		       window.location.href="http://47.92.145.21:81/yskj.apk";
+		   } 
     });  
-    
-     
+
 
 </script>
 </head> 
