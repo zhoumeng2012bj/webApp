@@ -257,9 +257,16 @@ public class TbCityController extends BaseController {
 		Map<String,Object> map = new HashMap<String,Object>();
 		try{
 			if (this.getRequest().getMethod().toUpperCase().equals("POST")) {
-			 WxUser code = tbCityService.regist(pd);
-			 map.put("success", code.isFlag());
-			 map.put("message", code.getMessage());
+				List<PageData> compReg = tbCityService.compReg(pd);
+				if(compReg.size()>0){
+					 map.put("success", false);
+					 map.put("message","系统中有此手机号注册信息");
+				}else{
+					 WxUser code = tbCityService.regist(pd);
+					 map.put("success", code.isFlag());
+					 map.put("message", code.getMessage());
+				}
+			
 			}else{
 				 map.put("success", false);
 				 map.put("message", "请求方式错误");
