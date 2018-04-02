@@ -40,7 +40,7 @@
 			#{phone},	
 			#{pass},	
 			0,
-			3,
+			2,
 			NOW()
 		)
 	</insert>
