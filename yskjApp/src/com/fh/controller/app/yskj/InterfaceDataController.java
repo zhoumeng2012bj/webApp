@@ -579,10 +579,9 @@ public class InterfaceDataController extends BaseController {
 			    PageData pd = new PageData();
 				pd = this.getPageData();
 			    String appType=pd.getString("appType").toUpperCase();  //IOS,Android 
-				String appVersion=pd.getString("appVersion");
-				
+				//String appVersion=pd.getString("appVersion");
 				PageData pdData=null;
-			    if(Tools.notEmpty(appType) && Tools.notEmpty(appVersion)){
+			    if(Tools.notEmpty(appType)){
 			    	pdData=interfaceDataService.getAppVersion(pd);
 			    	map.put("data", pdData);   
 		            message="信息处理成功!";
