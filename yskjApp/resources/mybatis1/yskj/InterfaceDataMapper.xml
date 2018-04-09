@@ -145,6 +145,7 @@
 			appFileUrl,
 			versionDesc,
 			versionTime,
+			shopType,
 			status
 		from app_version
 		where 
