@@ -578,22 +578,23 @@ public class InterfaceDataController extends BaseController {
 		 try {
 			    PageData pd = new PageData();
 				pd = this.getPageData();
-			    //String appType=pd.getString("appType").toUpperCase();  //IOS,Android 
+			    String appType=pd.getString("appType").toUpperCase();  //IOS,Android 
 				//String appVersion=pd.getString("appVersion");
-				String url="";
-				PageData pdData=interfaceDataService.getAppVersion(pd);
-				url=pdData.getString("appFileUrl");
-			    /*if(Tools.notEmpty(appType) && Tools.notEmpty(appVersion)){
-			        if(appType.equals("IOS")){
+				PageData pdData=null;
+			    if(Tools.notEmpty(appType)){
+			    	pdData=interfaceDataService.getAppVersion(pd);
+			    	map.put("data", pdData);   
+		            message="信息处理成功!";
+		            // String url=pdData.getString("appFileUrl");
+			        /*if(appType.equals("IOS")){
 			        	FileDownload.fileUrlDownload(response,url,"yskj.ipa");
 			        }else if(appType.equals("ANDROID")){
 			        	FileDownload.fileUrlDownload(response, url,"yskj.apk");
-			        }
+			        }*/
 			    }else{
-			    	FileDownload.fileUrlDownload(response,url, "yskj");
-			    }*/
-			    map.put("appUrl", url);   
-            	message="信息处理成功!";
+			    	flag=false;
+			    	 message="缺少参数!";
+			    }
 		 }catch (Exception e) {
 			 e.printStackTrace();
 			 flag=false;

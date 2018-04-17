@@ -145,10 +145,13 @@
 			appFileUrl,
 			versionDesc,
 			versionTime,
+			shopType,
 			status
 		from app_version
-		where 
-			versionType=#{appType} and versionCode=#{appVersion}
+		where versionType=#{appType} 
+		<if test="versionCode !=null and versionCode !='' ">
+		   and versionCode=#{appVersion}
+		</if>
 	</select>
 	 
 	<!-- 根据type获取最新数据列表 -->
