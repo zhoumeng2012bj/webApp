@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
@@ -35,7 +35,7 @@
 		<!--[if lte IE 8]>
 		<script src="static/ace/js/html5shiv.js"></script>
 		<script src="static/ace/js/respond.js"></script>
-		<![endif]-->
+		<![endif111]-->
 	</head>
 		 
 <body class="no-skin">
