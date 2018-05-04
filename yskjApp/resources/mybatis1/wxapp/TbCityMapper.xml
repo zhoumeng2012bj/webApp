@@ -18,10 +18,10 @@
 	select  id,fdcode,fdname,fdparentCode from tb_city  where fdstatus=1 and fdparentCode=#{fdparentCode}
 	</select>
 	<select id="compReg" parameterType="pd" resultType="pd">
-	select id,name,phone,gsid,gsname,pass,xmname,mpimg2,mpimg,status2,card from qd_user  where isdelete=0 and phone=#{phone}  order by id
+	select id,name,phone,gsid,gsname,pass,xmname,mpimg2,mpimg,status2,card,typeid from qd_user  where isdelete=0 and phone=#{phone}  order by id
 	</select>
 	<select id="getId" parameterType="pd" resultType="pd">
-	select id,name,phone,gsid,gsname,pass,xmname,mpimg2,mpimg,status2,card from qd_user  where isdelete=0 and id=#{id}
+	select id,name,phone,gsid,gsname,pass,xmname,mpimg2,mpimg,status2,card,typeid from qd_user  where isdelete=0 and id=#{id}
 	</select>
 	<insert id="save" parameterType="pd">
 	<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -52,7 +52,7 @@
 	select ID as id,URL as url,TYPE as type,ISDELETE as isdelete from base_pic where ISDELETE=0 and TYPE=#{TYPE} and RECORDID=#{RECORDID}
 	</select>
 	<select id="getPass" parameterType="pd" resultType="pd">
-	select id,name,phone,gsid,gsname,pass,xmname,mpimg2,mpimg,status2,card from qd_user  where 
+	select id,name,phone,gsid,gsname,pass,xmname,mpimg2,mpimg,status2,card,typeid from qd_user  where 
 	isdelete=0 and phone=#{phone} and pass=#{pass}
 	</select>
 	<select id="getUserFyid" parameterType="pd" resultType="pd">
