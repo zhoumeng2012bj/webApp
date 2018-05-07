@@ -608,6 +608,47 @@ public class InterfaceDataController extends BaseController {
 		return AppUtil.returnObject(new PageData(), map);
 	}
 	
+	/**获取当前登陆用户的房源及公司信息
+	 * @return 
+	 */
+	@RequestMapping(value="/getHouseCompanyById")
+	@ResponseBody
+	public Object getHouseCompanyById(@RequestBody PageData pd){
+		logBefore(logger, "根据用户id获取房源及公司信息");
+		Map<String,Object> map = new HashMap<String,Object>();
+		boolean flag=true;
+        String message="";
+        List<PageData> list=null;
+         try {
+        	 
+            if (this.getRequest().getMethod().toUpperCase().equals("POST")) {//POST
+            	String id = pd.getString("id");
+            	if(Tools.notEmpty(id))
+            	{
+            	 list=interfaceDataService.getHouseCompanyById(id);
+            	 map.put("company", list.get(0).getString("companyname"));
+    			map.put("data", list);
+            	message="信息处理成功!";
+            	}else{
+            		 flag=false;
+                     message="提交请求参数错误!";
+            	}
+            }else{
+                flag=false;
+                message="提交请求方式错误!";
+            }
+         }catch (Exception e) {
+                flag=false;
+                message="信息处理异常！";
+    			logAfter(logger);
+        }finally{
+        	map.put("message", message);
+			map.put("success", flag);
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	
 }
 	
  

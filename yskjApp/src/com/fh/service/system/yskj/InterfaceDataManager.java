@@ -54,7 +54,7 @@ public interface InterfaceDataManager {
 	
 	/**
 	 * 获取最新数据列表
-	 * @param pd
+	 * @param type
 	 */
 	public List<PageData> getLatestData(int type) throws Exception;
 	
@@ -64,5 +64,12 @@ public interface InterfaceDataManager {
 	 * 
 	 */
 	public List<PageData> getEnterpriseScaleData() throws Exception;
+	
+	/**
+	 * 获取当前登陆用户的房源及公司信息
+	 * @param id
+	 */
+	public List<PageData> getHouseCompanyById(String id) throws Exception;
+	
 
 }
