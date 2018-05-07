@@ -171,4 +171,9 @@
 	<select id="getEnterpriseScaleData"  parameterType="Integer" resultType="pd" >
 	select name,value,widthNum from v_hetongqiyeguimo
 	</select>
+	
+	<!-- 获取当前登陆用户的房源及公司信息 -->
+	<select id="getHouseCompanyById"  parameterType="String" resultType="pd" >
+     select addr,lpname,zdname,fyname,companyname from qd_user_contract where userid=#{id}  and isdelete=0 and stateid=1
+	</select>
 </mapper>

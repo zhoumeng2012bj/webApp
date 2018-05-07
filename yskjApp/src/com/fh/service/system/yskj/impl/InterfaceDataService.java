@@ -80,22 +80,27 @@ public class InterfaceDataService  implements InterfaceDataManager{
 	}
 	
 	/**
-	 * 获取企业需求列表
+	 * 获取最新数据
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<PageData> getLatestData(int type) throws Exception {
-		Object o =dao.findForList("InterfaceDataMapper.getLatestData", type);
-		
 		return (List<PageData>) dao.findForList("InterfaceDataMapper.getLatestData", type);
 	}
 	/**
-	 * 获取企业需求列表
+	 * 跟根据合同总面积计算公司规模统计
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<PageData> getEnterpriseScaleData() throws Exception {
 		return (List<PageData>) dao.findForList("InterfaceDataMapper.getEnterpriseScaleData",0 );
 	}
-
+	/**
+	 * 获取当前登陆用户的房源及公司信息
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PageData> getHouseCompanyById(String id) throws Exception {
+		return (List<PageData>) dao.findForList("InterfaceDataMapper.getHouseCompanyById", id);
+	}
 }
