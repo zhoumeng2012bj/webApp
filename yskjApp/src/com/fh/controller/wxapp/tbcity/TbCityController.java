@@ -817,6 +817,38 @@ public class TbCityController extends BaseController {
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
+	/**
+	 * 24.根据用户的ID 获取用户的管家信息
+	 */
+	@RequestMapping(value="/getButlerInfo")
+	@ResponseBody
+	public Object getButlerInfo(@RequestBody PageData pd)throws Exception{
+		Map<String,Object> map = new HashMap<String,Object>();
+		try{
+			if (this.getRequest().getMethod().toUpperCase().equals("POST")) {
+			   PageData Info = tbCityService.getButlerInfo(pd);
+			  if(Info!=null){
+				  boolean flag=  true ;
+				  map.put("success",flag );
+				  map.put("message",  "查找成功");
+				  map.put("data", Info);
+			  }else{
+				 map.put("success", false);
+				 map.put("message", "没有管家信息");
+			  }
+			}else{
+				 map.put("success", false);
+				 map.put("message", "请求方式错误");
+			}
+			
+		}catch (Exception e){
+			logger.error(e.toString(), e);
+		}finally{
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	
 }
 	
  

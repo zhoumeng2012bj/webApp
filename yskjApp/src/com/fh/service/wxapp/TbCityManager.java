@@ -96,6 +96,13 @@ public interface TbCityManager {
 	public WxUser getServiceCode(PageData pd) throws Exception;
 	//业主委托    商城服务   手机号验证
 	public WxUser compServiceCode(PageData pd)  throws Exception;
+	//通过用户Id获取楼盘的管家信息
+    public List<PageData> getButler(PageData pd)throws Exception;
+    //根据楼盘ID和管家的类别获取房源的   管家信息
+    public List<PageData> getButler2(PageData pd)throws Exception;
+    //获取楼盘具体的    业主管家信息或客户管家信息
+    public   PageData   getButlerInfo(PageData pd)throws Exception;
+
 	
 	
 }
