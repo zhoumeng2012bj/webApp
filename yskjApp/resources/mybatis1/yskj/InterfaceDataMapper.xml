@@ -34,12 +34,18 @@
 	<insert id="saveOwnerEntrust" parameterType="pd">
 		insert into app_transaction(
 			bussinessType,
+			name,  
+		    repairHouse,  
+		    memo,  
 			phone,	
 			oddNumbers,
 			status,
 			createTime
 		) values (
 			#{bussinessType},	
+			#{name},
+		    #{repairHouse},  
+		    #{memo}, 
 			#{phone},	
 			#{oddNumbers},
 			#{status},
@@ -64,6 +70,74 @@
 			#{phone},	
 			#{type},	
 			#{memo},
+			#{oddNumbers},	
+			#{createTime},
+			#{status}
+		)
+	</insert>
+	
+	<!-- 新增管家服务信息（设备报修 BX、物业对接 WY、房屋凭证 PZ、房屋费用 FY、房屋变更 BG）-->
+	<insert id="saveButlerInfo" parameterType="pd">
+		insert into app_transaction(
+		    bussinessType,
+			name,	
+			phone,	
+			type,
+			repairHouse,
+			memo,
+			pic,
+			category,
+			oddNumbers,
+			createTime,
+			status
+		) values (
+		    #{bussinessType},	
+			#{name},	
+			#{phone},	
+			#{type},
+			#{repairHouse},	
+			#{memo},
+			#{pic},
+			#{category},
+			#{oddNumbers},	
+			#{createTime},
+			#{status}
+		)
+	</insert>
+	
+	<!-- 房屋变更（续租、换房、退房）-->
+	<insert id="saveHousingChange" parameterType="pd">
+		insert into app_transaction(
+		    bussinessType,
+			name,	
+			phone,	
+			memo,
+			renewalYears,
+			changArea,
+			changeLouPan,
+			changeMJ,
+			changeZuJin,
+			changeTime,
+			isZhuce,
+			type,
+			category,
+			oddNumbers,
+			createTime,
+			status
+		) values (
+		    #{bussinessType},	
+			#{name},	
+			#{phone},
+			#{memo},	
+			#{renewalYears},
+			#{changArea},
+			#{changeLouPan},
+			#{changeMJ},
+			#{changeZuJin},
+			#{changeTime},
+			#{isZhuce},
+			#{type},
+			#{category},
 			#{oddNumbers},	
 			#{createTime},
 			#{status}

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.fh.controller.base.BaseController;
 import com.fh.service.system.yskj.InterfaceDataManager;
 import com.fh.util.AppUtil;
@@ -57,9 +56,10 @@ public class InterfaceDataController extends BaseController {
                 message="提交请求方式错误!";
             }
          }catch (Exception e) {
-                flag=false;
-                message="信息处理异常！";
-    			logAfter(logger);
+    	    e.printStackTrace();
+            flag=false;
+            message="信息处理异常！";
+			logAfter(logger);
         }finally{
         	map.put("message", message);
 			map.put("success", flag);
@@ -91,9 +91,10 @@ public class InterfaceDataController extends BaseController {
                 message="提交请求方式错误!";
             }
          }catch (Exception e) {
-                flag=false;
-                message="信息处理异常！";
-    			logAfter(logger);
+        	 e.printStackTrace();
+             flag=false;
+             message="信息处理异常！";
+			 logAfter(logger);
         }finally{
         	map.put("message", message);
 			map.put("success", flag);
@@ -113,14 +114,14 @@ public class InterfaceDataController extends BaseController {
 		boolean flag=true;
         String message="";
          try {
-        	String type=pd.getString("type");
+        	String type=pd.get("type")+"";
         	if(type.equals("1")){
         		pd.put("oddNumbers", NumberUitl.getNumber("SW"));	
         	}else if(type.equals("2")){
         		pd.put("oddNumbers", NumberUitl.getNumber("ZZ"));	
         	}else if(type.equals("3")){
         		pd.put("oddNumbers", NumberUitl.getNumber("ZX"));	
-        	}else if(type.equals("3")){
+        	}else if(type.equals("4")){
         		pd.put("oddNumbers", NumberUitl.getNumber("JR"));	
         	}
             if (this.getRequest().getMethod().toUpperCase().equals("POST")) {//POST
@@ -134,6 +135,97 @@ public class InterfaceDataController extends BaseController {
                 message="提交请求方式错误!";
             }
          }catch (Exception e) {
+        	 e.printStackTrace();
+             flag=false;
+             message="信息处理异常！";
+			 logAfter(logger);
+        }finally{
+        	map.put("message", message);
+			map.put("success", flag);
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	
+	/**管家服务(设备报修 BX、物业对接 WY、房屋凭证 PZ、房屋费用 FY、房屋变更 BG)
+	 * @return 
+	 */
+	@RequestMapping(value="/butlerService")
+	@ResponseBody
+	public Object butlerService(@RequestBody PageData pd){
+		logBefore(logger, "保存管家服务信息");
+		Map<String,Object> map = new HashMap<String,Object>();
+		boolean flag=true;
+        String message="";
+         try {
+        	String type=pd.get("type")+"";
+        	String category=pd.get("category")+"";
+        	int num=NumberUitl.getCategory(category);
+        	if(Tools.notEmpty(type) && Tools.notEmpty(category) &&  num!=0){
+        		pd.put("oddNumbers", NumberUitl.getNumber(category));	
+        		if (this.getRequest().getMethod().toUpperCase().equals("POST")) {//POST 
+        			pd.put("category", num); 
+                	pd.put("bussinessType", "3");         //1 业主委托 2商城服务 3售后服务(管家服务)
+                	pd.put("createTime",Tools.date2Str(new Date()));  //创建时间
+        			pd.put("status", "1");	            //1、待接单，2、已接单，3已完成
+                	interfaceDataService.savebutlerInfo(pd);
+                	message="信息处理成功!";
+                }else{
+                    flag=false;
+                    message="提交请求方式错误!";
+                }
+        	}else{
+        		 flag=false;
+                 message="缺少请求参数!";
+        	}
+         }catch (Exception e) {
+        	    e.printStackTrace();
+                flag=false;
+                message="信息处理异常！";
+    			logAfter(logger);
+        }finally{
+        	map.put("message", message);
+			map.put("success", flag);
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	
+	/**
+	 * 房屋变更 （续租、换房、退房）
+	 * @param pd
+	 * @return
+	 */
+	@RequestMapping(value="/housingChange")
+	@ResponseBody
+	public Object housingChange(@RequestBody PageData pd){
+		logBefore(logger, "保存房屋变更信息");
+		Map<String,Object> map = new HashMap<String,Object>();
+		boolean flag=true;
+        String message="";
+         try {
+        	String type=pd.get("type")+"";
+        	String category=pd.get("category")+"";
+        	int num=NumberUitl.getCategory(category);
+        	if(Tools.notEmpty(type) && Tools.notEmpty(category) &&  num!=0){
+        		pd.put("oddNumbers", NumberUitl.getNumber(category));	
+        		if (this.getRequest().getMethod().toUpperCase().equals("POST")) {//POST 
+        			pd.put("category", num); 
+                	pd.put("bussinessType", "3");         //1 业主委托 2商城服务 3售后服务(管家服务)
+                	pd.put("createTime",Tools.date2Str(new Date()));  //创建时间
+        			pd.put("status", "1");	            //1、待接单，2、已接单，3已完成
+                	interfaceDataService.housingChange(pd);
+                	message="信息处理成功!";
+                }else{
+                    flag=false;
+                    message="提交请求方式错误!";
+                }
+        	}else{
+        		 flag=false;
+                 message="缺少请求参数!";
+        	}
+         }catch (Exception e) {
+        	    e.printStackTrace();
                 flag=false;
                 message="信息处理异常！";
     			logAfter(logger);
@@ -168,9 +260,10 @@ public class InterfaceDataController extends BaseController {
                 message="提交请求方式错误!";
             }
          }catch (Exception e) {
-                flag=false;
-                message="信息处理异常！";
-    			logAfter(logger);
+        	 e.printStackTrace();
+             flag=false;
+             message="信息处理异常！";
+			 logAfter(logger);
         }finally{
         	map.put("message", message);
 			map.put("success", flag);
@@ -200,9 +293,10 @@ public class InterfaceDataController extends BaseController {
                 message="提交请求方式错误!";
             }
          }catch (Exception e) {
-                flag=false;
-                message="信息处理异常！";
-    			logAfter(logger);
+        	 e.printStackTrace();
+             flag=false;
+             message="信息处理异常！";
+			 logAfter(logger);
         }finally{
         	map.put("message", message);
 			map.put("success", flag);
@@ -234,9 +328,10 @@ public class InterfaceDataController extends BaseController {
                 message="提交请求方式错误!";
             }
          }catch (Exception e) {
-                flag=false;
-                message="信息处理异常！";
-    			logAfter(logger);
+        	 e.printStackTrace();
+             flag=false;
+             message="信息处理异常！";
+			 logAfter(logger);
         }finally{
         	map.put("message", message);
 			map.put("success", flag);
@@ -266,9 +361,10 @@ public class InterfaceDataController extends BaseController {
                 message="提交请求方式错误!";
             }
          }catch (Exception e) {
-                flag=false;
-                message="信息处理异常！";
-    			logAfter(logger);
+        	 e.printStackTrace();
+             flag=false;
+             message="信息处理异常！";
+			 logAfter(logger);
         }finally{
         	map.put("message", message);
 			map.put("success", flag);
@@ -298,9 +394,10 @@ public class InterfaceDataController extends BaseController {
                 message="提交请求方式错误!";
             }
          }catch (Exception e) {
-                flag=false;
-                message="信息处理异常！";
-    			logAfter(logger);
+        	 e.printStackTrace();
+             flag=false;
+             message="信息处理异常！";
+			 logAfter(logger);
         }finally{
         	map.put("message", message);
 			map.put("success", flag);
@@ -333,9 +430,10 @@ public class InterfaceDataController extends BaseController {
                 message="提交请求方式错误!";
             }
          }catch (Exception e) {
-                flag=false;
-                message="信息处理异常！";
-    			logAfter(logger);
+        	 e.printStackTrace();
+             flag=false;
+             message="信息处理异常！";
+			 logAfter(logger);
         }finally{
         	map.put("message", message);
 			map.put("success", flag);
@@ -366,9 +464,10 @@ public class InterfaceDataController extends BaseController {
                 message="提交请求方式错误!";
             }
          }catch (Exception e) {
-                flag=false;
-                message="信息处理异常！";
-    			logAfter(logger);
+        	 e.printStackTrace();
+             flag=false;
+             message="信息处理异常！";
+			 logAfter(logger);
         }finally{
         	map.put("message", message);
 			map.put("success", flag);
@@ -408,9 +507,10 @@ public class InterfaceDataController extends BaseController {
                 message="提交请求方式错误!";
             }
          }catch (Exception e) {
-                flag=false;
-                message="信息处理异常！";
-    			logAfter(logger);
+        	 e.printStackTrace();
+             flag=false;
+             message="信息处理异常！";
+			 logAfter(logger);
         }finally{
         	map.put("message", message);
 			map.put("success", flag);
@@ -444,9 +544,10 @@ public class InterfaceDataController extends BaseController {
                 message="提交请求方式错误!";
             }
          }catch (Exception e) {
-                flag=false;
-                message="信息处理异常！";
-    			logAfter(logger);
+    	    e.printStackTrace();
+            flag=false;
+            message="信息处理异常！";
+			logAfter(logger);
         }finally{
         	map.put("message", message);
 			map.put("success", flag);
@@ -478,9 +579,10 @@ public class InterfaceDataController extends BaseController {
                 message="提交请求方式错误!";
             }
          }catch (Exception e) {
-                flag=false;
-                message="信息处理异常！";
-    			logAfter(logger);
+        	 e.printStackTrace();
+             flag=false;
+             message="信息处理异常！";
+			 logAfter(logger);
         }finally{
         	map.put("message", message);
 			map.put("success", flag);
@@ -522,9 +624,10 @@ public class InterfaceDataController extends BaseController {
                 message="提交请求方式错误!";
             }
          }catch (Exception e) {
-                flag=false;
-                message="信息处理异常！";
-    			logAfter(logger);
+        	 e.printStackTrace();
+             flag=false;
+             message="信息处理异常！";
+			 logAfter(logger);
         }finally{
         	map.put("message", message);
 			map.put("success", flag);
@@ -554,9 +657,10 @@ public class InterfaceDataController extends BaseController {
                 message="提交请求方式错误!";
             }
          }catch (Exception e) {
-                flag=false;
-                message="信息处理异常！";
-    			logAfter(logger);
+        	 e.printStackTrace();
+             flag=false;
+             message="信息处理异常！";
+			 logAfter(logger);
         }finally{
         	map.put("message", message);
 			map.put("success", flag);
@@ -638,6 +742,7 @@ public class InterfaceDataController extends BaseController {
                 message="提交请求方式错误!";
             }
          }catch (Exception e) {
+        	    e.printStackTrace();
                 flag=false;
                 message="信息处理异常！";
     			logAfter(logger);

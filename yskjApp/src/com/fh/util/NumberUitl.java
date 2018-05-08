@@ -10,6 +10,41 @@ public class NumberUitl {
 	
 	private static Map<String,Map<String,Integer>> NUMMAP=new HashMap<String,Map<String,Integer>>();
 	
+	//单号
+	private static Map<String,Integer> ooddNumbersMap=new HashMap<String,Integer>();
+	
+	//生成单号规则
+    static{
+    	//设备报修 BX
+    	ooddNumbersMap.put("BX", 1);   //设备报修 
+    	ooddNumbersMap.put("BXMC", 1); //门窗维修
+    	ooddNumbersMap.put("BXDJ", 2); //灯具电路
+    	ooddNumbersMap.put("BXKT", 3); //空调制冷
+    	ooddNumbersMap.put("BXSL", 4); //水路管件
+    	//物业对接 WY
+    	ooddNumbersMap.put("WY", 2);   //物业对接
+    	ooddNumbersMap.put("WYCM", 1); //开具出门条
+    	ooddNumbersMap.put("WYZX", 2); //装修同意函
+    	ooddNumbersMap.put("WYWL", 3); //网络问题
+    	//房屋凭证 PZ
+    	ooddNumbersMap.put("PZ", 3);   //房屋凭证
+    	ooddNumbersMap.put("PZCX", 1); //大产权证
+    	ooddNumbersMap.put("PZFB", 2); //房本原件
+    	ooddNumbersMap.put("PZSF", 3); //业主身份证原件
+    	ooddNumbersMap.put("BZYZ", 4); //业主签字
+    	//房屋费用 FY
+    	ooddNumbersMap.put("FY", 4);   //房屋费用
+    	ooddNumbersMap.put("FYWY", 1); //物业费
+    	ooddNumbersMap.put("FYQN", 2); //取暖费
+    	ooddNumbersMap.put("FYSD", 3); //遗留水电费
+    	ooddNumbersMap.put("FYKT", 4); //空调转换费
+    	//房屋变更BG
+    	ooddNumbersMap.put("BG", 5);   //房屋变更
+    	ooddNumbersMap.put("BGXZ", 1); //续租
+    	ooddNumbersMap.put("BGHZ", 2); //换房
+    	ooddNumbersMap.put("BGTZ", 3); //退房
+    }
+	    
 	public static String getNumber(String type){
 		String key=type+DateUtil.getYMDTime();
 		String number="";
@@ -55,6 +90,14 @@ public class NumberUitl {
 		}
 		return valStr;
 	}
+	
+	public static Integer getCategory(String category){
+    	int type=0;
+    	if(ooddNumbersMap.get(category) !=null){
+    		type=ooddNumbersMap.get(category);
+    	}
+    	return type;
+    }
 	
 	private static int longTem;
 	
@@ -107,6 +150,8 @@ public class NumberUitl {
 		//System.out.println(NumberUitl.getNumber("ZX"));
 		//System.out.println(NumberUitl.getNumber("JR"));
 		//System.out.println(NumberUitl.getNumber("ZZ"));
+		
+		//System.out.println(NumberUitl.getCategory("BGXZ"));
 	}
 	
 }

@@ -54,6 +54,23 @@ public class InterfaceDataService  implements InterfaceDataManager{
 	}
 	
 	/**
+	 * 3、管家服务 （设备报修 BX、物业对接 WY、房屋凭证 PZ、房屋费用 FY、房屋变更 BG）
+	 * @throws Exception 
+	 */
+	@Override
+	public void savebutlerInfo(PageData pd) throws Exception {
+	    dao.save("InterfaceDataMapper.saveButlerInfo", pd);
+	}
+	
+	/**
+	 *  房屋变更（续租、换房、退房）
+	 */
+	@Override
+	public void housingChange(PageData pd) throws Exception {
+		dao.save("InterfaceDataMapper.saveHousingChange", pd);
+	}
+	
+	/**
 	 * 获取会员企业
 	 */
 	@SuppressWarnings("unchecked")

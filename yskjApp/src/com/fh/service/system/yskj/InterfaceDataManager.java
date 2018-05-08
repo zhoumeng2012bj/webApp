@@ -35,6 +35,21 @@ public interface InterfaceDataManager {
 	public void saveTransaction(PageData pd)throws Exception;
 	
 	/**
+	 * 管家服务 （设备报修 BX、物业对接 WY、房屋凭证 PZ、房屋费用 FY、房屋变更 BG）
+	 * @param pd
+	 * @return
+	 */
+	public void savebutlerInfo(PageData pd)throws Exception;
+	
+	/**
+	 * 房屋变更（续租、换房、退房）
+	 * @param pd
+	 * @return
+	 */
+	public void housingChange(PageData pd)throws Exception;
+	
+	
+	/**
 	 * 获取会员企业
 	 * @param pd
 	 */
