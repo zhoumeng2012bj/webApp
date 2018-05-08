@@ -86,5 +86,11 @@
 	update qd_user set phone=#{phone},gtime=NOW() where id=#{id}
 	
 	</update>
+	<select id="getButler" parameterType="pd" resultType="pd">
+	select  lpid from qd_user_contract  where isdelete=0 and userid=#{userid} order by id desc
+	</select>
+	<select id="getButler2" parameterType="pd" resultType="pd">
+	select pic, name,phone,empyear,introduction,category from app_houseperson  where isdelete=0 and category=#{category} and lpid=#{lpid} order by id desc
+	</select>
 	
 </mapper>
