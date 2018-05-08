@@ -733,6 +733,7 @@ public class TbCityService implements TbCityManager {
 	@SuppressWarnings("unchecked")
 	public PageData getButlerInfo(PageData pd) throws Exception {
 		PageData p = null;
+
 		List<PageData> butler = getButler(pd);
 		if (butler.size() > 0) {
 			PageData d = butler.get(0);
@@ -740,7 +741,7 @@ public class TbCityService implements TbCityManager {
 			Integer lpid = new Integer(obj.toString());
 			pd.put("lpid", lpid);
 			List<PageData> butler2 = getButler2(pd);
-			if(butler2.size()>0){
+			if (butler2.size() > 0) {
 				p = butler2.get(0);
 			}
 		}
