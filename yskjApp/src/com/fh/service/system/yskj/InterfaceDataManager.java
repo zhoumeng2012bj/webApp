@@ -46,7 +46,7 @@ public interface InterfaceDataManager {
 	 * @param pd
 	 * @return
 	 */
-	public void housingChange(PageData pd)throws Exception;
+	public void saveHousingChange(PageData pd)throws Exception; 
 	
 	
 	/**

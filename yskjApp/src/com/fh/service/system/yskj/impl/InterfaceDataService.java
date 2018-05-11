@@ -66,8 +66,8 @@ public class InterfaceDataService  implements InterfaceDataManager{
 	 *  房屋变更（续租、换房、退房）
 	 */
 	@Override
-	public void housingChange(PageData pd) throws Exception {
-		dao.save("InterfaceDataMapper.saveHousingChange", pd);
+	public void saveHousingChange(PageData pd) throws Exception {
+		dao.save("InterfaceDataMapper.saveHousingChange", pd); 
 	}
 	
 	/**

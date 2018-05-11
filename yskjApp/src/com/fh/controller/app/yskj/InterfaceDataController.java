@@ -214,7 +214,7 @@ public class InterfaceDataController extends BaseController {
                 	pd.put("bussinessType", "3");         //1 业主委托 2商城服务 3售后服务(管家服务)
                 	pd.put("createTime",Tools.date2Str(new Date()));  //创建时间
         			pd.put("status", "1");	            //1、待接单，2、已接单，3已完成
-                	interfaceDataService.housingChange(pd);
+                	interfaceDataService.saveHousingChange(pd);
                 	message="信息处理成功!";
                 }else{
                     flag=false;
