@@ -46,7 +46,7 @@ public interface InterfaceDataManager {
 	 * @param pd
 	 * @return
 	 */
-	public void housingChange(PageData pd)throws Exception;
+	public void saveHousingChange(PageData pd)throws Exception; 
 	
 	
 	/**
@@ -85,6 +85,12 @@ public interface InterfaceDataManager {
 	 * @param id
 	 */
 	public List<PageData> getHouseCompanyById(String id) throws Exception;
+	
+	/**
+	 * 获取当前登陆用户的房源及公司信息
+	 * @param id
+	 */
+	public List<PageData> getMessageByUserId(PageData pd) throws Exception;
 	
 
 }

@@ -66,8 +66,8 @@ public class InterfaceDataService  implements InterfaceDataManager{
 	 *  房屋变更（续租、换房、退房）
 	 */
 	@Override
-	public void housingChange(PageData pd) throws Exception {
-		dao.save("InterfaceDataMapper.saveHousingChange", pd);
+	public void saveHousingChange(PageData pd) throws Exception {
+		dao.save("InterfaceDataMapper.saveHousingChange", pd); 
 	}
 	
 	/**
@@ -119,5 +119,13 @@ public class InterfaceDataService  implements InterfaceDataManager{
 	@Override
 	public List<PageData> getHouseCompanyById(String id) throws Exception {
 		return (List<PageData>) dao.findForList("InterfaceDataMapper.getHouseCompanyById", id);
+	}
+	/**
+	 * 获取当前登陆用户的房源及公司信息
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PageData> getMessageByUserId(PageData pd) throws Exception {
+		return (List<PageData>) dao.findForList("InterfaceDataMapper.getMessageByUserId", pd);
 	}
 }

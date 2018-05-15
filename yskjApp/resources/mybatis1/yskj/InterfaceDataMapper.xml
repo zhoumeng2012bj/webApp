@@ -112,6 +112,7 @@
 			name,	
 			phone,	
 			memo,
+			repairHouse,
 			renewalYears,
 			changArea,
 			changeLouPan,
@@ -128,7 +129,8 @@
 		    #{bussinessType},	
 			#{name},	
 			#{phone},
-			#{memo},	
+			#{memo},
+			#{repairHouse},
 			#{renewalYears},
 			#{changArea},
 			#{changeLouPan},
@@ -249,5 +251,15 @@
 	<!-- 获取当前登陆用户的房源及公司信息 -->
 	<select id="getHouseCompanyById"  parameterType="String" resultType="pd" >
      select addr,lpname,zdname,fyname,companyname from qd_user_contract where userid=#{id}  and isdelete=0 and stateid=1
+	</select>
+	
+	<!-- 获取当前登陆用户的房源及公司信息 -->
+	<select id="getMessageByUserId"  parameterType="pd" resultType="pd" >
+    select * from v_message
+    where uid=#{id} 
+    ORDER BY createTime DESC
+    <if test="page !=null and page !='' ">
+		 LIMIT #{pagestart} ,#{pagesize}
+	</if> 
 	</select>
 </mapper>
