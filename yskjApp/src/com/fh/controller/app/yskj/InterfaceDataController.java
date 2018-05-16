@@ -753,13 +753,13 @@ public class InterfaceDataController extends BaseController {
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
-	/**获取当前登陆用户的房源及公司信息
+	/**获取当前登陆用户的通知列表
 	 * @return 
 	 */
 	@RequestMapping(value="/getMessageByUserId")
 	@ResponseBody
 	public Object getMessageByUserId(@RequestBody PageData pd){
-		logBefore(logger, "根据用户id获取房源及公司信息");
+		logBefore(logger, "根据用户id获取通知列表");
 		Map<String,Object> map = new HashMap<String,Object>();
 		boolean flag=true;
         String message="";
@@ -774,6 +774,7 @@ public class InterfaceDataController extends BaseController {
             	{
             		if(Tools.notEmpty(page)&&Tools.notEmpty(pagesize)){
             			pd.put("pagestart", (Integer.parseInt(page)-1)*Integer.parseInt(pagesize)); 
+            			pd.put("pageend",  Integer.parseInt(pagesize)); 
             		}
             	 list=interfaceDataService.getMessageByUserId(pd); 
     			map.put("data", list);

@@ -121,7 +121,7 @@ public class InterfaceDataService  implements InterfaceDataManager{
 		return (List<PageData>) dao.findForList("InterfaceDataMapper.getHouseCompanyById", id);
 	}
 	/**
-	 * 获取当前登陆用户的房源及公司信息
+	 * 获取当前登陆用户的通知列表
 	 */
 	@SuppressWarnings("unchecked")
 	@Override

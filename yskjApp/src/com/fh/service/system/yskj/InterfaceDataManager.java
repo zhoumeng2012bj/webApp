@@ -87,7 +87,7 @@ public interface InterfaceDataManager {
 	public List<PageData> getHouseCompanyById(String id) throws Exception;
 	
 	/**
-	 * 获取当前登陆用户的房源及公司信息
+	 * 获取当前登陆用户的通知列表
 	 * @param id
 	 */
 	public List<PageData> getMessageByUserId(PageData pd) throws Exception;
