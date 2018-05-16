@@ -120,4 +120,12 @@ public class InterfaceDataService  implements InterfaceDataManager{
 	public List<PageData> getHouseCompanyById(String id) throws Exception {
 		return (List<PageData>) dao.findForList("InterfaceDataMapper.getHouseCompanyById", id);
 	}
+	/**
+	 * 获取当前登陆用户的通知列表
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PageData> getMessageByUserId(PageData pd) throws Exception {
+		return (List<PageData>) dao.findForList("InterfaceDataMapper.getMessageByUserId", pd);
+	}
 }
