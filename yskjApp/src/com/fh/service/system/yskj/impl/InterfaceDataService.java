@@ -131,6 +131,15 @@ public class InterfaceDataService  implements InterfaceDataManager{
 	public List<PageData> getEnterpriseDemand(PageData pd) throws Exception {
 		return (List<PageData>) dao.findForList("InterfaceDataMapper.listEnterpriseDemand", pd);
 	}
+	
+	/**
+	 * （2.0版本）企业服务、需求列表
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PageData> ReleaseDemandList(PageData pd) throws Exception {
+		return (List<PageData>) dao.findForList("InterfaceDataMapper.listReleaseDemand", pd);
+	}
 
 	/**
 	 * 获取app 版本信息

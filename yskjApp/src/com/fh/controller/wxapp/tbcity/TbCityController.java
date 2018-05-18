@@ -872,20 +872,23 @@ public class TbCityController extends BaseController {
 	@ResponseBody
 	public Object findOpenid(@RequestBody PageData pd){
 		Map<String,Object> map = new HashMap<String,Object>();
+		String flag="0";  //0：其它请求错误   1：可绑定手机号授权登录  2：微信号已被绑定直接登录 
 		try{
 			if (this.getRequest().getMethod().toUpperCase().equals("POST")) {
 				PageData pdOpenid = tbCityService.getOpenid(pd);
 				if(pdOpenid ==null){
-					map.put("success",true);
+					flag="1";
+					map.put("success",false);
 					map.put("message","此微信号可授权！");
 				}else{
 					//直接登录
+					flag="2";
 					String cookie = pd.getString("cookie");
 					Object object = pdOpenid.get("id");
 					String string = object.toString();
 					tbCityService.logOpenid(string, cookie);
 					map.put("data", pdOpenid);
-					map.put("success",false);
+					map.put("success",true);
 					map.put("message","此微信号已授权！");
 				}
 			}else{
@@ -897,6 +900,7 @@ public class TbCityController extends BaseController {
 			 map.put("success", false);
 			 map.put("message", "请求异常");
 		}finally{
+			map.put("flag",flag);
 			logAfter(logger);
 		}
 		return AppUtil.returnObject(new PageData(), map);

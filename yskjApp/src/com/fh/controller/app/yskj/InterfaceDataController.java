@@ -459,6 +459,39 @@ public class InterfaceDataController extends BaseController {
 		return AppUtil.returnObject(new PageData(), map);
 	}
 	
+	/**(2.0 版本服务、需求列表查询)
+	 * @return 
+	 */
+	@RequestMapping(value="/listReleaseDemand")
+	@ResponseBody
+	public Object getReleaseDemandList(@RequestBody PageData pd){
+		logBefore(logger, "获取企业需求列表信息");
+		Map<String,Object> map = new HashMap<String,Object>();
+		boolean flag=true;
+        String message="";
+         try {
+        	 List<PageData> list=null;
+            if (this.getRequest().getMethod().toUpperCase().equals("POST")) {//POST
+    			list=interfaceDataService.ReleaseDemandList(pd);
+    			map.put("data", list);
+            	message="信息处理成功!";
+            }else{
+                flag=false;
+                message="提交请求方式错误!";
+            }
+         }catch (Exception e) {
+        	 e.printStackTrace();
+             flag=false;
+             message="信息处理异常！";
+			 logAfter(logger);
+        }finally{
+        	map.put("message", message);
+			map.put("success", flag);
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	
 	/**获取幼师头条信息
 	 * @return 
 	 */
