@@ -748,7 +748,22 @@ public class TbCityService implements TbCityManager {
 		return p;
 
 	}
-	
+	public void logOpenid(String uid,String cookie)  throws Exception{
+		boolean comCode = GetRedis.comCode("appid" + uid);
+		if (comCode == true) {
+			// 删除原有的登陆的在线状态 保证唯一登陆状态信息
+			String a1 = "appid" + uid;
+			// 获取cookie信息
+			String redis1 = GetRedis.getRedis1(a1);
+			if (!"".equals(redis1)) {
+				// 删除原有登陆
+				DelRedis.getRedis("appuser" + redis1);
+				DelRedis.getRedis(a1);
+			}
+		}
+		// 保存用户ID信息
+		GetRedis.saveCode(cookie, uid);
+	}
 	//查询微信授权登录用户
 	public PageData getOpenid(PageData pd)  throws Exception{
 		return (PageData) dao.findForObject("TbCityManager.getOpenid", pd);
@@ -756,10 +771,35 @@ public class TbCityService implements TbCityManager {
 	//更新授权绑定微信号
 	public void updateOpenid(PageData pd)throws Exception{
 		dao.update("TbCityManager.updateOpenid", pd);
+		//查找手机号对应用户
+		List<PageData> list=(List<PageData>) dao.findForList("TbCityManager.compReg", pd);
+		if(list.size()>0){
+			Object object = list.get(0).get("id");
+			String uid = object.toString();
+			boolean comCode = GetRedis.comCode("appid" + uid);
+			if (comCode == true) {
+				// 删除原有的登陆的在线状态 保证唯一登陆状态信息
+				String a1 = "appid" + uid;
+				// 获取cookie信息
+				String redis1 = GetRedis.getRedis1(a1);
+				if (!"".equals(redis1)) {
+					// 删除原有登陆
+					DelRedis.getRedis("appuser" + redis1);
+					DelRedis.getRedis(a1);
+				}
+			}
+			// 保存用户ID信息
+			String cookie = pd.getString("cookie");
+			GetRedis.saveCode(cookie, uid);
+		}
+			
 	}
 	//保存授权绑定微信号
 	public void saveOpenid(PageData pd)throws Exception{
-		dao.update("TbCityManager.saveOpenid", pd);
+		Object update = dao.update("TbCityManager.saveOpenid", pd);
+		String uid = update.toString();
+		String cookie = pd.getString("cookie");
+		GetRedis.saveCode(cookie, uid);
 	}
 
 }
