@@ -126,5 +126,19 @@ public interface InterfaceDataManager {
 	 */
 	public List<PageData> getMessageByUserId(PageData pd) throws Exception;
 	
-
+	/**
+	 * 获取id获取业主委托、售后服务及服务商城及房屋
+	 * @param id
+	 */
+	public List<PageData> getTransactionByUserId(String id) throws Exception;
+	/**
+	 *  获取id获取企业会员
+	 * @param id
+	 */
+	public List<PageData> getEnterpriseByUserId(String id) throws Exception;
+	/**
+	 * 获取id获取企业需求服务
+	 * @param id
+	 */
+	public List<PageData> getEnterpriseDemandByUserId(String id) throws Exception;
 }
