@@ -316,6 +316,41 @@
 		</if>
 	</select>
 	
+	<!-- 获取企业、服务/需求列表(2.0版本) -->
+	<select id="listReleaseDemand"  parameterType="pd" resultType="pd" >
+		select 
+			id,
+			demandType,
+			demandDesc,
+			createTime,
+			status,
+			butlerName,
+			butlerPhone,
+			budget,
+			imgUrl,
+			type,
+			releaseTime,
+			effectiveTime,
+		    (
+				CASE
+				WHEN (
+					(releaseTime !=null or releaseTime !='')
+					AND (effectiveTime !=null or effectiveTime !='')
+				) THEN
+					datediff(date_add(releaseTime, INTERVAL effectiveTime DAY),curdate())
+				END
+		    ) as dtDay
+		from app_enterprise_demand
+		where status =1
+		<if test="demandCategory==2">
+			 and demandCategory=#{demandCategory} and (type=4 or type=5) order by createTime desc
+		</if>
+		<if test="demandCategory==1">
+            and demandCategory=#{demandCategory} and (type=4 or type=5) order by createTime desc
+		</if>
+	</select>
+	
+	
 	<!-- 获取幼师头条信息 -->
 	<select id="listTopNews"  parameterType="pd" resultType="pd" >
 		select 

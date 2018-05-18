@@ -96,6 +96,12 @@ public interface InterfaceDataManager {
 	public List<PageData> getEnterpriseDemand(PageData pd) throws Exception;
 	
 	/**
+	 * (2.0 版本服务、需求列表查询)
+	 * @param pd
+	 */
+	public List<PageData> ReleaseDemandList(PageData pd) throws Exception;
+	
+	/**
 	 * 获取App 版本信息
 	 * @param pd
 	 */

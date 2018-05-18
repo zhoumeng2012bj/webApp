@@ -143,5 +143,7 @@ public interface TbCityManager {
     public void updateOpenid(PageData pd) throws Exception;
     //保存授权绑定微信号
     public void saveOpenid(PageData pd) throws Exception;
+    //微信授权直接登录
+    public void logOpenid(String uid,String cookie)  throws Exception;
 
 }
