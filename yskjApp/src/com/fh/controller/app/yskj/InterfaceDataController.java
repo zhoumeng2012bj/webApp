@@ -953,6 +953,58 @@ public class InterfaceDataController extends BaseController {
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
+	
+	
+	/**获取id类型的通知详情
+	 * @return 
+	 */
+	@RequestMapping(value="/getMessageInfoByUserId")
+	@ResponseBody
+	public Object getMessageInfoByUserId(@RequestBody PageData pd){
+		logBefore(logger, "根据id获取通知详情");
+		Map<String,Object> map = new HashMap<String,Object>();
+		boolean flag=true;
+        String message="";
+        List<PageData> list=null;
+         try {
+        	 
+            if (this.getRequest().getMethod().toUpperCase().equals("POST")) {//POST
+            	String id = pd.getString("id");
+            	String bussinessType = pd.getString("bussinessType");
+            	String type = pd.getString("type");
+            	if(Tools.notEmpty(id)&&Tools.notEmpty(bussinessType))
+            	{
+            		if(bussinessType.equals("4")){
+            			if(type.equals("3")){
+            				list=interfaceDataService.getEnterpriseByUserId(id);
+            			}else{
+            				list=interfaceDataService.getEnterpriseDemandByUserId(id);
+            			}  
+           		    }else{
+           		    	list=interfaceDataService.getTransactionByUserId(id);	
+           		    }
+    			map.put("data", list);
+            	message="信息处理成功!";
+            	}else{
+            		 flag=false;
+                     message="提交请求参数错误!";
+            	}
+            }else{
+                flag=false;
+                message="提交请求方式错误!";
+            }
+         }catch (Exception e) {
+        	    e.printStackTrace();
+                flag=false;
+                message="信息处理异常！";
+    			logAfter(logger);
+        }finally{
+        	map.put("message", message);
+			map.put("success", flag);
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
 }
 	
  

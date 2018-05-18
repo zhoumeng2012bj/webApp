@@ -172,4 +172,29 @@ public class InterfaceDataService  implements InterfaceDataManager{
 	public List<PageData> getMessageByUserId(PageData pd) throws Exception {
 		return (List<PageData>) dao.findForList("InterfaceDataMapper.getMessageByUserId", pd);
 	}
+	
+	/**
+	 * 获取id获取业主委托、售后服务及服务商城及房屋 
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PageData> getTransactionByUserId(String id) throws Exception {
+		return (List<PageData>) dao.findForList("InterfaceDataMapper.getTransactionByUserId", id);
+	}
+	/**
+	 * 获取id获取企业会员
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PageData> getEnterpriseByUserId(String id) throws Exception {
+		return (List<PageData>) dao.findForList("InterfaceDataMapper.getEnterpriseByUserId", id);
+	}
+	/**
+	 * 获取id获取企业需求服务
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PageData> getEnterpriseDemandByUserId(String id) throws Exception {
+		return (List<PageData>) dao.findForList("InterfaceDataMapper.getEnterpriseDemandByUserId", id);
+	}
 }
