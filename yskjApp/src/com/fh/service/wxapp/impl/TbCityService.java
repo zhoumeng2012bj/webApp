@@ -748,5 +748,18 @@ public class TbCityService implements TbCityManager {
 		return p;
 
 	}
+	
+	//查询微信授权登录用户
+	public PageData getOpenid(PageData pd)  throws Exception{
+		return (PageData) dao.findForObject("TbCityManager.getOpenid", pd);
+	}
+	//更新授权绑定微信号
+	public void updateOpenid(PageData pd)throws Exception{
+		dao.update("TbCityManager.updateOpenid", pd);
+	}
+	//保存授权绑定微信号
+	public void saveOpenid(PageData pd)throws Exception{
+		dao.update("TbCityManager.saveOpenid", pd);
+	}
 
 }

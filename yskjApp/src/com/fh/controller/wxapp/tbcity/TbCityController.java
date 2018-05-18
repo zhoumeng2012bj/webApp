@@ -3,11 +3,14 @@ package com.fh.controller.wxapp.tbcity;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Resource;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.fh.controller.base.BaseController;
 import com.fh.entity.WxUser;
 import com.fh.entity.wxapp.TbCity;
@@ -15,6 +18,7 @@ import com.fh.service.system.fhlog.FHlogManager;
 import com.fh.service.wxapp.TbCityManager;
 import com.fh.util.AppUtil;
 import com.fh.util.PageData;
+import com.fh.util.Tools;
 
 /**
  * 系统用户-接口类 相关参数协议： 00 请求失败 01 请求成功 02 返回空值 03 请求协议参数不完整 04 用户名或密码错误 05 FKEY验证失败
@@ -856,6 +860,85 @@ public class TbCityController extends BaseController {
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
 		} finally {
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	
+	/**
+	 * 微信第三方登录授权绑定openid
+	 */
+	@RequestMapping(value="/getOpenid")
+	@ResponseBody
+	public Object findOpenid(@RequestBody PageData pd){
+		Map<String,Object> map = new HashMap<String,Object>();
+		try{
+			if (this.getRequest().getMethod().toUpperCase().equals("POST")) {
+				PageData pdOpenid = tbCityService.getOpenid(pd);
+				if(pdOpenid ==null){
+					map.put("success",true);
+					map.put("message","此微信号可授权！");
+				}else{
+					map.put("data", pdOpenid);
+					map.put("success",false);
+					map.put("message","此微信号已授权！");
+				}
+			}else{
+				 map.put("success", false);
+				 map.put("message", "请求方式错误");
+			}
+		}catch (Exception e){
+			logger.error(e.toString(), e);
+			 map.put("success", false);
+			 map.put("message", "请求异常");
+		}finally{
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	
+	/**
+	 * 微信第三方登录授权绑定openid
+	 */
+	@RequestMapping(value="/authBind")
+	@ResponseBody
+	public Object authBind(@RequestBody PageData pd){
+		Map<String,Object> map = new HashMap<String,Object>();
+		try{
+			if (this.getRequest().getMethod().toUpperCase().equals("POST")) {
+					//查询手机号是否注册
+					List<PageData> compReg = tbCityService.compReg(pd);
+					PageData dat=null;
+					if(compReg.size()>0){
+						dat=compReg.get(0);
+						if(Tools.isEmpty(dat.getString("openid"))){
+							dat.put("openid", pd.getString("openid"));
+							tbCityService.updateOpenid(dat);
+							map.put("success",true);
+							map.put("message","授权成功");
+						}else{
+							map.put("success",false);
+							map.put("message","该手机号已被其它微信号授权绑定！");
+						}
+					}else{
+						dat=new PageData();
+						dat.putAll(pd);
+						dat.put("pass", "d93a5def7511da3d0f2d171d9c344e91"); //默认密码123456（加密）
+						tbCityService.saveOpenid(dat);
+						map.put("success",true);
+						map.put("message","授权成功");
+					}
+			}else{
+				 map.put("success", false);
+				 map.put("message", "请求方式错误");
+			}
+			
+		}catch (Exception e){
+			e.printStackTrace();
+			logger.error(e.toString(), e);
+			 map.put("success", false);
+			 map.put("message", "请求异常");
+		}finally{
 			logAfter(logger);
 		}
 		return AppUtil.returnObject(new PageData(), map);

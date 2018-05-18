@@ -78,6 +78,50 @@ public class InterfaceDataService  implements InterfaceDataManager{
 	public List<PageData> getMemberEnterprise(PageData pd) throws Exception {
 		return (List<PageData>) dao.findForList("InterfaceDataMapper.listMemberEnterprise", pd);
 	}
+	
+	/**
+	 * 获取更多全部会员企业
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PageData> getListMemberEnterprise(PageData pd) throws Exception {
+		return (List<PageData>) dao.findForList("InterfaceDataMapper.listMemberEnterpriseInfo", pd);
+	}
+    /**
+     * 获取会员企业详情信息
+     */
+	@Override
+	public PageData getMemberEnterpriseInfo(PageData pd) throws Exception {
+		return (PageData) dao.findForObject("InterfaceDataMapper.getEnterMemberEnterprise", pd);
+	}
+	
+	/**
+	 * 加入会员
+	 * @throws Exception 
+	 */
+	@Override
+	public void saveMembership(PageData pd) throws Exception {
+	    dao.save("InterfaceDataMapper.saveMembership", pd);
+	}
+	
+	/**
+	 * 保存会员企业logo图片信息
+	 * @throws Exception 
+	 */
+	@Override
+	public void saveEnterprisePic(PageData pd) throws Exception {
+		dao.save("InterfaceDataMapper.saveEnterprisePic", pd);
+	}
+	
+	/**
+	 * 发布服务、发布需求
+	 * @throws Exception 
+	 */
+	@Override
+	public void saveReleaseDemand(PageData pd) throws Exception {
+	    dao.save("InterfaceDataMapper.saveReleaseDemand", pd);
+	}
+
 
 	/**
 	 * 获取企业需求列表

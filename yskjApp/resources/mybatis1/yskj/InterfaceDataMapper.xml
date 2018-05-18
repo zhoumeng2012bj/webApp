@@ -89,6 +89,7 @@
 			category,
 			oddNumbers,
 			createTime,
+			uid,
 			status
 		) values (
 		    #{bussinessType},	
@@ -101,6 +102,7 @@
 			#{category},
 			#{oddNumbers},	
 			#{createTime},
+			#{uid},
 			#{status}
 		)
 	</insert>
@@ -124,6 +126,7 @@
 			category,
 			oddNumbers,
 			createTime,
+			uid,
 			status
 		) values (
 		    #{bussinessType},	
@@ -142,6 +145,7 @@
 			#{category},
 			#{oddNumbers},	
 			#{createTime},
+			#{uid},
 			#{status}
 		)
 	</insert>
@@ -151,13 +155,143 @@
 		select 
 			id,
 			enterpriseName,
-			enterpriseDesc,
+			ranges as enterpriseDesc,
 			logoImg,
 			category
 		from app_member_enterprise
 		where 
 			status =1 and istop=1  limit 5
 	</select>
+	
+	<!-- 获取更多全部会员企业 -->
+	<select id="listMemberEnterpriseInfo"  parameterType="pd" resultType="pd" >
+		select 
+			id,
+			enterpriseName,
+			ranges,
+			logoImg,
+			industry,
+			location,
+			category
+		from app_member_enterprise
+		where 
+			status =1 and istop=1 
+			<if test="industry==2">
+				AND LIKE CONCAT(CONCAT('%', #{pd.industry}),'%')
+			</if>
+			<if test="location==1">
+	            AND LIKE CONCAT(CONCAT('%', #{pd.location}),'%')
+			</if>
+		    order by  createTime desc
+	</select>
+	<!-- 获取会员企业详情信息 -->
+	<select id="getEnterMemberEnterprise"  parameterType="pd" resultType="pd" >
+		select 
+			id,
+			enterpriseName,
+			logoImg,
+			enterpriseDesc,
+			industry,
+			location,
+			logoImg,
+			phone,
+			address,
+			category
+		from app_member_enterprise
+		where 
+			status =1 and istop=1 and id=#{id}
+	</select>
+	<!-- 加入会员 -->
+	<insert id="saveMembership" useGeneratedKeys="true" keyProperty="id" parameterType="pd">
+		insert into app_member_enterprise(
+			name,	
+			phone,	
+			type,
+			enterpriseName,
+			enterpriseDesc,
+			logoImg,
+			house,
+			industry,
+			location,
+			ranges,
+			enterpriseWebsite,
+			enterprisePhone,
+			category,
+			createTime,
+			createBy,
+			status
+		) values (
+		    #{name},	
+			#{phone},	
+			#{type},
+			#{enterpriseName},
+			#{enterpriseDesc},
+			#{logoImg},
+			#{house},
+			#{industry},
+			#{location},
+			#{ranges},
+			#{enterpriseWebsite},
+			#{enterprisePhone},
+			#{category},
+			#{createTime},
+			#{uid},
+			#{status}
+		)
+	</insert>
+	
+	<!-- 保存会员企业logo图片信息 -->
+	<insert id="saveEnterprisePic" parameterType="pd">
+		insert into base_pic(
+			URL,	
+			RECORDID,	
+			TYPE,
+			ISDELETE
+		) values (
+		    #{url},	
+			#{recordId},	
+			#{type},
+			#{isDelete}
+		)
+	</insert>
+	
+	
+	<!-- 发布服务、发布需求 -->
+	<insert id="saveReleaseDemand" parameterType="pd">
+		insert into app_enterprise_demand(
+		    demandCategory,
+		    demandType,
+			enterName,	
+			enterPhone,	
+			type,
+			demandDesc,
+			enterpriseName,
+			enterpriseDesc,
+			house,
+			imgUrl,
+			effectiveTime,
+			budget,
+			createTime,
+			createBy,
+			status
+		) values (
+			#{demandCategory},
+		    #{demandType},
+			#{enterName},	
+			#{enterPhone},	
+			#{type},
+			#{demandDesc},
+			#{enterpriseName},
+			#{enterpriseDesc},
+			#{house},
+			#{imgUrl},
+			#{effectiveTime},
+			#{budget},
+			#{createTime},
+			#{uid},
+			#{status}
+		)
+	</insert>
 	
 	<!-- 获取企业需求列表 -->
 	<select id="listEnterpriseDemand"  parameterType="pd" resultType="pd" >

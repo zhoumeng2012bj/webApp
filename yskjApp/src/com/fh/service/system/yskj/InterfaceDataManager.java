@@ -55,6 +55,40 @@ public interface InterfaceDataManager {
 	 */
 	public List<PageData> getMemberEnterprise(PageData pd) throws Exception;
 	
+
+	/**
+	 * 获取更多会员企业
+	 * @param pd
+	 */
+	public List<PageData> getListMemberEnterprise(PageData pd) throws Exception;
+	
+	/**
+	 * 获取会员企业详情信息
+	 * @param pd
+	 */
+	public PageData getMemberEnterpriseInfo(PageData pd) throws Exception;
+	
+	/**
+	 * 加入会员
+	 * @param pd
+	 * @return
+	 */
+	public void saveMembership(PageData pd)throws Exception;
+	
+	/**
+	 * 保存会员企业logo图片信息
+	 * @param pd
+	 * @return
+	 */
+	public void saveEnterprisePic(PageData pd)throws Exception;
+	
+	/**
+	 * 发布服务\发布需求
+	 * @param pd
+	 * @return
+	 */
+	public void saveReleaseDemand(PageData pd)throws Exception;
+	
 	/**
 	 * 获取企业需求列表
 	 * @param pd

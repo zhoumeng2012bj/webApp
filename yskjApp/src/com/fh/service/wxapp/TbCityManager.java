@@ -136,5 +136,12 @@ public interface TbCityManager {
 
 	// 获取楼盘具体的 业主管家信息或客户管家信息
 	public PageData getButlerInfo(PageData pd) throws Exception;
+	
+	//查询微信号授权登录
+	public PageData getOpenid(PageData pd)  throws Exception;
+	//授权绑定微信号 
+    public void updateOpenid(PageData pd) throws Exception;
+    //保存授权绑定微信号
+    public void saveOpenid(PageData pd) throws Exception;
 
 }

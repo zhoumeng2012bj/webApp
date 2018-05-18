@@ -25,7 +25,7 @@
 	</select>
 	<select id="compReg" parameterType="pd" resultType="pd">
 		select
-		id,name,phone,gsid,gsname,pass,xmname,mpimg2,mpimg,status2,card,typeid
+		id,name,phone,gsid,gsname,pass,xmname,mpimg2,mpimg,status2,card,typeid,openid
 		from qd_user where isdelete=0 and phone=#{phone} order by id
 	</select>
 	<select id="getId" parameterType="pd" resultType="pd">
@@ -109,5 +109,27 @@
 		where isdelete=0 and category=#{category} and lpid=#{lpid} order by id
 		desc
 	</select>
+	
+	<!-- 授权绑定openid -->
+	<update id="updateOpenid" parameterType="pd">
+	   update qd_user set openid=#{openid},gtime=NOW() where phone=#{phone}
+	</update>
+
+	<!-- 查询是否授权绑定openid -->
+	<select id="getOpenid" parameterType="pd" resultType="pd">
+	  select id,name,phone,gsid,gsname,pass,xmname,mpimg2,mpimg,status2,card,openid from qd_user  where openid=#{openid}
+	</select>
+	
+	<insert id="saveOpenid" parameterType="pd">
+		<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+	      SELECT LAST_INSERT_ID()
+	    </selectKey>
+			insert into qd_user
+			(
+				isdelete,phone,	pass,openid,status2,status,ctime	
+			) values (
+				0,#{phone},	#{pass},#{openid},0,3,NOW()
+			)
+	</insert>
 
 </mapper>
