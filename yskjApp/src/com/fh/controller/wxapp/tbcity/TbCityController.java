@@ -879,6 +879,11 @@ public class TbCityController extends BaseController {
 					map.put("success",true);
 					map.put("message","此微信号可授权！");
 				}else{
+					//直接登录
+					String cookie = pd.getString("cookie");
+					Object object = pdOpenid.get("id");
+					String string = object.toString();
+					tbCityService.logOpenid(string, cookie);
 					map.put("data", pdOpenid);
 					map.put("success",false);
 					map.put("message","此微信号已授权！");
