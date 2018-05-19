@@ -440,20 +440,13 @@
     
      <!-- 获取id获取企业会员-->
 	<select id="getEnterpriseByUserId"  parameterType="String" resultType="pd" >
-	select id, 4 bussinessType,3 typeid,'企业互联' typeName, '加入会员'categoryName,
-enterpriseName,enterpriseDesc,logoImg,address,phone,category,
-type,case type when 1 then '待审核' when 2 then '审核通过' when 3 then '已拒绝'when 4 then '已发布' when 5 then '已撤销'  end statusName,
-createTime  ,createBy from app_member_enterprise  where id=#{id} 
+	select * from v_enterprise  where id=#{id} 
     </select>
     
      <!-- 获取id获取企业需求服务-->
 	<select id="getEnterpriseDemandByUserId"  parameterType="String" resultType="pd" >
-	select id,4 bussinessType,demandCategory, '企业互联' typeName,
-case demandCategory when 1 then '服务发布' when 2 then '需求发布' end categoryName,
-demandType,demandDesc,enterName,enterPhone,enterpriseName,budget,
-type,case type when 1 then '待审核' when 2 then '审核通过' when 3 then '已拒绝'when 4 then '已发布' when 5 then '达成合作' when 6 then '已过期' when 7 then '已废弃' end statusName,
-effectiveTime,createTime  ,createBy
-from app_enterprise_demand    where id=#{id} 
+	select *
+    from v_enterprise_demand    where id=#{id} 
     </select>
     
 </mapper>
