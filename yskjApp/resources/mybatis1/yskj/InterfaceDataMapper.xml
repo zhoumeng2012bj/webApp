@@ -171,32 +171,31 @@
 			ranges,
 			logoImg,
 			industry,
-			location,
-			category
+			location
 		from app_member_enterprise
 		where 
-			status =1 and istop=1 
-			<if test="industry==2">
-				AND LIKE CONCAT(CONCAT('%', #{pd.industry}),'%')
+			status =1  
+			<if test="industry !=null and industry !='' ">
+				AND industry LIKE CONCAT(CONCAT('%', #{industry}),'%')
 			</if>
-			<if test="location==1">
-	            AND LIKE CONCAT(CONCAT('%', #{pd.location}),'%')
+			<if test="location !=null and location !='' ">
+	            AND location LIKE CONCAT(CONCAT('%', #{location}),'%')
 			</if>
-		    order by  createTime desc
+		    order by createTime desc
 	</select>
 	<!-- 获取会员企业详情信息 -->
 	<select id="getEnterMemberEnterprise"  parameterType="pd" resultType="pd" >
 		select 
 			id,
 			enterpriseName,
-			logoImg,
 			enterpriseDesc,
 			industry,
 			location,
 			logoImg,
 			phone,
-			address,
-			category
+			ranges,
+			enterpriseWebsite,
+			enterprisePhone
 		from app_member_enterprise
 		where 
 			status =1 and istop=1 and id=#{id}
