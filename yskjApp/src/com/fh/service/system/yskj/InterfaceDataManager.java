@@ -3,6 +3,8 @@ package com.fh.service.system.yskj;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.RequestBody;
+
 import com.fh.util.PageData;
 
 /**
@@ -54,6 +56,20 @@ public interface InterfaceDataManager {
 	 * @param pd
 	 */
 	public List<PageData> getMemberEnterprise(PageData pd) throws Exception;
+	
+	/**
+	 * 判断用户是否已加入会员
+	 * @param pd
+	 */
+	public PageData getEnterMembership(@RequestBody PageData pd) throws Exception;
+	
+	
+
+	/**
+	 * 判断企业是否已加入会员
+	 * @param pd
+	 */
+	public PageData getEnterEnterprise(@RequestBody PageData pd) throws Exception;
 	
 
 	/**

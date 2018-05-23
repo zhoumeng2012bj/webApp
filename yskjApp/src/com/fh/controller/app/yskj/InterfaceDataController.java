@@ -345,6 +345,47 @@ public class InterfaceDataController extends BaseController {
 		return AppUtil.returnObject(new PageData(), map);
 	}
 	
+	/**判断用户是否已加入会员
+	 * @return 
+	 */
+	@RequestMapping(value="/checkMembership")
+	@ResponseBody
+	public Object checkMembership(@RequestBody PageData pd){
+		logBefore(logger, "判断是否已加入会员");
+		Map<String,Object> map = new HashMap<String,Object>();
+		PageData pdData=null;
+		boolean flag=true;
+        String message="";
+         try {
+            if (this.getRequest().getMethod().toUpperCase().equals("POST")) {//POST
+            	//type 审核类型：1 待审核    2审核通过   3已拒绝  4已发布   5已撤销
+            	String uid=pd.get("uid")+"";
+            	if(Tools.notEmpty(uid)){ 
+            		pdData=interfaceDataService.getEnterMembership(pd);
+            		map.put("data", pdData);
+                	message="信息处理成功!";
+            	}else{
+            		flag=false;
+            		message="缺少请求参数!";
+            	}
+            }else{
+                flag=false;
+                message="提交请求方式错误!";
+            }
+         }catch (Exception e) {
+    	    e.printStackTrace();
+            flag=false;
+            message="信息处理异常！";
+			logAfter(logger);
+        }finally{
+        	map.put("message", message);
+			map.put("success", flag);
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	
+	
 	/**加入会员
 	 * @return 
 	 */
@@ -358,21 +399,29 @@ public class InterfaceDataController extends BaseController {
         String message="";
          try {
             if (this.getRequest().getMethod().toUpperCase().equals("POST")) {//POST
-            	pd.put("id", "");  //返回主键id
-            	pd.put("createTime",Tools.date2Str(new Date()));  //创建时间、
-    			pd.put("status", "1");	//状态(1可用 2禁用)
-    			pd.put("type", "1");    //审核类型：1 待审核    2审核通过   3已拒绝  4已发布   5已撤销
-            	interfaceDataService.saveMembership(pd);
-            	String  id=pd.getString("id");
             	
-            	//保存会员企业logo图片信息
-            	PageData pdPic=new PageData();
-            	pdPic.put("url", pd.getString("logoImg"));
-            	pdPic.put("recordId", id);
-            	pdPic.put("type", 16);
-            	pdPic.put("isDelete", 0);
-            	interfaceDataService.saveEnterprisePic(pdPic);
-            	message="信息处理成功!";
+            	PageData pdInfo=interfaceDataService.getEnterEnterprise(pd);
+            	if(pdInfo ==null){
+            		pd.put("id", "");  //返回主键id
+                	pd.put("createTime",Tools.date2Str(new Date()));  //创建时间、
+        			pd.put("status", "1");	//状态(1可用 2禁用)
+        			pd.put("type", "1");    //审核类型：1 待审核    2审核通过   3已拒绝  4已发布   5已撤销
+                	interfaceDataService.saveMembership(pd);
+                	String  id=pd.getString("id");
+                	
+                	//保存会员企业logo图片信息
+                	PageData pdPic=new PageData();
+                	pdPic.put("url", pd.getString("logoImg"));
+                	pdPic.put("recordId", id);
+                	pdPic.put("type", 16);
+                	pdPic.put("isDelete", 0);
+                	interfaceDataService.saveEnterprisePic(pdPic);
+                	message="信息处理成功!";
+            	}else{
+            		 flag=false;
+                     message="该企业已加入会员!";
+            	}
+            	
             }else{
                 flag=false;
                 message="提交请求方式错误!";

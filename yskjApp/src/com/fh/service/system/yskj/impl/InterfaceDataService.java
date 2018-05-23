@@ -206,4 +206,20 @@ public class InterfaceDataService  implements InterfaceDataManager{
 	public List<PageData> getEnterpriseDemandByUserId(String id) throws Exception {
 		return (List<PageData>) dao.findForList("InterfaceDataMapper.getEnterpriseDemandByUserId", id);
 	}
+
+	/**
+	 * 判断用户是否已加入会员
+	 */
+	@Override
+	public PageData getEnterMembership(PageData pd) throws Exception {
+		return (PageData)dao.findForObject("InterfaceDataMapper.getEnterMembership", pd);
+	}
+
+	/**
+	 * 判断企业是否已加入会员
+	 */
+	@Override
+	public PageData getEnterEnterprise(PageData pd) throws Exception {
+		return (PageData)dao.findForObject("InterfaceDataMapper.getEnterEnterprise", pd);
+	}
 }

@@ -878,7 +878,7 @@ public class TbCityController extends BaseController {
 				PageData pdOpenid = tbCityService.getOpenid(pd);
 				if(pdOpenid ==null){
 					flag="1";
-					map.put("success",false);
+					map.put("success",true);
 					map.put("message","此微信号可授权！");
 				}else{
 					//直接登录
@@ -921,8 +921,7 @@ public class TbCityController extends BaseController {
 					if(compReg.size()>0){
 						dat=compReg.get(0);
 						if(Tools.isEmpty(dat.getString("openid"))){
-							dat.put("openid", pd.getString("openid"));
-							tbCityService.updateOpenid(dat);
+							tbCityService.updateOpenid(pd);
 							map.put("success",true);
 							map.put("message","授权成功");
 						}else{

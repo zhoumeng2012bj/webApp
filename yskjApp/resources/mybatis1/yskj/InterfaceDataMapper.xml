@@ -40,6 +40,7 @@
 			phone,	
 			oddNumbers,
 			status,
+			uid,
 			createTime
 		) values (
 			#{bussinessType},	
@@ -49,6 +50,7 @@
 			#{phone},	
 			#{oddNumbers},
 			#{status},
+			#{uid},
 			#{createTime}
 		)
 	</insert>
@@ -63,6 +65,7 @@
 			memo,
 			oddNumbers,
 			createTime,
+			uid,
 			status
 		) values (
 		    #{bussinessType},	
@@ -72,6 +75,7 @@
 			#{memo},
 			#{oddNumbers},	
 			#{createTime},
+			#{uid},
 			#{status}
 		)
 	</insert>
@@ -160,7 +164,7 @@
 			category
 		from app_member_enterprise
 		where 
-			status =1 and istop=1  limit 5
+			status =1 and istop=1 and type=4 limit 5
 	</select>
 	
 	<!-- 获取更多全部会员企业 -->
@@ -174,7 +178,7 @@
 			location
 		from app_member_enterprise
 		where 
-			status =1  
+			status =1 and type=4
 			<if test="industry !=null and industry !='' ">
 				AND industry LIKE CONCAT(CONCAT('%', #{industry}),'%')
 			</if>
@@ -198,8 +202,19 @@
 			enterprisePhone
 		from app_member_enterprise
 		where 
-			status =1 and istop=1 and id=#{id}
+			status =1 and id=#{id}
 	</select>
+	
+	<!-- 判断用户是否加入会员  -->
+	<select id="getEnterMembership"  parameterType="pd" resultType="pd" >
+		select type from app_member_enterprise where status =1 and createBy=#{uid}
+	</select>
+	
+	<!-- 判断企业是否加入会员  -->
+	<select id="getEnterEnterprise"  parameterType="pd" resultType="pd" >
+		select * from app_member_enterprise where status =1 and enterpriseName=#{enterpriseName}
+	</select>
+	
 	<!-- 加入会员 -->
 	<insert id="saveMembership" useGeneratedKeys="true" keyProperty="id" parameterType="pd">
 		insert into app_member_enterprise(
@@ -305,12 +320,11 @@
 			budget,
 			imgUrl
 		from app_enterprise_demand
-		where 
+		where  status =1
 		<if test="demandCategory==2">
-			 demandCategory=#{demandCategory}  order by status asc, createTime desc limit 5;
+			and demandCategory=#{demandCategory}  order by status asc, createTime desc limit 5;
 		</if>
 		<if test="demandCategory==1">
-		    status =1
             and demandCategory=#{demandCategory} order by  createTime desc limit 3;
 		</if>
 	</select>
@@ -342,10 +356,11 @@
 		from app_enterprise_demand
 		where status =1
 		<if test="demandCategory==2">
-			 and demandCategory=#{demandCategory} and (type=4 or type=5) order by createTime desc
+			 and demandCategory=#{demandCategory} and (type=5 or type=6) 
+			 and datediff(date_add(releaseTime, INTERVAL effectiveTime DAY),curdate()) >0  order by createTime desc
 		</if>
 		<if test="demandCategory==1">
-            and demandCategory=#{demandCategory} and (type=4 or type=5) order by createTime desc
+            and demandCategory=#{demandCategory} and (type=5 or type=6) order by createTime desc
 		</if>
 	</select>
 	
