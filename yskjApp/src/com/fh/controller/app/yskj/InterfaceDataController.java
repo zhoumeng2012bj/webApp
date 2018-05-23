@@ -964,9 +964,13 @@ public class InterfaceDataController extends BaseController {
             	if(Tools.notEmpty(id))
             	{
             	 list=interfaceDataService.getHouseCompanyById(id);
-            	 map.put("company", list.get(0).getString("companyname"));
-    			map.put("data", list);
-            	message="信息处理成功!";
+            	 if(list !=null && list.size() >0){
+            		map.put("company", list.get(0).getString("companyname"));
+ 	    			map.put("data", list);
+            	  }else{
+            		  flag=false;
+            	  }
+	              message="信息处理成功!";
             	}else{
             		 flag=false;
                      message="提交请求参数错误!";

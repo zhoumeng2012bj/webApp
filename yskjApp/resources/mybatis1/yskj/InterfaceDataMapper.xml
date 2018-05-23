@@ -207,12 +207,12 @@
 	
 	<!-- 判断用户是否加入会员  -->
 	<select id="getEnterMembership"  parameterType="pd" resultType="pd" >
-		select type from app_member_enterprise where status =1 and createBy=#{uid}
+		select type from app_member_enterprise where status =1 and type !=3 and createBy=#{uid} 
 	</select>
 	
 	<!-- 判断企业是否加入会员  -->
 	<select id="getEnterEnterprise"  parameterType="pd" resultType="pd" >
-		select * from app_member_enterprise where status =1 and enterpriseName=#{enterpriseName}
+		select * from app_member_enterprise where status =1 and type !=3 and enterpriseName=#{enterpriseName}
 	</select>
 	
 	<!-- 加入会员 -->
@@ -356,11 +356,11 @@
 		from app_enterprise_demand
 		where status =1
 		<if test="demandCategory==2">
-			 and demandCategory=#{demandCategory} and (type=5 or type=6) 
+			 and demandCategory=#{demandCategory} and (type=4 or type=5) 
 			 and datediff(date_add(releaseTime, INTERVAL effectiveTime DAY),curdate()) >0  order by createTime desc
 		</if>
 		<if test="demandCategory==1">
-            and demandCategory=#{demandCategory} and (type=5 or type=6) order by createTime desc
+            and demandCategory=#{demandCategory} and (type=4 or type=5) order by createTime desc
 		</if>
 	</select>
 	

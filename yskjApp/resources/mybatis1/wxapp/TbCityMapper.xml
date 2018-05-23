@@ -128,7 +128,7 @@
 			(
 				isdelete,phone,	pass,openid,status2,status,ctime	
 			) values (
-				0,#{phone},	#{pass},#{openid},0,3,NOW()
+				0,#{phone},	#{pass},#{openid},0,2,NOW()
 			)
 	</insert>
 
