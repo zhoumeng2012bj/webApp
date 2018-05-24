@@ -463,4 +463,9 @@
     from v_enterprise_demand    where id=#{id} 
     </select>
     
+    <!-- 2.0版最新数据  -->
+	<select id="getEnterNewData"  parameterType="pd" resultType="pd" >
+		select  memo, `value` ,url from app_latest_data where type=15
+	</select>
+    
 </mapper>

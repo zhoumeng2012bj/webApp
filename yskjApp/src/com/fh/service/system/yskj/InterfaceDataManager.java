@@ -163,4 +163,12 @@ public interface InterfaceDataManager {
 	 * @param id
 	 */
 	public List<PageData> getEnterpriseDemandByUserId(String id) throws Exception;
+	
+	/**
+	 * 获取2.0 版最新数据
+	 * @param pd
+	 * @return
+	 * @throws Exception
+	 */
+	public PageData getQuotationData(PageData pd) throws Exception;
 }

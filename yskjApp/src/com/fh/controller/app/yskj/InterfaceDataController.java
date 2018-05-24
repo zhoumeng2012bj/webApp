@@ -1089,6 +1089,39 @@ public class InterfaceDataController extends BaseController {
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
+	
+	/**2.0 最新数据查询
+	 * @return 
+	 */
+	@RequestMapping(value="/quotationData")
+	@ResponseBody
+	public Object getQuotationData(@RequestBody PageData pd){
+		logBefore(logger, "获取2.0最新数据信息");
+		Map<String,Object> map = new HashMap<String,Object>();
+		boolean flag=true;
+        String message="";
+         try {
+            if (this.getRequest().getMethod().toUpperCase().equals("POST")) {//POST
+            	PageData pdData=interfaceDataService.getQuotationData(pd);
+    			map.put("data", pdData);
+            	message="信息处理成功!";
+            }else{
+                flag=false;
+                message="提交请求方式错误!";
+            }
+         }catch (Exception e) {
+        	 e.printStackTrace();
+             flag=false;
+             message="信息处理异常！";
+			 logAfter(logger);
+        }finally{
+        	map.put("message", message);
+			map.put("success", flag);
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	
 }
 	
  

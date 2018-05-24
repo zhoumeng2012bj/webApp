@@ -222,4 +222,12 @@ public class InterfaceDataService  implements InterfaceDataManager{
 	public PageData getEnterEnterprise(PageData pd) throws Exception {
 		return (PageData)dao.findForObject("InterfaceDataMapper.getEnterEnterprise", pd);
 	}
+
+	/**
+	 * 获取2.0版最新数据
+	 */
+	@Override
+	public PageData getQuotationData(PageData pd) throws Exception {
+		return (PageData)dao.findForObject("InterfaceDataMapper.getEnterNewData", pd);
+	}
 }
