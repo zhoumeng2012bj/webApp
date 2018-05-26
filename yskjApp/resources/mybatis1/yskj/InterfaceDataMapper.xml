@@ -342,6 +342,7 @@
 			budget,
 			imgUrl,
 			type,
+			enterpriseName,
 			releaseTime,
 			effectiveTime,
 		    (
