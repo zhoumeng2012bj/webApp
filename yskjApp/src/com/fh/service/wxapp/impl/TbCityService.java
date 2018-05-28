@@ -801,5 +801,18 @@ public class TbCityService implements TbCityManager {
 		String cookie = pd.getString("cookie");
 		GetRedis.saveCode(cookie, uid);
 	}
+	
+	public WxUser getIdCookie(PageData pd) throws Exception {
+		WxUser x = new WxUser();
+		String string = pd.getString("id");
+		String ID="appid"+string;
+		String redis1 = GetRedis.getRedis1(ID);
+		if(!"".equals(redis1)){
+			x.setMessage(redis1);
+		}else{
+			x.setMessage("");
+		}
+		return x;
+	}
 
 }

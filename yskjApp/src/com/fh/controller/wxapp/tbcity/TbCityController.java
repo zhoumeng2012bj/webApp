@@ -951,5 +951,45 @@ public class TbCityController extends BaseController {
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
+	/**
+	 * 根据用户ID 查找对应的cookie
+	 */
+	@RequestMapping(value="/getIdCookie")
+	@ResponseBody
+	public Object getIdCookie(@RequestBody PageData pd){
+		Map<String,Object> map = new HashMap<String,Object>();
+		try{
+			if (this.getRequest().getMethod().toUpperCase().equals("POST")) {
+					//查询手机号是否注册
+				WxUser idCookie = tbCityService.getIdCookie(pd);
+					if(idCookie!=null){
+						String message = idCookie.getMessage();
+						if(!"".equals(message)){
+							map.put("success",true);
+							map.put("message","成功");
+							map.put("cookie",message);
+						}else{
+							map.put("success",false);
+							map.put("message","无此用户登录信息");
+						}
+					}else{
+						map.put("success",false);
+						map.put("message","无此用户登录信息");
+					}
+			}else{
+				 map.put("success", false);
+				 map.put("message", "请求方式错误");
+			}
+			
+		}catch (Exception e){
+			e.printStackTrace();
+			logger.error(e.toString(), e);
+			 map.put("success", false);
+			 map.put("message", "请求异常");
+		}finally{
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
 
 }

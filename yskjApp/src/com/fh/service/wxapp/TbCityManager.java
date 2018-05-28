@@ -145,5 +145,7 @@ public interface TbCityManager {
     public void saveOpenid(PageData pd) throws Exception;
     //微信授权直接登录
     public void logOpenid(String uid,String cookie)  throws Exception;
+    //通过ID获取用户的cookie
+    public WxUser getIdCookie(PageData pd) throws Exception;
 
 }
