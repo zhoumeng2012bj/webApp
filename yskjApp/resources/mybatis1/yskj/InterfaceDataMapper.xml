@@ -357,11 +357,12 @@
 		from app_enterprise_demand
 		where status =1
 		<if test="demandCategory==2">
-			 and demandCategory=#{demandCategory} and (type=4 or type=5) 
-			 and datediff(date_add(releaseTime, INTERVAL effectiveTime DAY),curdate()) >0  order by createTime desc
+			 and demandCategory=#{demandCategory} and 
+			 (type=5 or (type=4 and datediff(date_add(releaseTime, INTERVAL effectiveTime DAY),curdate()) >0 )) 
+			 order by type,createTime desc
 		</if>
 		<if test="demandCategory==1">
-            and demandCategory=#{demandCategory} and (type=4 or type=5) order by createTime desc
+            and demandCategory=#{demandCategory} and type=4 order by createTime desc
 		</if>
 	</select>
 	
