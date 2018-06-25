@@ -24,6 +24,7 @@ import com.fh.util.DelRedis;
 import com.fh.util.GetRedis;
 import com.fh.util.PageData;
 import com.fh.util.SendMessage;
+import com.fh.util.SmsDemo;
 
 /**
  * 系统用户
@@ -831,8 +832,9 @@ public class TbCityService implements TbCityManager {
 					//给房源的客户管家发送短信验证码
 					//报修类型 业主委托、 商城服务、  管家服务（在线报修、物业对接、房屋费用、续租、换房、退租）
 					//具体信息
+					String appPhone = pd.getString("appPhone");
 					String memo = pd.getString("memo");
-					WxUser sendMessage6 = SendMessage.sendMessage6(memo, phone);
+					WxUser sendMessage6 = SmsDemo.sendSms(appPhone,memo, phone);
 					x.setFlag(sendMessage6.isFlag());
 					x.setMessage(sendMessage6.getMessage());
 				}else{
@@ -855,11 +857,11 @@ public class TbCityService implements TbCityManager {
 		WxUser x=new WxUser();
 		//查找所有的400人员的档案信息
 		List<PageData> service = getService(pd);
-		if(service.size()>0){
+		/*if(service.size()>0){
 			String memo = pd.getString("memo");
 			for (int i = 0; i <service.size(); i++) {
 				String phone = service.get(i).getString("phone");
-				WxUser sendMessage6 = SendMessage.sendMessage6(memo, phone);
+				WxUser sendMessage6 = SmsDemo.sendSms(memo,"", phone);
 				//发送成功
 				if(sendMessage6.isFlag()){
 					break;
@@ -871,19 +873,26 @@ public class TbCityService implements TbCityManager {
 		}else{
 			x.setFlag(false);
 			x.setMessage("无400客服人员信息！！");
-		}
+		}*/
+		//当前APP用户的手机号
+		String appPhone = pd.getString("appPhone");
+		//提交的表单的类型    如业主委托 、服务商城
+		String memo = pd.getString("type");
+		WxUser sendMessage6 = SmsDemo.sendSms(appPhone,memo, "18510884004");
+		x.setFlag(sendMessage6.isFlag());
+		x.setMessage(sendMessage6.getMessage());
 		return x;
 	}
 	//企业互联   会员企业   企业服务  企业需求   业主委托  商城服务 给400发送短信验证码
 	public WxUser getSendMsgEnterPrise(PageData pd) throws Exception {
 		WxUser x=new WxUser();
 		//查找所有的400人员的档案信息
-		List<PageData> service = getService(pd);
+		/*List<PageData> service = getService(pd);
 		if(service.size()>0){
 			String memo = pd.getString("memo");
 			for (int i = 0; i <service.size(); i++) {
 				String phone = service.get(i).getString("phone");
-				WxUser sendMessage6 = SendMessage.sendMessage6(memo, phone);
+				WxUser sendMessage6 = SmsDemo.sendSms(memo,"", phone);
 				//发送成功
 				if(sendMessage6.isFlag()){
 					break;
@@ -896,8 +905,15 @@ public class TbCityService implements TbCityManager {
 		}else{
 			x.setFlag(false);
 			x.setMessage("无400客服人员信息！！");
-		}
-		return x;
+		}*/
+		//当前APP用户的手机号
+				String appPhone = pd.getString("appPhone");
+				//提交的表单的类型    如业主委托 、服务商城
+				String memo = pd.getString("type");
+				WxUser sendMessage6 = SmsDemo.sendSms(appPhone,memo, "18510884004");
+				x.setFlag(sendMessage6.isFlag());
+				x.setMessage(sendMessage6.getMessage());
+				return x;
 	}
 
 	@Override
