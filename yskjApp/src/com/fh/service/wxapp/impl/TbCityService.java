@@ -814,5 +814,108 @@ public class TbCityService implements TbCityManager {
 		}
 		return x;
 	}
+	//app和扫码报修发送短信验证码   客户管家发送短信验证码
+	public WxUser getSendMsg(PageData pd) throws Exception {
+		WxUser x = new WxUser();
+		//报修的房源的ID
+		String fyid = pd.getString("fyid");
+		if(fyid!=null&&!"".equals(fyid)){
+			//查询房源对应的楼盘id
+			List<PageData> buildId = getBuildId(pd);
+			if(buildId.size()>0){
+				PageData pageData = buildId.get(0);
+				List<PageData> buildOwner = getBuildOwner(pageData);
+				if(buildOwner.size()>0){
+					PageData pageData2 = buildOwner.get(0);
+					String phone = pageData2.getString("phone");
+					//给房源的客户管家发送短信验证码
+					//报修类型 业主委托、 商城服务、  管家服务（在线报修、物业对接、房屋费用、续租、换房、退租）
+					//具体信息
+					String memo = pd.getString("memo");
+					WxUser sendMessage6 = SendMessage.sendMessage6(memo, phone);
+					x.setFlag(sendMessage6.isFlag());
+					x.setMessage(sendMessage6.getMessage());
+				}else{
+					x.setFlag(false);
+					x.setMessage("此房源无客户管家信息！！");
+				}
+			}else{
+				x.setFlag(false);
+				x.setMessage("无此房源信息！！");
+			}
+		}else{
+			x.setFlag(false);
+			x.setMessage("参数错误！！");
+		}
+		return x;
+	}
+	
+	//报修  400档案人员发送短信验证码信息   报修的信息能够查询到当前的房源信息
+	public WxUser getSendMsgService(PageData pd) throws Exception {
+		WxUser x=new WxUser();
+		//查找所有的400人员的档案信息
+		List<PageData> service = getService(pd);
+		if(service.size()>0){
+			String memo = pd.getString("memo");
+			for (int i = 0; i <service.size(); i++) {
+				String phone = service.get(i).getString("phone");
+				WxUser sendMessage6 = SendMessage.sendMessage6(memo, phone);
+				//发送成功
+				if(sendMessage6.isFlag()){
+					break;
+				}
+				//继续发送
+			}
+			x.setFlag(true);
+			x.setMessage("发送成功！！");
+		}else{
+			x.setFlag(false);
+			x.setMessage("无400客服人员信息！！");
+		}
+		return x;
+	}
+	//企业互联   会员企业   企业服务  企业需求   业主委托  商城服务 给400发送短信验证码
+	public WxUser getSendMsgEnterPrise(PageData pd) throws Exception {
+		WxUser x=new WxUser();
+		//查找所有的400人员的档案信息
+		List<PageData> service = getService(pd);
+		if(service.size()>0){
+			String memo = pd.getString("memo");
+			for (int i = 0; i <service.size(); i++) {
+				String phone = service.get(i).getString("phone");
+				WxUser sendMessage6 = SendMessage.sendMessage6(memo, phone);
+				//发送成功
+				if(sendMessage6.isFlag()){
+					break;
+				}
+				//继续发送
+			}
+			x.setFlag(true);
+			x.setMessage("发送成功！！");
+			
+		}else{
+			x.setFlag(false);
+			x.setMessage("无400客服人员信息！！");
+		}
+		return x;
+	}
+
+	@Override
+	public List<PageData> getBuildId(PageData pd) throws Exception {
+		// TODO Auto-generated method stub
+		return (List<PageData>) dao.findForList("TbCityManager.getBuildId", pd);
+	}
+
+	@Override
+	public List<PageData> getBuildOwner(PageData pd) throws Exception {
+		// TODO Auto-generated method stub
+		return (List<PageData>) dao.findForList("TbCityManager.getBuildOwner", pd);
+	}
+
+	@Override
+	public List<PageData> getService(PageData pd) throws Exception {
+		// TODO Auto-generated method stub
+		return (List<PageData>) dao.findForList("TbCityManager.getService", pd);
+	}
 
 }

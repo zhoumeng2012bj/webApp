@@ -109,6 +109,24 @@
 		where isdelete=0 and category=#{category} and lpid=#{lpid} order by id
 		desc
 	</select>
+	<select id="getBuildId" parameterType="pd" resultType="pd">
+		select lpid from yh_zdfyxx where isdelete=0 and id=#{fyid}
+	</select>
+	<select id="getBuildOwner" parameterType="pd" resultType="pd">
+		select phone,name from app_houseperson
+		where isdelete=0 and category=2 and lpid=#{lpid} order by id
+		asc
+	</select>
+	
+	<select id="getService" parameterType="pd" resultType="pd">
+		select phone,name from base_personnel
+		where ISDELETE=0 and rzstatus=0 and CompanyID=14 and DepartmentID=179 order by id
+		asc
+	</select>
+	
+	
+	
+	
 	
 	<!-- 授权绑定openid -->
 	<update id="updateOpenid" parameterType="pd">

@@ -126,6 +126,7 @@ public class SendMessage {
        }
         return wx;
 	}
+	
 	public static QuerySendDetailsResponse querySendDetails(String bizId,String phone) throws ClientException {
 
         //可自助调整超时时间
@@ -228,6 +229,67 @@ public class SendMessage {
         request.setSignName("幼狮空间");
         //必填:短信模板-可在短信控制台中找到
         request.setTemplateCode("SMS_127163884");
+        //可选:模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为${code}"时,此处的值为
+        request.setTemplateParam(a);
+
+        //选填-上行短信扩展码(无特殊需求用户请忽略此字段)
+        //request.setSmsUpExtendCode("90997");
+
+        //可选:outId为提供给业务方扩展字段,最终在短信回执消息中将此值带回给调用者
+        request.setOutId("");
+
+        //hint 此处可能会抛出异常，注意catch
+        SendSmsResponse response = acsClient.getAcsResponse(request);
+        if(response.getCode() != null && response.getCode().equals("OK")) {
+            wx.setFlag(true);
+        }else{
+            wx.setFlag(false);
+            wx.setQxzt(response.getCode());
+            if(response.getCode().equals("isv.BUSINESS_LIMIT_CONTROL")){
+            wx.setMessage("发送频繁，稍后再试！！");
+            }else if(response.getCode().equals("isv.MOBILE_NUMBER_ILLEGAL")){
+                wx.setMessage("非法手机号！！");
+            }else if(response.getCode().equals("isv.OUT_OF_SERVICE")){
+                wx.setMessage("业务停机！！");
+            }else if(response.getCode().equals("isv.AMOUNT_NOT_ENOUGH")){
+                wx.setMessage("账户余额不足！！");
+            }
+            else{
+                wx.setMessage("发送失败！！");
+            }
+        }
+	    }catch (Exception e) {
+            wx.setFlag(false);
+            wx.setQxzt("系统异常，请稍后再试");
+            wx.setMessage("系统异常，请稍后再试");
+           // TODO Auto-generated catch block
+           e.printStackTrace();
+       }
+        return wx;
+	}
+	//报修发送短信验证码
+	public static WxUser sendMessage6(String code,String phone) {
+	    WxUser wx=new WxUser();
+        //可自助调整超时时间
+	    try {
+        System.setProperty("sun.net.client.defaultConnectTimeout", "10000");
+        System.setProperty("sun.net.client.defaultReadTimeout", "10000");
+
+        //初始化acsClient,暂不支持region化
+        IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", accessKeyId, accessKeySecret);
+        DefaultProfile.addEndpoint("cn-hangzhou", "cn-hangzhou", product, domain);
+        IAcsClient acsClient = new DefaultAcsClient(profile);
+        String a="{'code':'";
+        a+=code;
+        a+="'}";
+        //组装请求对象-具体描述见控制台-文档部分内容
+        SendSmsRequest request = new SendSmsRequest();
+        //必填:待发送手机号
+        request.setPhoneNumbers(phone);
+        //必填:短信签名-可在短信控制台中找到
+        request.setSignName("亮狮网");
+        //必填:短信模板-可在短信控制台中找到
+        request.setTemplateCode("SMS_118555021");
         //可选:模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为${code}"时,此处的值为
         request.setTemplateParam(a);
 
