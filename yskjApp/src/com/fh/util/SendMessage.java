@@ -226,9 +226,10 @@ public class SendMessage {
         //必填:待发送手机号
         request.setPhoneNumbers(phone);
         //必填:短信签名-可在短信控制台中找到
-        request.setSignName("幼狮空间");
+        request.setSignName("亮狮网");
         //必填:短信模板-可在短信控制台中找到
-        request.setTemplateCode("SMS_127163884");
+        //request.setTemplateCode("SMS_127163884");
+        request.setTemplateCode("SMS_137688127");
         //可选:模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为${code}"时,此处的值为
         request.setTemplateParam(a);
 
@@ -268,7 +269,7 @@ public class SendMessage {
         return wx;
 	}
 	//报修发送短信验证码
-	public static WxUser sendMessage6(String code,String phone) {
+	public static WxUser sendMessage6(String yonghu,String leixing,String phone) {
 	    WxUser wx=new WxUser();
         //可自助调整超时时间
 	    try {
@@ -279,9 +280,12 @@ public class SendMessage {
         IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", accessKeyId, accessKeySecret);
         DefaultProfile.addEndpoint("cn-hangzhou", "cn-hangzhou", product, domain);
         IAcsClient acsClient = new DefaultAcsClient(profile);
-        String a="{'code':'";
-        a+=code;
+        String a="{'yonghu':'";
+        a+=yonghu;
+        a+=",'leixing':'";
+        a+=leixing;
         a+="'}";
+        System.out.println(a);
         //组装请求对象-具体描述见控制台-文档部分内容
         SendSmsRequest request = new SendSmsRequest();
         //必填:待发送手机号
@@ -289,7 +293,7 @@ public class SendMessage {
         //必填:短信签名-可在短信控制台中找到
         request.setSignName("亮狮网");
         //必填:短信模板-可在短信控制台中找到
-        request.setTemplateCode("SMS_118555021");
+        request.setTemplateCode("SMS_137665927");
         //可选:模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为${code}"时,此处的值为
         request.setTemplateParam(a);
 
@@ -330,7 +334,7 @@ public class SendMessage {
 	}
 	public static void main(String[] args) {
 	   Integer radomInt = new Random().nextInt(999999);
-	    WxUser sendMessage = sendMessage5(radomInt.toString(),"15093648677");
+	    WxUser sendMessage = sendMessage6("16601132903","业主委托","16601132903");
 	    System.out.println(sendMessage.getMessage());
     }
 
