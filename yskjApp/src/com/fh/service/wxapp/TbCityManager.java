@@ -147,5 +147,18 @@ public interface TbCityManager {
     public void logOpenid(String uid,String cookie)  throws Exception;
     //通过ID获取用户的cookie
     public WxUser getIdCookie(PageData pd) throws Exception;
+    //通过房源ID获取楼盘的ID
+    public List<PageData> getBuildId(PageData pd)  throws Exception;
+    //根据楼盘ID获取楼盘的客户管家信息
+    public List<PageData> getBuildOwner(PageData pd)  throws Exception;
+    //查找所有的400客服人员信息
+    public List<PageData> getService(PageData pd)  throws Exception;
+    //app和扫码报修发送短信验证码   客户管家发送短信验证码
+  	public WxUser getSendMsg(PageData pd) throws Exception ;
+  	//报修  400档案人员发送短信验证码信息   报修的信息能够查询到当前的房源信息
+  	public WxUser getSendMsgService(PageData pd) throws Exception;
+  	//企业互联   会员企业   企业服务  企业需求   业主委托  商城服务 给400发送短信验证码
+  	public WxUser getSendMsgEnterPrise(PageData pd) throws Exception;
+    
 
 }
