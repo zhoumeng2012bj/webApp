@@ -833,8 +833,8 @@ public class TbCityService implements TbCityManager {
 					//报修类型 业主委托、 商城服务、  管家服务（在线报修、物业对接、房屋费用、续租、换房、退租）
 					//具体信息
 					String appPhone = pd.getString("appPhone");
-					String memo = pd.getString("memo");
-					WxUser sendMessage6 = SmsDemo.sendSms(appPhone,memo, phone);
+					String memo = pd.getString("type");
+					WxUser sendMessage6 = SmsDemo.sendSms(appPhone,memo, "15811132039");
 					x.setFlag(sendMessage6.isFlag());
 					x.setMessage(sendMessage6.getMessage());
 				}else{
@@ -878,7 +878,7 @@ public class TbCityService implements TbCityManager {
 		String appPhone = pd.getString("appPhone");
 		//提交的表单的类型    如业主委托 、服务商城
 		String memo = pd.getString("type");
-		WxUser sendMessage6 = SmsDemo.sendSms(appPhone,memo, "18510884004");
+		WxUser sendMessage6 = SmsDemo.sendSms(appPhone,memo, "15811132039"); //客服电话18510884004
 		x.setFlag(sendMessage6.isFlag());
 		x.setMessage(sendMessage6.getMessage());
 		return x;
@@ -910,7 +910,7 @@ public class TbCityService implements TbCityManager {
 				String appPhone = pd.getString("appPhone");
 				//提交的表单的类型    如业主委托 、服务商城
 				String memo = pd.getString("type");
-				WxUser sendMessage6 = SmsDemo.sendSms(appPhone,memo, "18510884004");
+				WxUser sendMessage6 = SmsDemo.sendSms(appPhone,memo, "15811132039"); //18510884004
 				x.setFlag(sendMessage6.isFlag());
 				x.setMessage(sendMessage6.getMessage());
 				return x;

@@ -171,4 +171,10 @@ public interface InterfaceDataManager {
 	 * @throws Exception
 	 */
 	public PageData getQuotationData(PageData pd) throws Exception;
+	
+	/**
+	 * 获取当前登录用户手机号码
+	 * @param pd
+	 */
+	public String getUserPhone(String id) throws Exception;
 }

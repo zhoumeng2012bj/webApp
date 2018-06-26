@@ -230,4 +230,12 @@ public class InterfaceDataService  implements InterfaceDataManager{
 	public PageData getQuotationData(PageData pd) throws Exception {
 		return (PageData)dao.findForObject("InterfaceDataMapper.getEnterNewData", pd);
 	}
+
+	/**
+	 * 获取登录用户手机号码
+	 */
+	@Override
+	public String getUserPhone(String id) throws Exception {
+		return (String)dao.findForObject("InterfaceDataMapper.getEnterUserPhone", id);
+	}
 }

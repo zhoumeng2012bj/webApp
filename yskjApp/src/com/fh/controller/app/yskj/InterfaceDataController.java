@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fh.controller.base.BaseController;
 import com.fh.service.system.yskj.InterfaceDataManager;
+import com.fh.service.wxapp.TbCityManager;
 import com.fh.util.AppUtil;
 import com.fh.util.DateUtil;
 import com.fh.util.NumberUitl;
@@ -31,6 +32,9 @@ public class InterfaceDataController extends BaseController {
     
 	@Resource(name="interfacedataService")
 	private InterfaceDataManager interfaceDataService;
+	
+	@Resource(name="tbCityService")
+	private TbCityManager tbCityService;
 	
 	
 	/**售后服务信息
@@ -68,6 +72,10 @@ public class InterfaceDataController extends BaseController {
         	map.put("message", message);
 			map.put("success", flag);
 			logAfter(logger);
+			//发送短信
+			if(flag){
+				sendMess(pd.getString("uid"),"售后服务","");
+			}
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -103,6 +111,10 @@ public class InterfaceDataController extends BaseController {
         	map.put("message", message);
 			map.put("success", flag);
 			logAfter(logger);
+			//发送短信
+			if(flag){
+				sendMess(pd.getString("uid"),"业主委托","");
+			}
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -117,15 +129,20 @@ public class InterfaceDataController extends BaseController {
 		Map<String,Object> map = new HashMap<String,Object>();
 		boolean flag=true;
         String message="";
+        String category="";
          try {
         	String type=pd.get("type")+"";
         	if(type.equals("1")){
+        		category="工商税务";
         		pd.put("oddNumbers", NumberUitl.getNumber("SW"));	
         	}else if(type.equals("2")){
+        		category="增值服务";
         		pd.put("oddNumbers", NumberUitl.getNumber("ZZ"));	
         	}else if(type.equals("3")){
+        		category="装修定制";
         		pd.put("oddNumbers", NumberUitl.getNumber("ZX"));	
         	}else if(type.equals("4")){
+        		category="金融服务";
         		pd.put("oddNumbers", NumberUitl.getNumber("JR"));	
         	}
             if (this.getRequest().getMethod().toUpperCase().equals("POST")) {//POST
@@ -147,6 +164,10 @@ public class InterfaceDataController extends BaseController {
         	map.put("message", message);
 			map.put("success", flag);
 			logAfter(logger);
+			//发送短信
+			if(flag){
+				sendMess(pd.getString("uid"),category,"");
+			}
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -161,9 +182,10 @@ public class InterfaceDataController extends BaseController {
 		Map<String,Object> map = new HashMap<String,Object>();
 		boolean flag=true;
         String message="";
+        String category="";
          try {
         	String type=pd.get("type")+"";
-        	String category=pd.get("category")+"";
+        	category=pd.get("category")+"";
         	int num=NumberUitl.getCategory(category);
         	if(Tools.notEmpty(type) && Tools.notEmpty(category) &&  num!=0){
         		pd.put("oddNumbers", NumberUitl.getNumber(category));	
@@ -191,6 +213,11 @@ public class InterfaceDataController extends BaseController {
         	map.put("message", message);
 			map.put("success", flag);
 			logAfter(logger);
+			//发送短信
+			if(flag){
+				String fyId=pd.get("fyid")+"";
+				sendMess(pd.getString("uid"),NumberUitl.getTypeStr(category),fyId);
+			}
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -207,9 +234,10 @@ public class InterfaceDataController extends BaseController {
 		Map<String,Object> map = new HashMap<String,Object>();
 		boolean flag=true;
         String message="";
+        String category="";
          try {
         	String type=pd.get("type")+"";
-        	String category=pd.get("category")+"";
+        	category=pd.get("category")+"";
         	int num=NumberUitl.getCategory(category);
         	if(Tools.notEmpty(type) && Tools.notEmpty(category) &&  num!=0){
         		pd.put("oddNumbers", NumberUitl.getNumber(category));	
@@ -240,6 +268,11 @@ public class InterfaceDataController extends BaseController {
         	map.put("message", message);
 			map.put("success", flag);
 			logAfter(logger);
+			//发送短信
+			if(flag){
+				String fyId=pd.get("fyid")+"";
+				sendMess(pd.getString("uid"),NumberUitl.getTypeStr(category),fyId);
+			}
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -435,6 +468,10 @@ public class InterfaceDataController extends BaseController {
         	map.put("message", message);
 			map.put("success", flag);
 			logAfter(logger);
+			//发送短信
+			if(flag){
+				sendMess(pd.getString("uid"),"加入会员","");
+			}
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -469,6 +506,18 @@ public class InterfaceDataController extends BaseController {
         	map.put("message", message);
 			map.put("success", flag);
 			logAfter(logger);
+			//发送短信
+			if(flag){
+				String category=pd.get("demandCategory")+"";
+				String type="";
+				if(category.equals("1")){
+					type="发布服务";
+				}
+				if(category.equals("2")){
+					type="发布需求";
+				}
+				sendMess(pd.getString("uid"),type,"");
+			}
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
@@ -1122,6 +1171,27 @@ public class InterfaceDataController extends BaseController {
 		return AppUtil.returnObject(new PageData(), map);
 	}
 	
+	/**
+	 * 发生短信
+	 */
+	public void sendMess(String userId,String type,String fyId){
+		 try {
+			 String phone=interfaceDataService.getUserPhone(userId);
+			 PageData pd=new PageData();
+			 pd.put("appPhone", phone);
+			 pd.put("type", type);
+			 tbCityService.getSendMsgEnterPrise(pd);
+			 //管家发生短信
+			 if(!fyId.equals("") && !fyId.equals("null") && fyId !=null){
+				 pd.put("fyid", fyId);
+				tbCityService.getSendMsg(pd);
+			 }
+		 }catch (Exception e) {
+			 e.printStackTrace();
+		 }finally{
+				logAfter(logger);
+			}
+	}
 }
 	
  

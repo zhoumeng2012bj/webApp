@@ -13,6 +13,9 @@ public class NumberUitl {
 	//单号
 	private static Map<String,Integer> ooddNumbersMap=new HashMap<String,Integer>();
 	
+	//类型描述
+	private static Map<String,String> typeMap=new HashMap<String,String>();
+	
 	//生成单号规则
     static{
     	//设备报修 BX
@@ -43,6 +46,37 @@ public class NumberUitl {
     	ooddNumbersMap.put("BGXZ", 1); //续租
     	ooddNumbersMap.put("BGHZ", 2); //换房
     	ooddNumbersMap.put("BGTZ", 3); //退房
+    	
+    	//类型
+    	//设备报修 BX
+    	typeMap.put("BX", "设备报修");   //设备报修 
+    	typeMap.put("BXMC", "门窗维修"); //门窗维修
+    	typeMap.put("BXDJ", "灯具电路"); //灯具电路
+    	typeMap.put("BXKT", "空调制冷"); //空调制冷
+    	typeMap.put("BXSL", "水路管件"); //水路管件
+    	//物业对接 WY
+    	typeMap.put("WY", "物业对接"); //物业对接
+    	typeMap.put("WYCM", "开具出门条"); //开具出门条
+    	typeMap.put("WYZX", "装修同意函"); //装修同意函
+    	typeMap.put("WYWL", "网络问题"); //网络问题
+    	//房屋凭证 PZ
+    	typeMap.put("PZ", "房屋凭证");   //房屋凭证
+    	typeMap.put("PZCX", "大产权证"); //大产权证
+    	typeMap.put("PZFB", "房本原件"); //房本原件
+    	typeMap.put("PZSF", "业主身份证原件"); //业主身份证原件
+    	typeMap.put("BZYZ", "业主签字"); //业主签字
+    	//房屋费用 FY
+    	typeMap.put("FY", "房屋费用");   //房屋费用
+    	typeMap.put("FYWY", "物业费"); //物业费
+    	typeMap.put("FYQN", "取暖费"); //取暖费
+    	typeMap.put("FYSD", "遗留水电费"); //遗留水电费
+    	typeMap.put("FYKT", "空调转换费"); //空调转换费
+    	//房屋变更BG
+    	typeMap.put("BG", "房屋变更");   //房屋变更
+    	typeMap.put("BGXZ", "续租"); //续租
+    	typeMap.put("BGHZ", "换房"); //换房
+    	typeMap.put("BGTZ", "退租"); //退房
+    	
     }
 	    
 	public static String getNumber(String type){
@@ -95,6 +129,14 @@ public class NumberUitl {
     	int type=0;
     	if(ooddNumbersMap.get(category) !=null){
     		type=ooddNumbersMap.get(category);
+    	}
+    	return type;
+    }
+	
+	public static String getTypeStr(String category){
+    	String type="";
+    	if(typeMap.get(category) !=null){
+    		type=typeMap.get(category);
     	}
     	return type;
     }

@@ -470,4 +470,9 @@
 		select  memo, `value` ,url from app_latest_data where type=15
 	</select>
     
+    <!-- 根据用户id获取phone -->
+	<select id="getEnterUserPhone"  parameterType="String" resultType="String" >
+     select phone from qd_user where id=#{id} and isdelete=0 
+	</select>
+    
 </mapper>
