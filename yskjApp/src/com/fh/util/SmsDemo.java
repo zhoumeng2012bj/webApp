@@ -59,7 +59,7 @@ public class SmsDemo {
         //必填:短信签名-可在短信控制台中找到
         request.setSignName("亮狮网");
         //必填:短信模板-可在短信控制台中找到
-        request.setTemplateCode("SMS_137665927");
+        request.setTemplateCode("SMS_138060451");
         String a="{'yonghu':'";
         a+=yonghu;
         a+="','leixing':'";

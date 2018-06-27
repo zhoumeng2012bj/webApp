@@ -74,7 +74,8 @@ public class InterfaceDataController extends BaseController {
 			logAfter(logger);
 			//发送短信
 			if(flag){
-				sendMess(pd.getString("uid"),"售后服务","");
+				String phone=pd.getString("phone");
+				sendMess(pd.getString("uid"),"售后服务",phone,"");
 			}
 		}
 		return AppUtil.returnObject(new PageData(), map);
@@ -113,7 +114,8 @@ public class InterfaceDataController extends BaseController {
 			logAfter(logger);
 			//发送短信
 			if(flag){
-				sendMess(pd.getString("uid"),"业主委托","");
+				String phone=pd.getString("phone");
+				sendMess(pd.getString("uid"),"业主委托",phone,"");
 			}
 		}
 		return AppUtil.returnObject(new PageData(), map);
@@ -166,7 +168,8 @@ public class InterfaceDataController extends BaseController {
 			logAfter(logger);
 			//发送短信
 			if(flag){
-				sendMess(pd.getString("uid"),category,"");
+				String phone=pd.getString("phone");
+				sendMess(pd.getString("uid"),category,phone,"");
 			}
 		}
 		return AppUtil.returnObject(new PageData(), map);
@@ -215,8 +218,9 @@ public class InterfaceDataController extends BaseController {
 			logAfter(logger);
 			//发送短信
 			if(flag){
+				String phone=pd.getString("phone");
 				String fyId=pd.get("fyid")+"";
-				sendMess(pd.getString("uid"),NumberUitl.getTypeStr(category),fyId);
+				sendMess(pd.getString("uid"),NumberUitl.getTypeStr(category),phone,fyId);
 			}
 		}
 		return AppUtil.returnObject(new PageData(), map);
@@ -270,8 +274,9 @@ public class InterfaceDataController extends BaseController {
 			logAfter(logger);
 			//发送短信
 			if(flag){
+				String phone=pd.getString("phone");
 				String fyId=pd.get("fyid")+"";
-				sendMess(pd.getString("uid"),NumberUitl.getTypeStr(category),fyId);
+				sendMess(pd.getString("uid"),NumberUitl.getTypeStr(category),phone,fyId);
 			}
 		}
 		return AppUtil.returnObject(new PageData(), map);
@@ -470,7 +475,8 @@ public class InterfaceDataController extends BaseController {
 			logAfter(logger);
 			//发送短信
 			if(flag){
-				sendMess(pd.getString("uid"),"加入会员","");
+				String phone=pd.getString("phone");
+				sendMess(pd.getString("uid"),"加入会员",phone,"");
 			}
 		}
 		return AppUtil.returnObject(new PageData(), map);
@@ -516,7 +522,8 @@ public class InterfaceDataController extends BaseController {
 				if(category.equals("2")){
 					type="发布需求";
 				}
-				sendMess(pd.getString("uid"),type,"");
+				String phone=pd.getString("enterPhone");
+				sendMess(pd.getString("uid"),type,phone,"");
 			}
 		}
 		return AppUtil.returnObject(new PageData(), map);
@@ -1174,9 +1181,9 @@ public class InterfaceDataController extends BaseController {
 	/**
 	 * 发生短信
 	 */
-	public void sendMess(String userId,String type,String fyId){
+	public void sendMess(String userId,String type,String phone,String fyId){
 		 try {
-			 String phone=interfaceDataService.getUserPhone(userId);
+			 //String phone=interfaceDataService.getUserPhone(userId);
 			 PageData pd=new PageData();
 			 pd.put("appPhone", phone);
 			 pd.put("type", type);
