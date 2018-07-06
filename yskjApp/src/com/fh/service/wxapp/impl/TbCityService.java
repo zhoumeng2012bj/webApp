@@ -20,6 +20,7 @@ import com.fh.entity.system.User;
 import com.fh.entity.wxapp.TbCity;
 import com.fh.service.system.user.UserManager;
 import com.fh.service.wxapp.TbCityManager;
+import com.fh.util.DateUtil;
 import com.fh.util.DelRedis;
 import com.fh.util.GetRedis;
 import com.fh.util.PageData;
@@ -834,7 +835,7 @@ public class TbCityService implements TbCityManager {
 					//具体信息
 					String appPhone = pd.getString("appPhone");
 					String memo = pd.getString("type");
-					WxUser sendMessage6 = SmsDemo.sendSms(appPhone,memo, "15811132039");
+					WxUser sendMessage6 = SmsDemo.sendSms(appPhone,memo, phone);
 					x.setFlag(sendMessage6.isFlag());
 					x.setMessage(sendMessage6.getMessage());
 				}else{
@@ -932,6 +933,62 @@ public class TbCityService implements TbCityManager {
 	public List<PageData> getService(PageData pd) throws Exception {
 		// TODO Auto-generated method stub
 		return (List<PageData>) dao.findForList("TbCityManager.getService", pd);
+	}
+
+	@Override
+	public WxUser browseRecords(PageData pd) throws Exception {
+		WxUser x = new WxUser();
+		String string = pd.getString("cookie");
+		String a = "appuser" + string;
+		Integer redis = GetRedis.getRedis(a);
+		if (!"".equals(string)) {
+			if (redis != 0) {
+				pd.put("redis", redis);
+				pd.put("createTime", new Date());
+				dao.save("TbCityManager.saveBrowseRecords", pd);
+				x.setFlag(true);
+				x.setMessage("浏览记录保存成功");
+			} else {
+				x.setFlag(false);
+				x.setMessage("无此用户登陆信息");
+			}
+		} else {
+			x.setFlag(false);
+			x.setMessage("参数错误");
+		}
+		return x;
+	}
+
+	/**
+	 * 删除app浏览记录
+	 */
+	@Override
+	public WxUser delBrowseRecords(PageData pd) throws Exception {
+		WxUser x = new WxUser();
+		String string = pd.getString("ids");
+		if (!"".equals(string)) {
+			String[] split = string.split(",");
+			dao.update("TbCityManager.deleteBrowseRecords", split);
+			x.setFlag(true);
+			x.setMessage("浏览记录删除成功");
+		} else {
+			x.setFlag(false);
+			x.setMessage("参数错误");
+		}
+		return x;
+	}
+
+	/**
+	 * 查询房源浏览记录
+	 */
+	@Override
+	public PageData getBrowseRecords(PageData pd) throws Exception {
+		String string = pd.getString("cookie");
+		String a = "appuser" + string;
+		Integer redis = GetRedis.getRedis(a);
+		pd.put("redis", redis);
+		pd.put("createTime", DateUtil.getDay());
+		return (PageData)dao.findForObject("TbCityManager.getEnterBrowseRecords", pd);
 	}
 
 }

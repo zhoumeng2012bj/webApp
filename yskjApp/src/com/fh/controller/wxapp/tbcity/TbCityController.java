@@ -991,5 +991,63 @@ public class TbCityController extends BaseController {
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
+	
+	/**
+	 * app浏览记录
+	 */
+	@RequestMapping(value = "/browseRecords")
+	@ResponseBody
+	public Object browseRecords(@RequestBody PageData pd) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			if (this.getRequest().getMethod().toUpperCase().equals("POST")) {
+				PageData pdData=tbCityService.getBrowseRecords(pd);
+				//该房源没有浏览则保存浏览记录
+				if(pdData ==null){
+					WxUser logAccount = tbCityService.browseRecords(pd);
+					if (logAccount != null) {
+						map.put("success", logAccount.isFlag());
+						map.put("message", logAccount.getMessage());
+					} else {
+						map.put("success", false);
+						map.put("message", "保存浏览记录失败");
+					}
+				}
+			} else {
+				map.put("success", false);
+				map.put("message", "请求方式错误");
+			}
+		} catch (Exception e) {
+			logger.error(e.toString(), e);
+		} finally {
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	
+	/**
+	 * app浏览记录删除
+	 */
+	@RequestMapping(value = "/delBrowseRecords")
+	@ResponseBody
+	public Object delBrowseRecords(@RequestBody PageData pd) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			if (this.getRequest().getMethod().toUpperCase().equals("POST")) {
+				WxUser logAccount = tbCityService.delBrowseRecords(pd);
+				map.put("success", logAccount.isFlag());
+				map.put("message", logAccount.getMessage());
+
+			} else {
+				map.put("success", false);
+				map.put("message", "请求方式错误");
+			}
+		} catch (Exception e) {
+			logger.error(e.toString(), e);
+		} finally {
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
 
 }

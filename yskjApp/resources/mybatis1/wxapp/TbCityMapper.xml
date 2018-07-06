@@ -149,5 +149,24 @@
 				0,#{phone},	#{pass},#{openid},0,2,NOW()
 			)
 	</insert>
+	<!-- 保存房源浏览记录 -->
+	<insert id="saveBrowseRecords" parameterType="pd">
+		<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into qd_browserecords(isdelete,uid,hid,ctime) values (0,#{redis},#{fyid},NOW())
+	</insert>
+	<delete id="deleteBrowseRecords" parameterType="pd">
+	   delete from qd_browserecords where id in
+		<foreach item="item" index="index" collection="array" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		and 
+	</delete>
+	<!-- 判断企业是否加入会员  -->
+	<select id="getEnterBrowseRecords"  parameterType="pd" resultType="pd" >
+		select id,uid,hid from qd_browserecords where uid=#{redis} and hid=#{fyid} and ctime=#{createTime}
+	</select>
 
 </mapper>

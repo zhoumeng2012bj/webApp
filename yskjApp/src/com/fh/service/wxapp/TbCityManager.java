@@ -159,6 +159,11 @@ public interface TbCityManager {
   	public WxUser getSendMsgService(PageData pd) throws Exception;
   	//企业互联   会员企业   企业服务  企业需求   业主委托  商城服务 给400发送短信验证码
   	public WxUser getSendMsgEnterPrise(PageData pd) throws Exception;
-    
-
+  	
+  	//app房源浏览记录
+ 	public PageData getBrowseRecords(PageData pd) throws Exception;
+    // app房源浏览记录
+ 	public WxUser browseRecords(PageData pd) throws Exception;
+    // 删除app房源浏览记录
+ 	public WxUser delBrowseRecords(PageData pd) throws Exception;
 }
