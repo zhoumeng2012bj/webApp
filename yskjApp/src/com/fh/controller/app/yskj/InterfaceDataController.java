@@ -239,6 +239,7 @@ public class InterfaceDataController extends BaseController {
 		boolean flag=true;
         String message="";
         String category="";
+        String uid=pd.get("uid")+"";
          try {
         	String type=pd.get("type")+"";
         	category=pd.get("category")+"";
@@ -1193,12 +1194,17 @@ public class InterfaceDataController extends BaseController {
 				 pd.put("fyid", fyId);
 				tbCityService.getSendMsg(pd);
 			 }
+			 //扫码发短信（userid为空 则给客户发送短信）
+			 if(Tools.isEmpty(userId)){
+				 tbCityService.getSendMsgService(pd);
+			 }
 		 }catch (Exception e) {
 			 e.printStackTrace();
 		 }finally{
 				logAfter(logger);
 			}
 	}
+	
 }
 	
  

@@ -853,7 +853,7 @@ public class TbCityService implements TbCityManager {
 		return x;
 	}
 	
-	//报修  400档案人员发送短信验证码信息   报修的信息能够查询到当前的房源信息
+	//扫码发短信（客户发短信）
 	public WxUser getSendMsgService(PageData pd) throws Exception {
 		WxUser x=new WxUser();
 		//查找所有的400人员的档案信息
@@ -879,7 +879,7 @@ public class TbCityService implements TbCityManager {
 		String appPhone = pd.getString("appPhone");
 		//提交的表单的类型    如业主委托 、服务商城
 		String memo = pd.getString("type");
-		WxUser sendMessage6 = SmsDemo.sendSms(appPhone,memo, "15811132039"); //客服电话18510884004
+		WxUser sendMessage6 = SmsDemo.scanSendSms("",memo, appPhone); //扫码发短信（客户发短信）
 		x.setFlag(sendMessage6.isFlag());
 		x.setMessage(sendMessage6.getMessage());
 		return x;
