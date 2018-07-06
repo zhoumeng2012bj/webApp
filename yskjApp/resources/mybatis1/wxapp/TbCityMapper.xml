@@ -164,7 +164,7 @@
 		</foreach>
 		and 
 	</delete>
-	<!-- 判断企业是否加入会员  -->
+	<!-- 查询房源浏览记录-->
 	<select id="getEnterBrowseRecords"  parameterType="pd" resultType="pd" >
 		select id,uid,hid from qd_browserecords where uid=#{redis} and hid=#{fyid} and ctime=#{createTime}
 	</select>
