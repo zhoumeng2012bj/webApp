@@ -1001,10 +1001,11 @@ public class TbCityController extends BaseController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			if (this.getRequest().getMethod().toUpperCase().equals("POST")) {
+				WxUser logAccount =null;
 				PageData pdData=tbCityService.getBrowseRecords(pd);
 				//该房源没有浏览则保存浏览记录
 				if(pdData ==null){
-					WxUser logAccount = tbCityService.browseRecords(pd);
+					logAccount = tbCityService.browseRecords(pd);
 					if (logAccount != null) {
 						map.put("success", logAccount.isFlag());
 						map.put("message", logAccount.getMessage());
@@ -1012,6 +1013,11 @@ public class TbCityController extends BaseController {
 						map.put("success", false);
 						map.put("message", "保存浏览记录失败");
 					}
+				}else{
+					 //更新浏览时间
+					 logAccount =tbCityService.updateBrowseRecords(pd);
+					 map.put("success", logAccount.isFlag());
+					 map.put("message", logAccount.getMessage());
 				}
 			} else {
 				map.put("success", false);

@@ -908,13 +908,37 @@ public class TbCityService implements TbCityManager {
 			x.setMessage("无400客服人员信息！！");
 		}*/
 		//当前APP用户的手机号
-				String appPhone = pd.getString("appPhone");
-				//提交的表单的类型    如业主委托 、服务商城
-				String memo = pd.getString("type");
-				WxUser sendMessage6 = SmsDemo.sendSms(appPhone,memo, "15811132039"); //18510884004
-				x.setFlag(sendMessage6.isFlag());
-				x.setMessage(sendMessage6.getMessage());
-				return x;
+		    //客服人员手机号
+		   
+		List<PageData> listPhone=getListPhone();
+		int index=0;
+		String appPhone = pd.getString("appPhone");
+		String memo = pd.getString("type");
+		for (int i = 0; i <listPhone.size(); i++) {
+			String phone = listPhone.get(i).getString("phone");
+			WxUser sendMessage6 = SmsDemo.sendSms(appPhone,memo, phone);
+			//发送成功
+			if(!sendMessage6.isFlag()){
+				index++;
+			}else{
+				x.setFlag(true);
+				x.setMessage("发送成功！！");
+				break;
+			}
+			if(index >= listPhone.size()){
+				x.setFlag(false);
+				x.setMessage("发送失败！！");
+				break;
+			}
+			//继续发送
+		}
+		/*String appPhone = pd.getString("appPhone");
+		//提交的表单的类型    如业主委托 、服务商城
+		String memo = pd.getString("type");
+		WxUser sendMessage6 = SmsDemo.sendSms(appPhone,memo, "15811132039"); //18510884004
+		x.setFlag(sendMessage6.isFlag());
+		x.setMessage(sendMessage6.getMessage());*/
+		return x;
 	}
 
 	@Override
@@ -933,6 +957,12 @@ public class TbCityService implements TbCityManager {
 	public List<PageData> getService(PageData pd) throws Exception {
 		// TODO Auto-generated method stub
 		return (List<PageData>) dao.findForList("TbCityManager.getService", pd);
+	}
+	
+	
+	public List<PageData> getListPhone() throws Exception {
+		// TODO Auto-generated method stub
+		return (List<PageData>) dao.findForList("TbCityManager.getListPhone", "");
 	}
 
 	@Override
@@ -989,6 +1019,28 @@ public class TbCityService implements TbCityManager {
 		pd.put("redis", redis);
 		pd.put("createTime", DateUtil.getDay());
 		return (PageData)dao.findForObject("TbCityManager.getEnterBrowseRecords", pd);
+	}
+
+	/**
+	 * 更新app房源浏览时间
+	 */
+	@Override
+	public WxUser updateBrowseRecords(PageData pd) throws Exception {
+		WxUser x = new WxUser();
+		String string = pd.getString("cookie");
+		if(!"".equals("")){
+			String a = "appuser" + string;
+			Integer redis = GetRedis.getRedis(a);
+			pd.put("redis", redis);
+			pd.put("createTime", DateUtil.getDay());
+			dao.update("TbCityManager.updateBrowseRecords", pd);
+			x.setFlag(true);
+			x.setMessage("浏览记录时间更新成功");
+		}else{
+			x.setFlag(false);
+			x.setMessage("参数错误");
+		}
+		return x;
 	}
 
 }

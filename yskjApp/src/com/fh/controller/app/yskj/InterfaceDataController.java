@@ -1189,7 +1189,7 @@ public class InterfaceDataController extends BaseController {
 			 pd.put("appPhone", phone);
 			 pd.put("type", type);
 			 tbCityService.getSendMsgEnterPrise(pd);
-			 //管家发生短信
+			 //管家发送短信
 			 if(!fyId.equals("") && !fyId.equals("null") && fyId !=null){
 				 pd.put("fyid", fyId);
 				tbCityService.getSendMsg(pd);

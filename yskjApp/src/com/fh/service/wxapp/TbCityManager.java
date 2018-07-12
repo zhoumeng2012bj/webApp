@@ -162,6 +162,8 @@ public interface TbCityManager {
   	
   	//app房源浏览记录
  	public PageData getBrowseRecords(PageData pd) throws Exception;
+ 	//更新app房源浏览记录时间
+ 	public WxUser updateBrowseRecords(PageData pd) throws Exception;
     // app房源浏览记录
  	public WxUser browseRecords(PageData pd) throws Exception;
     // 删除app房源浏览记录
