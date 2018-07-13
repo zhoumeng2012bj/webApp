@@ -474,5 +474,39 @@
 	<select id="getEnterUserPhone"  parameterType="String" resultType="String" >
      select phone from qd_user where id=#{id} and isdelete=0 
 	</select>
-    
+    <!-- 获取当前登陆用户的合同列表 -->
+	<select id="getContractListById"  parameterType="String" resultType="pd" >
+     select * from v_hetong where userid=#{id}  
+	</select> 
+	 <!-- 获取租金信息 -->
+	<select id="getContractZjxxById"  parameterType="pd" resultType="pd" >
+     select StartDate,EndDate,format(yuezujin,2)yuezujin from office.t_zujinxiangxi  where hetongid=#{id} and hetongtid=#{httype}
+	</select>
+	 <!-- 获取付款信息 -->
+	<select id="getContractFkfsById"  parameterType="pd" resultType="pd" >
+     select  StartDate,EndDate,yajinyue,zujinyue from office.t_fukuanfangshi where hetongid=#{id} and hetongtid=#{httype}
+	</select>
+	 <!-- 获取应付信息 -->
+	<select id="getContractFkById"  parameterType="pd" resultType="pd" >
+     select REPLACE(zhouqi,'-','.')zhouqi,fkMoney,fkDate  from office.t_cw_fc  where hetongid=#{id}  
+	</select>
+	 <!-- 获取应收信息 -->
+	<select id="getContractSkById"  parameterType="pd" resultType="pd" >
+     select REPLACE(zhouqi,'-','.')zhouqi,skMoney,skDate  from office.t_cw_sr where hetongid=#{id}  
+	</select>
+	 <!-- 获取付款凭证信息 -->
+	<select id="getContractFkpzById"  parameterType="pd" resultType="pd" >
+     select t_cw_fc_submit_id, DATE_FORMAT(cwfc.fukuanDate,'%Y年%m月%d日'),cwfc.tijiaoMoney,0 httype,'付款凭证' as fkname 
+     from office.t_cw_fc_submit cwfc inner join office.t_cw_fc cw on cwfc.t_cw_fc_id=cw.t_cw_fc_id 
+     INNER JOIN qd_user_contract qd on cw.hetongid=qd.hetongid and qd.hetongtid=0   
+     where  qd.userid=#{id}  
+	</select>
+	 <!-- 获取收款凭证信息 -->
+	<select id="getContractSkpzById"  parameterType="pd" resultType="pd" >
+     select t_cw_sr_submit_id, DATE_FORMAT(shoukuanDate,'%Y年%m月%d日'), shoukuanmoney,1 httype,'收款凭证' as fkname  
+     from office.t_cw_sr_submit cw INNER JOIN qd_user_contract qd on cw.hetongid=qd.hetongid and qd.hetongtid=1   
+     where qd.userid=#{id}  
+	</select>
+	
+	
 </mapper>

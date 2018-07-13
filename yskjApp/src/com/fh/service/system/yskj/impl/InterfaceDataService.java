@@ -238,4 +238,61 @@ public class InterfaceDataService  implements InterfaceDataManager{
 	public String getUserPhone(String id) throws Exception {
 		return (String)dao.findForObject("InterfaceDataMapper.getEnterUserPhone", id);
 	}
+	
+	/**
+	 * 获取当前登陆用户的合同列表
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PageData> getContractListById(String id) throws Exception {
+		return (List<PageData>) dao.findForList("InterfaceDataMapper.getContractListById", id);
+	}
+	/**
+	 * 获取租金信息
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PageData> getContractZjxxById(PageData pd) throws Exception {
+		return (List<PageData>) dao.findForList("InterfaceDataMapper.getContractZjxxById", pd);
+	}
+	/**
+	 * 获取付款信息
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PageData> getContractFkfsById(PageData pd) throws Exception {
+		return (List<PageData>) dao.findForList("InterfaceDataMapper.getContractFkfsById", pd);
+	}
+	/**
+	 * 获取应付信息 
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PageData> getContractFkById(PageData pd) throws Exception {
+		return (List<PageData>) dao.findForList("InterfaceDataMapper.getContractFkById", pd);
+	}
+	/**
+	 * 获取应收信息
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PageData> getContractSkById(PageData pd) throws Exception {
+		return (List<PageData>) dao.findForList("InterfaceDataMapper.getContractSkById", pd);
+	}
+	/**
+	 * 获取付款凭证 
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PageData> getContractFkpzById(PageData pd) throws Exception {
+		return (List<PageData>) dao.findForList("InterfaceDataMapper.getContractFkpzById", pd);
+	}
+	/**
+	 * 获取收款凭证
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PageData> getContractSkpzById(PageData pd) throws Exception {
+		return (List<PageData>) dao.findForList("InterfaceDataMapper.getContractSkpzById", pd);
+	}
 }

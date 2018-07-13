@@ -177,4 +177,45 @@ public interface InterfaceDataManager {
 	 * @param pd
 	 */
 	public String getUserPhone(String id) throws Exception;
+	
+	/**
+	 * 获取当前登陆用户的合同列表
+	 * @param id
+	 */
+	public List<PageData> getContractListById(String id) throws Exception;
+	
+	/**
+	 * 获取租金信息
+	 * @param id
+	 */
+	public List<PageData> getContractZjxxById(PageData pd) throws Exception;
+	
+	/**
+	 * 获取当前登陆用户的合同列表
+	 * @param id
+	 */
+	public List<PageData> getContractFkfsById(PageData pd) throws Exception;
+	
+	/**
+	 * 获取应付信息 
+	 * @param id
+	 */
+	public List<PageData> getContractFkById(PageData pd) throws Exception;
+	
+	/**
+	 * 获取应收
+	 * @param id
+	 */
+	public List<PageData> getContractSkById(PageData pd) throws Exception;
+	/**
+	 * 获取付款凭证 
+	 * @param id
+	 */
+	public List<PageData> getContractFkpzById(PageData pd) throws Exception;
+	
+	/**
+	 * 获取收款凭证
+	 * @param id
+	 */
+	public List<PageData> getContractSkpzById(PageData pd) throws Exception;
 }

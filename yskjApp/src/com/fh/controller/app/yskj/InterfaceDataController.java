@@ -1204,7 +1204,147 @@ public class InterfaceDataController extends BaseController {
 				logAfter(logger);
 			}
 	}
+	/**获取当前登陆用户的合同列表
+	 * @return 
+	 */
+	@RequestMapping(value="/getContractListById")
+	@ResponseBody
+	public Object getContractListById(@RequestBody PageData pd){
+		logBefore(logger, "根据用户id获取当前登陆用户的合同列表");
+		Map<String,Object> map = new HashMap<String,Object>();
+		boolean flag=true;
+        String message="";
+        List<PageData> list=null;
+         try {
+        	 
+            if (this.getRequest().getMethod().toUpperCase().equals("POST")) {//POST
+            	String id = pd.getString("id");
+            	if(Tools.notEmpty(id))
+            	{
+            	 list=interfaceDataService.getContractListById(id);
+            	 if(list !=null && list.size() >0){ 
+ 	    			map.put("data", list);
+            	  }else{
+            		  flag=false;
+            	  }
+	              message="信息处理成功!";
+            	}else{
+            		 flag=false;
+                     message="提交请求参数错误!";
+            	}
+            }else{
+                flag=false;
+                message="提交请求方式错误!";
+            }
+         }catch (Exception e) {
+        	    e.printStackTrace();
+                flag=false;
+                message="信息处理异常！";
+    			logAfter(logger);
+        }finally{
+        	map.put("message", message);
+			map.put("success", flag);
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
 	
+	/**根据合同id及合同类型获取租金信息及付款方式
+	 * @return 
+	 */
+	@RequestMapping(value="/getContractZjxxById")
+	@ResponseBody
+	public Object getContractZjxxById(@RequestBody PageData pd){
+		logBefore(logger, "根据用户id获取当前登陆用户的合同列表");
+		Map<String,Object> map = new HashMap<String,Object>();
+		boolean flag=true;
+        String message="";
+        List<PageData> list=null;
+         try {
+        	 
+            if (this.getRequest().getMethod().toUpperCase().equals("POST")) {//POST
+            	String id = pd.getString("id"); 
+            	if(Tools.notEmpty(id))
+            	{
+            	 list=interfaceDataService.getContractZjxxById(pd);
+            	  List<PageData>fkfs=interfaceDataService.getContractFkfsById(pd);
+            	 if(list !=null && list.size() >0){ 
+ 	    			map.put("data", list);
+ 	    			map.put("fkfsdata", fkfs);
+            	  }else{
+            		  flag=false;
+            	  }
+	              message="信息处理成功!";
+            	}else{
+            		 flag=false;
+                     message="提交请求参数错误!";
+            	}
+            }else{
+                flag=false;
+                message="提交请求方式错误!";
+            }
+         }catch (Exception e) {
+        	    e.printStackTrace();
+                flag=false;
+                message="信息处理异常！";
+    			logAfter(logger);
+        }finally{
+        	map.put("message", message);
+			map.put("success", flag);
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	
+	/**根据合同id及合同类型获取合同应付账单
+	 * @return 
+	 */
+	@RequestMapping(value="/getContractYfzdById")
+	@ResponseBody
+	public Object getContractYfzdById(@RequestBody PageData pd){
+		logBefore(logger, "根据用户id获取当前登陆用户的合同列表");
+		Map<String,Object> map = new HashMap<String,Object>();
+		boolean flag=true;
+        String message="";
+        List<PageData> list=null;
+         try {
+        	 
+            if (this.getRequest().getMethod().toUpperCase().equals("POST")) {//POST
+            	String id = pd.getString("id"); 
+            	String httype= pd.getString("httype"); 
+            	if(Tools.notEmpty(id))
+            	{
+            	if(httype=="0"){
+            	    list=interfaceDataService.getContractFkById(pd);
+            	}else{
+            		list=interfaceDataService.getContractSkById(pd);
+            	}
+            	 if(list !=null && list.size() >0){ 
+ 	    			map.put("data", list); 
+            	  }else{
+            		  flag=false;
+            	  }
+	              message="信息处理成功!";
+            	}else{
+            		 flag=false;
+                     message="提交请求参数错误!";
+            	}
+            }else{
+                flag=false;
+                message="提交请求方式错误!";
+            }
+         }catch (Exception e) {
+        	    e.printStackTrace();
+                flag=false;
+                message="信息处理异常！";
+    			logAfter(logger);
+        }finally{
+        	map.put("message", message);
+			map.put("success", flag);
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
 }
 	
  
