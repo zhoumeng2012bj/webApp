@@ -149,12 +149,16 @@
 				0,#{phone},	#{pass},#{openid},0,2,NOW()
 			)
 	</insert>
+	<!-- 查询客服手机号-->
+	<select id="getListPhone"  resultType="pd" >
+		select phone from app_customerservice  order BY ordernum asc
+	</select>
 	<!-- 保存房源浏览记录 -->
 	<insert id="saveBrowseRecords" parameterType="pd">
 		<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
 			SELECT LAST_INSERT_ID()
 		</selectKey>
-		insert into qd_browserecords(isdelete,uid,hid,ctime) values (0,#{redis},#{fyid},NOW())
+		insert into qd_browserecords(isdelete,uid,hid,ctime,gtime) values (0,#{redis},#{fyid},NOW(),NOW())
 	</insert>
 	<delete id="deleteBrowseRecords" parameterType="pd">
 	   delete from qd_browserecords where id in
@@ -162,11 +166,14 @@
 			separator="," close=")">
 			#{item}
 		</foreach>
-		and 
 	</delete>
 	<!-- 查询房源浏览记录-->
 	<select id="getEnterBrowseRecords"  parameterType="pd" resultType="pd" >
 		select id,uid,hid from qd_browserecords where uid=#{redis} and hid=#{fyid} and ctime=#{createTime}
 	</select>
+	<!-- 更新app房源浏览记录 时间-->
+	<update id="updateBrowseRecords" parameterType="pd">
+	   update qd_browserecords set gtime=NOW() where uid=#{redis} and hid=#{fyid} and ctime=#{createTime}
+	</update>
 
 </mapper>

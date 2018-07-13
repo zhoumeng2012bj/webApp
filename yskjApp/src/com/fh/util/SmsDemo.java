@@ -134,7 +134,7 @@ public class SmsDemo {
        //必填:短信签名-可在短信控制台中找到
        request.setSignName("亮狮网");
        //必填:短信模板-可在短信控制台中找到
-       request.setTemplateCode("SMS_138079960");
+       request.setTemplateCode("SMS_138071173");
        String a="{'leixing':'";
        a+=leixing;
        a+="'}";
@@ -213,7 +213,7 @@ public class SmsDemo {
 
     public static void main(String[] args) throws ClientException, InterruptedException {
         //发短信
-        WxUser response = sendSms("16601132903","业主委托","16601132903");
+        WxUser response = scanSendSms("16601132903","业主委托","15011425527");
         System.out.println(response.getMessage());
     }
 }
