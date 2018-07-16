@@ -1027,12 +1027,8 @@ public class TbCityService implements TbCityManager {
 	@Override
 	public WxUser updateBrowseRecords(PageData pd) throws Exception {
 		WxUser x = new WxUser();
-		String string = pd.getString("cookie");
-		if(!"".equals("")){
-			String a = "appuser" + string;
-			Integer redis = GetRedis.getRedis(a);
-			pd.put("redis", redis);
-			pd.put("createTime", DateUtil.getDay());
+		String string = pd.get("uid")+"";
+		if(!"".equals(string)){
 			dao.update("TbCityManager.updateBrowseRecords", pd);
 			x.setFlag(true);
 			x.setMessage("浏览记录时间更新成功");

@@ -1015,7 +1015,7 @@ public class TbCityController extends BaseController {
 					}
 				}else{
 					 //更新浏览时间
-					 logAccount =tbCityService.updateBrowseRecords(pd);
+					 logAccount =tbCityService.updateBrowseRecords(pdData);
 					 map.put("success", logAccount.isFlag());
 					 map.put("message", logAccount.getMessage());
 				}
