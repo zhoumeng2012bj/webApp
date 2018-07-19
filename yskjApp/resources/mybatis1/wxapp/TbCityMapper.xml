@@ -173,7 +173,7 @@
 	</select>
 	<!-- 更新app房源浏览记录 时间-->
 	<update id="updateBrowseRecords" parameterType="pd">
-	   update qd_browserecords set gtime=NOW() where uid=#{redis} and hid=#{fyid} and ctime=#{createTime}
+	   update qd_browserecords set gtime=NOW() where id=#{id}
 	</update>
 
 </mapper>
