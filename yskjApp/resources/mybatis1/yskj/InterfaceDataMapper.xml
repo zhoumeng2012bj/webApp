@@ -478,35 +478,47 @@
 	<select id="getContractListById"  parameterType="String" resultType="pd" >
      select * from v_hetong where userid=#{id}  
 	</select> 
+	 <!-- 获取合同详情 -->
+	<select id="getContractById"  parameterType="pd" resultType="pd" >
+     select id,hetongtid, lpname,zdname,fyname,DATE_FORMAT(StartDate,'%Y.%m.%d')StartDate,DATE_FORMAT(EndDate,'%Y.%m.%d') EndDate from v_hetong where id=#{id} and hetongtid=#{httype} 
+	</select> 
 	 <!-- 获取租金信息 -->
 	<select id="getContractZjxxById"  parameterType="pd" resultType="pd" >
-     select StartDate,EndDate,format(yuezujin,2)yuezujin from office.t_zujinxiangxi  where hetongid=#{id} and hetongtid=#{httype}
+     select REPLACE(StartDate,'-','.')StartDate,REPLACE(EndDate,'-','.')EndDate, yuezujin from office.t_zujinxiangxi  where hetongid=#{id} and hetongtid=#{httype}
 	</select>
 	 <!-- 获取付款信息 -->
 	<select id="getContractFkfsById"  parameterType="pd" resultType="pd" >
-     select  StartDate,EndDate,yajinyue,zujinyue from office.t_fukuanfangshi where hetongid=#{id} and hetongtid=#{httype}
+     select  REPLACE(StartDate,'-','.')StartDate,REPLACE(EndDate,'-','.')EndDate,yajinyue,zujinyue from office.t_fukuanfangshi where hetongid=#{id} and hetongtid=#{httype}
 	</select>
 	 <!-- 获取应付信息 -->
 	<select id="getContractFkById"  parameterType="pd" resultType="pd" >
-     select REPLACE(zhouqi,'-','.')zhouqi,fkMoney,fkDate  from office.t_cw_fc  where hetongid=#{id}  
+     select REPLACE( REPLACE(zhouqi,'-','.'),'~','-')zhouqi,fkMoney,fkDate,fkType  from office.t_cw_fc  where hetongid=#{id}  
 	</select>
 	 <!-- 获取应收信息 -->
 	<select id="getContractSkById"  parameterType="pd" resultType="pd" >
-     select REPLACE(zhouqi,'-','.')zhouqi,skMoney,skDate  from office.t_cw_sr where hetongid=#{id}  
+     select REPLACE( REPLACE(zhouqi,'-','.'),'~','-')zhouqi,skMoney as fkMoney,skDate as fkDate,skType as fkType  from office.t_cw_sr where hetongid=#{id}  
 	</select>
 	 <!-- 获取付款凭证信息 -->
 	<select id="getContractFkpzById"  parameterType="pd" resultType="pd" >
-     select t_cw_fc_submit_id, DATE_FORMAT(cwfc.fukuanDate,'%Y年%m月%d日'),cwfc.tijiaoMoney,0 httype,'付款凭证' as fkname 
-     from office.t_cw_fc_submit cwfc inner join office.t_cw_fc cw on cwfc.t_cw_fc_id=cw.t_cw_fc_id 
+     select t_cw_fc_caiwu_id id,REPLACE( REPLACE(zhouqi,'-','.'),'~','-')zhouqi,DATE_FORMAT(cwfc.fukuanDate,'%Y年%m月%d日')fukuanDate,cwfc.yingfuMoney,0 httype,'付款凭证' as fkname,fukuanType kemu ,zhanghu  
+     from office.t_cw_fc_caiwu cwfc inner join office.t_cw_fc cw on cwfc.t_cw_fc_id=cw.t_cw_fc_id 
+     inner join office.t_cw_fc_submit cwfcs on cwfcs.t_cw_fc_submit_id=cwfc.t_cw_fc_submit_id
      INNER JOIN qd_user_contract qd on cw.hetongid=qd.hetongid and qd.hetongtid=0   
      where  qd.userid=#{id}  
 	</select>
 	 <!-- 获取收款凭证信息 -->
 	<select id="getContractSkpzById"  parameterType="pd" resultType="pd" >
-     select t_cw_sr_submit_id, DATE_FORMAT(shoukuanDate,'%Y年%m月%d日'), shoukuanmoney,1 httype,'收款凭证' as fkname  
-     from office.t_cw_sr_submit cw INNER JOIN qd_user_contract qd on cw.hetongid=qd.hetongid and qd.hetongtid=1   
+    select t_cw_sr_submit_id id,REPLACE( REPLACE(zhouqi,'-','.'),'~','-')zhouqi,DATE_FORMAT(shoukuanDate,'%Y.%m.%d')fukuanDate, shoukuanmoney as yingfuMoney,1 httype,'收款凭证' as fkname,kemu,fkzhanghu as zhanghu   
+     from office.t_cw_sr_submit cw inner join office.t_cw_sr cws on cw.t_cw_sr_id=cws.t_cw_sr_id  INNER JOIN qd_user_contract qd on cw.hetongid=qd.hetongid and qd.hetongtid=1  
      where qd.userid=#{id}  
 	</select>
-	
+	<!-- 根据id获取付款凭证信息 -->
+	<select id="getContractFkpzxxById"  parameterType="pd" resultType="pd" >
+     select DATE_FORMAT( fukuanDate,'%Y年%m月%d日')fukuanDate, tijiaoMoney,fukuanKeMu,zhanghu from office.t_cw_fc_submit where t_cw_fc_submit_id=#{id}  
+	</select>
+	 <!-- 根据id获取收款凭证信息 -->
+	<select id="getContractSkpzxxById"  parameterType="pd" resultType="pd" >
+     select DATE_FORMAT(shoukuanDate,'%Y年%m月%d日')shoukuanDate, shoukuanmoney,kemu,fkzhanghu from office.t_cw_sr_submit where t_cw_sr_submit_id=#{id}  
+	</select>
 	
 </mapper>

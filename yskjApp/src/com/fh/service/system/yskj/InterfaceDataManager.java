@@ -218,4 +218,21 @@ public interface InterfaceDataManager {
 	 * @param id
 	 */
 	public List<PageData> getContractSkpzById(PageData pd) throws Exception;
+	/**
+	 * 获取付款凭证 
+	 * @param id
+	 */
+	public  PageData  getContractFkpzxxById(PageData pd) throws Exception;
+	
+	/**
+	 * 获取收款凭证
+	 * @param id
+	 */
+	public PageData  getContractSkpzxxById(PageData pd) throws Exception;
+
+	/**
+	 * 获取合同详情
+	 * @param id
+	 */
+	public PageData getContractById(PageData pd) throws Exception;
 }

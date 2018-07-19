@@ -1255,7 +1255,7 @@ public class InterfaceDataController extends BaseController {
 	@RequestMapping(value="/getContractZjxxById")
 	@ResponseBody
 	public Object getContractZjxxById(@RequestBody PageData pd){
-		logBefore(logger, "根据用户id获取当前登陆用户的合同列表");
+		logBefore(logger, "根据合同id及合同类型获取租金信息及付款方式");
 		Map<String,Object> map = new HashMap<String,Object>();
 		boolean flag=true;
         String message="";
@@ -1268,9 +1268,11 @@ public class InterfaceDataController extends BaseController {
             	{
             	 list=interfaceDataService.getContractZjxxById(pd);
             	  List<PageData>fkfs=interfaceDataService.getContractFkfsById(pd);
+            	  PageData ht = interfaceDataService.getContractById(pd); 
             	 if(list !=null && list.size() >0){ 
- 	    			map.put("data", list);
+ 	    			map.put("zjdata", list);
  	    			map.put("fkfsdata", fkfs);
+ 	    			map.put("htdata", ht);
             	  }else{
             		  flag=false;
             	  }
@@ -1302,7 +1304,7 @@ public class InterfaceDataController extends BaseController {
 	@RequestMapping(value="/getContractYfzdById")
 	@ResponseBody
 	public Object getContractYfzdById(@RequestBody PageData pd){
-		logBefore(logger, "根据用户id获取当前登陆用户的合同列表");
+		logBefore(logger, "根据合同id及合同类型获取合同应付账单");
 		Map<String,Object> map = new HashMap<String,Object>();
 		boolean flag=true;
         String message="";
@@ -1345,6 +1347,187 @@ public class InterfaceDataController extends BaseController {
 		}
 		return AppUtil.returnObject(new PageData(), map);
 	}
+	
+	/**根据userid及付款凭证
+	 * @return 
+	 */
+	@RequestMapping(value="/getContractFkpzById")
+	@ResponseBody
+	public Object getContractFkpzById(@RequestBody PageData pd){
+		logBefore(logger, "根据userid及付款凭证");
+		Map<String,Object> map = new HashMap<String,Object>();
+		boolean flag=true;
+        String message="";
+        List<PageData> list=null;
+         try {
+        	 
+            if (this.getRequest().getMethod().toUpperCase().equals("POST")) {//POST
+            	String id = pd.getString("id"); 
+            	if(Tools.notEmpty(id))
+            	{
+            	 list=interfaceDataService.getContractFkpzById(pd);
+            	 if(list !=null && list.size() >0){ 
+ 	    			map.put("data", list); 
+            	  }else{
+            		  flag=false;
+            	  }
+	              message="信息处理成功!";
+            	}else{
+            		 flag=false;
+                     message="提交请求参数错误!";
+            	}
+            }else{
+                flag=false;
+                message="提交请求方式错误!";
+            }
+         }catch (Exception e) {
+        	    e.printStackTrace();
+                flag=false;
+                message="信息处理异常！";
+    			logAfter(logger);
+        }finally{
+        	map.put("message", message);
+			map.put("success", flag);
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	
+	/**根据userid获取收款凭证
+	 * @return 
+	 */
+	@RequestMapping(value="/getContractSkpzById")
+	@ResponseBody
+	public Object getContractSkpzById(@RequestBody PageData pd){
+		logBefore(logger, "根据userid获取收款凭证");
+		Map<String,Object> map = new HashMap<String,Object>();
+		boolean flag=true;
+        String message="";
+        List<PageData> list=null;
+         try {
+        	 
+            if (this.getRequest().getMethod().toUpperCase().equals("POST")) {//POST
+            	String id = pd.getString("id");  
+            	if(Tools.notEmpty(id))
+            	{
+            	 list=interfaceDataService.getContractSkpzById(pd); 
+            	 if(list !=null && list.size() >0){ 
+ 	    			map.put("data", list); 
+            	  }else{
+            		  flag=false;
+            	  }
+	              message="信息处理成功!";
+            	}else{
+            		 flag=false;
+                     message="提交请求参数错误!";
+            	}
+            }else{
+                flag=false;
+                message="提交请求方式错误!";
+            }
+         }catch (Exception e) {
+        	    e.printStackTrace();
+                flag=false;
+                message="信息处理异常！";
+    			logAfter(logger);
+        }finally{
+        	map.put("message", message);
+			map.put("success", flag);
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	
+	/**根据id获取付款凭证详情
+	 * @return 
+	 */
+	@RequestMapping(value="/getContractFkpzxxById")
+	@ResponseBody
+	public Object getContractFkpzxxById(@RequestBody PageData pd){
+		logBefore(logger, "根据id获取付款凭证详情");
+		Map<String,Object> map = new HashMap<String,Object>();
+		boolean flag=true;
+        String message="";
+        PageData  list=null;
+         try {
+        	 
+            if (this.getRequest().getMethod().toUpperCase().equals("POST")) {//POST
+            	String id = pd.getString("id"); 
+            	if(Tools.notEmpty(id))
+            	{
+            	 list=interfaceDataService.getContractFkpzxxById(pd);
+            	 if(list !=null && list.size() >0){ 
+ 	    			map.put("data", list); 
+            	  }else{
+            		  flag=false;
+            	  }
+	              message="信息处理成功!";
+            	}else{
+            		 flag=false;
+                     message="提交请求参数错误!";
+            	}
+            }else{
+                flag=false;
+                message="提交请求方式错误!";
+            }
+         }catch (Exception e) {
+        	    e.printStackTrace();
+                flag=false;
+                message="信息处理异常！";
+    			logAfter(logger);
+        }finally{
+        	map.put("message", message);
+			map.put("success", flag);
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	
+	/**根据id获取收款凭证详情
+	 * @return 
+	 */
+	@RequestMapping(value="/getContractSkpzxxById")
+	@ResponseBody
+	public Object getContractSkpzxxById(@RequestBody PageData pd){
+		logBefore(logger, "根据id获取收款凭证详情");
+		Map<String,Object> map = new HashMap<String,Object>();
+		boolean flag=true;
+        String message="";
+        PageData list=null;
+         try {
+        	 
+            if (this.getRequest().getMethod().toUpperCase().equals("POST")) {//POST
+            	String id = pd.getString("id");  
+            	if(Tools.notEmpty(id))
+            	{
+            	 list=interfaceDataService.getContractSkpzxxById(pd); 
+            	 if(list !=null && list.size() >0){ 
+ 	    			map.put("data", list); 
+            	  }else{
+            		  flag=false;
+            	  }
+	              message="信息处理成功!";
+            	}else{
+            		 flag=false;
+                     message="提交请求参数错误!";
+            	}
+            }else{
+                flag=false;
+                message="提交请求方式错误!";
+            }
+         }catch (Exception e) {
+        	    e.printStackTrace();
+                flag=false;
+                message="信息处理异常！";
+    			logAfter(logger);
+        }finally{
+        	map.put("message", message);
+			map.put("success", flag);
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+	}
+	
 }
 	
  

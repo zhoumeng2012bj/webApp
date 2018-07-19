@@ -248,6 +248,14 @@ public class InterfaceDataService  implements InterfaceDataManager{
 		return (List<PageData>) dao.findForList("InterfaceDataMapper.getContractListById", id);
 	}
 	/**
+	 * 获取合同信息
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public PageData  getContractById(PageData pd) throws Exception {
+		return ( PageData ) dao.findForObject("InterfaceDataMapper.getContractById", pd);
+	}
+	/**
 	 * 获取租金信息
 	 */
 	@SuppressWarnings("unchecked")
@@ -294,5 +302,22 @@ public class InterfaceDataService  implements InterfaceDataManager{
 	@Override
 	public List<PageData> getContractSkpzById(PageData pd) throws Exception {
 		return (List<PageData>) dao.findForList("InterfaceDataMapper.getContractSkpzById", pd);
+	}
+	
+	/**
+	 * 获取付款凭证 
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public PageData  getContractFkpzxxById(PageData pd) throws Exception {
+		return ( PageData ) dao.findForList("InterfaceDataMapper.getContractFkpzxxById", pd);
+	}
+	/**
+	 * 获取收款凭证
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public  PageData  getContractSkpzxxById(PageData pd) throws Exception {
+		return ( PageData ) dao.findForList("InterfaceDataMapper.getContractSkpzxxById", pd);
 	}
 }
